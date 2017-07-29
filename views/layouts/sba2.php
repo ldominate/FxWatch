@@ -24,7 +24,7 @@ SBAdmin2Asset::register($this);
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<?= Html::csrfMetaTags() ?>
-	<title><?= Html::encode($this->title) ?></title>
+	<title><?= Html::encode($this->title.' - '.Yii::$app->name) ?></title>
 	<?php $this->head() ?>
 </head>
 <body>
@@ -50,7 +50,8 @@ SBAdmin2Asset::register($this);
 				<?= yii\bootstrap\Html::icon('glyphicon glyphicon-user') ?> <?= Yii::$app->user->identity->username?> <span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu dropdown-user">
-				<li><a href="#"><i class="fa fa-user fa-fw"></i> Профиль</a>
+				<li>
+					<?= Html::a(yii\bootstrap\Html::icon('glyphicon glyphicon-file').' Профиль', Url::to(['user/update/'.Yii::$app->getUser()->getId()]))?>
 				</li>
 				<li><a href="#"><i class="fa fa-gear fa-fw"></i> Настройки</a>
 				</li>
@@ -96,6 +97,7 @@ SBAdmin2Asset::register($this);
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-lg-12">
+					<h1 class="page-header"><?= Html::encode($this->title) ?></h1>
 					<?= $content ?>
 				</div>
 				<!-- /.col-lg-12 -->

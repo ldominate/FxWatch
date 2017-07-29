@@ -31,6 +31,6 @@ class SBAdmin2Asset extends AssetBundle
 
 	//copy Res on reload
 	public $publishOptions = [
-		'forceCopy' => true,
+		'forceCopy' => false,
 	];
 }

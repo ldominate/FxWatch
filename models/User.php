@@ -20,7 +20,6 @@ use yii\web\IdentityInterface;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
- * @property string $password write-only password
  *
  * @property UserProfile $profile
  */
@@ -45,8 +44,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
+	        ['username', 'required'],
+	        ['username', 'string', 'min' => 2, 'max' => 255],
+
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
+
+	        ['email', 'required'],
+	        ['email', 'email'],
         ];
     }
 
@@ -56,11 +61,18 @@ class User extends ActiveRecord implements IdentityInterface
 			'username' => 'Логин',
 			'email' => 'Почта',
 			'created_at' => 'Зарегистрирован',
+			'updated_at' => 'Последние изменения',
 			'status' => 'Статус'
 		];
 	}
 
-    /**
+	public function beforeSave($insert)
+	{
+		$this->updated_at = time();
+		return parent::beforeSave($insert);
+	}
+
+	/**
      * @inheritdoc
      */
     public static function findIdentity($id)

@@ -49,6 +49,10 @@ $config = [
             'showScriptName' => false,
             'rules' => [
 	            'login' => 'user/login',
+	            'user' => 'user/index',
+
+	            '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+	            '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],
     ],

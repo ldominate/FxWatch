@@ -1,6 +1,8 @@
 <?php
+use app\models\User;
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\searchs\User */
@@ -9,49 +11,62 @@ use yii\grid\GridView;
 $this->title = 'Пользователи';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="user-index">
 
-	<h1><?= Html::encode($this->title) ?></h1>
-
-	<?=
-	GridView::widget([
-		'dataProvider' => $dataProvider,
-		'filterModel' => $searchModel,
-		'columns' => [
-			['class' => 'yii\grid\SerialColumn'],
-			'username',
-			'email:email',
-			'created_at:date',
-			[
-				'attribute' => 'status',
-				'value' => function($model) {
-					return $model->status == 0 ? 'Inactive' : 'Active';
-				},
-				'filter' => [
-					0 => 'Inactive',
-					10 => 'Active'
-				]
-			],
-			[
-				'class' => 'yii\grid\ActionColumn',
-				//'template' => Helper::filterActionColumn(['view', 'activate', 'delete']),
-				'buttons' => [
-					'activate' => function($url, $model) {
-						if ($model->status == 10) {
-							return '';
-						}
-						$options = [
-							'title' => 'Активировать',
-							'aria-label' => 'Активировать',
-							'data-confirm' => 'Вы уверены что хотите активировать пользователя?',
-							'data-method' => 'post',
-							'data-pjax' => '0',
-						];
-						return Html::a('<span class="glyphicon glyphicon-ok"></span>', $url, $options);
-					}
-				]
-			],
+<p><?= yii\bootstrap\Html::a('Добавить', Url::to('user\add'), ['class' => 'btn btn-success']); ?></p>
+<?= GridView::widget([
+	'dataProvider' => $dataProvider,
+	'filterModel' => $searchModel,
+	'layout' => "{items}\n{summary}\n{pager}",
+	'columns' => [
+		['class' => 'yii\grid\SerialColumn'],
+		'username',
+		'email:email',
+		[
+			'attribute' => 'updated_at',
+			'contentOptions' =>['class' => 'text-center'],
+			'format' => ['date', 'dd.MM.Y']
 		],
-	]);
-	?>
-</div>
+		[
+			'attribute' => 'created_at',
+			'contentOptions' =>['class' => 'text-center'],
+			'format' => ['date', 'dd.MM.Y']
+		],
+		[
+			'attribute' => 'status',
+			'contentOptions' =>['class' => 'text-center'],
+			'value' => function($model) {
+				return $model->status == User::STATUS_INACTIVE ? 'Блокированный' : 'Активный';
+			},
+			'filter' => [
+				User::STATUS_INACTIVE => 'Блокированный',
+				User::STATUS_ACTIVE => 'Активный'
+			]
+		],
+		[
+			'class' => 'yii\grid\ActionColumn',
+			'template' => '{update} {delete} {link}',
+			'buttons' => [
+				'activate' => function($url, $model) {
+					if ($model->status == User::STATUS_ACTIVE) {
+						return '';
+					}
+					$options = [
+						'title' => 'Активировать',
+						'aria-label' => 'Активировать',
+						'data-confirm' => 'Вы уверены что хотите активировать пользователя?',
+						'data-method' => 'post',
+						'data-pjax' => '0',
+					];
+					return Html::a('<span class="glyphicon glyphicon-ok"></span>', $url, $options);
+				}
+			],
+			'visibleButtons' => [
+				'delete' => function ($model, $key, $index) {
+					return Yii::$app->getUser()->getId() != $model->id;
+				}
+			]
+		],
+	],
+]);
+?>
+
