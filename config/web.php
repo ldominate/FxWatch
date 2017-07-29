@@ -10,6 +10,11 @@ $config = [
 	'language' => 'ru-RU',
 	'layout' => 'sba2',
     'bootstrap' => ['log'],
+	'modules' => [
+		'catalog' => [
+			'class' => 'app\modules\catalog\CatalogModule',
+		],
+	],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation

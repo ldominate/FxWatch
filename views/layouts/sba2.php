@@ -78,6 +78,7 @@ SBAdmin2Asset::register($this);
 				'options' => ['class' => 'nav', 'id' => 'side-menu'],
 				'items' => [
 					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-user').' Пользователи', 'url' => Url::to(['/user/index'])],
+					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-list-alt').' Справочник', 'url' => Url::to(['/catalog/default']) ],
 					['label' => 'Home', 'url' => ['/site/index']],
 					['label' => 'About', 'url' => ['/site/about']],
 					['label' => 'Contact', 'url' => ['/site/contact']],
