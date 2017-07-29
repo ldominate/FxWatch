@@ -21,16 +21,16 @@ class SBAdmin2Asset extends AssetBundle
 		//'css/sba.css'
 	];
 	public $js = [
-		'js/sba.js'
+		'js/sba.js',
 	];
 	public $depends = [
 		'yii\web\YiiAsset',
 		'yii\bootstrap\BootstrapAsset',
-		//'app\assets\FontAwesomeAsset'
+		'mimicreative\assets\MetisMenuAsset'
 	];
 
 	//copy Res on reload
 	public $publishOptions = [
-		'forceCopy' => false,
+		'forceCopy' => true,
 	];
 }

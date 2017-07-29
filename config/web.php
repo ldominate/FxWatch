@@ -56,8 +56,11 @@ $config = [
 	            'login' => 'user/login',
 	            'user' => 'user/index',
 
+	            '/catalog/currency' => '/catalog/currency/index',
+
 	            '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
 	            '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+	            '<module:\w+>/<action:\w+>' => '<module>/<action>',
             ],
         ],
     ],

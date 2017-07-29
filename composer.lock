@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d0ae91dd49c8a7d0b85d596e662463df",
+    "content-hash": "b03904fbe5ad537d7a067eee93fc4d8b",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -313,6 +313,98 @@
                 "html"
             ],
             "time": "2017-06-03T02:28:16+00:00"
+        },
+        {
+            "name": "mimicreative/yii2-metismenu",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mimicreative/yii2-metismenu.git",
+                "reference": "5598bf6b0667e15a3bd6addf804a23fe3bcaf889"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mimicreative/yii2-metismenu/zipball/5598bf6b0667e15a3bd6addf804a23fe3bcaf889",
+                "reference": "5598bf6b0667e15a3bd6addf804a23fe3bcaf889",
+                "shasum": ""
+            },
+            "require": {
+                "onokumus/metismenu": "2.*",
+                "yiisoft/yii2": ">=2.0.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "mimicreative\\assets\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT License"
+            ],
+            "authors": [
+                {
+                    "name": "MF Haqqi",
+                    "email": "me@haqqi.net",
+                    "homepage": "http://haqqi.net",
+                    "role": "Creator"
+                }
+            ],
+            "description": "Metis Menu Asset Bundle for Yii2",
+            "keywords": [
+                "menu",
+                "metisMenu",
+                "yii2"
+            ],
+            "time": "2016-11-01T09:55:23+00:00"
+        },
+        {
+            "name": "onokumus/metismenu",
+            "version": "v2.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/onokumus/metismenu.git",
+                "reference": "412043318ac2cf5c589154d6042d7ac45fffc0be"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/onokumus/metismenu/zipball/412043318ac2cf5c589154d6042d7ac45fffc0be",
+                "reference": "412043318ac2cf5c589154d6042d7ac45fffc0be",
+                "shasum": ""
+            },
+            "suggest": {
+                "components/jquery": ">=1.9"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Osman Nuri Okumus",
+                    "email": "onokumus@gmail.com",
+                    "homepage": "http://onokumus.com"
+                }
+            ],
+            "description": "A jQuery menu plugin",
+            "homepage": "https://github.com/onokumus/metisMenu",
+            "keywords": [
+                "JS",
+                "bootstrap",
+                "css",
+                "jquery",
+                "menu",
+                "plugin",
+                "web"
+            ],
+            "time": "2017-03-08T16:25:10+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

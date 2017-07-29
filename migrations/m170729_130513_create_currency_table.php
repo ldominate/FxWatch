@@ -14,7 +14,7 @@ class m170729_130513_create_currency_table extends Migration
     {
         $this->createTable('currency', [
             'code' => $this->string(3)->notNull(),
-	        'number' => $this->integer(3)->unsigned()->notNull()->unique(),
+	        'number' => $this->integer(3)->unsigned()->notNull(),
 	        'mark' => $this->string(5)->null()->defaultValue(null),
 	        'name' => $this->string(40)->notNull()
         ], 'CHARACTER SET utf8 DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB');

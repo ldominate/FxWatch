@@ -13,6 +13,7 @@ use app\assets\SBAdmin2Asset;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\helpers\Url;
+use yii\widgets\Menu;
 
 SBAdmin2Asset::register($this);
 ?>
@@ -32,6 +33,7 @@ SBAdmin2Asset::register($this);
 
 <div id="wrapper">
 
+	<!-- Navigation -->
 	<?php
 	NavBar::begin([
 		'brandLabel' => 'SB Admin 2',
@@ -44,6 +46,7 @@ SBAdmin2Asset::register($this);
 			'class' => 'container-fluid'
 		]
 	]);?>
+	<!-- /.navbar-header -->
 	<ul class="nav navbar-top-links navbar-right">
 		<li class="dropdown">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -51,7 +54,7 @@ SBAdmin2Asset::register($this);
 			</a>
 			<ul class="dropdown-menu dropdown-user">
 				<li>
-					<?= Html::a(yii\bootstrap\Html::icon('glyphicon glyphicon-file').' Профиль', Url::to(['user/update/'.Yii::$app->getUser()->getId()]))?>
+					<?= Html::a(yii\bootstrap\Html::icon('glyphicon glyphicon-file').' Профиль', Url::to(['/user/update/'.Yii::$app->getUser()->getId()]))?>
 				</li>
 				<li><a href="#"><i class="fa fa-gear fa-fw"></i> Настройки</a>
 				</li>
@@ -73,16 +76,25 @@ SBAdmin2Asset::register($this);
 	<!-- /.navbar-top-links -->
 
 	<div class="navbar-default sidebar" role="navigation">
-		<div class="sidebar-nav navbar-collapse">
-			<?= Nav::widget([
-				'options' => ['class' => 'nav', 'id' => 'side-menu'],
+		<div id="w0-collapse" class="sidebar-nav navbar-collapse" aria-expanded="true">
+			<?= Menu::widget([
+				'options' => ['class' => 'nav metismenu', 'id' => 'menu'],
+				'activateParents' => true,
 				'items' => [
 					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-user').' Пользователи', 'url' => Url::to(['/user/index'])],
-					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-list-alt').' Справочник', 'url' => Url::to(['/catalog/default']) ],
+					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-list-alt').' Справочник', 'url' => Url::to(['/catalog/default']),
+						//'options' => ['class' => 'dropdown'],
+						'template' => '<a href="{url}" class="has-arrow">{label}</a>',
+						'items' => [
+							['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-usd').' Валюты', 'url' => Url::to(['/catalog/currency'])]
+						],
+					],
 					['label' => 'Home', 'url' => ['/site/index']],
 					['label' => 'About', 'url' => ['/site/about']],
 					['label' => 'Contact', 'url' => ['/site/contact']],
 				],
+				'submenuTemplate' => "\n<ul class='nav nav-second-level' role='menu'>\n{items}\n</ul>\n",
+				'activeCssClass'=>'active',
 				'encodeLabels' => false,
 			]) ?>
 		</div>
