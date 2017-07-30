@@ -99,6 +99,12 @@ body {
 .sidebar .nav-third-level li a {
   padding-left: 52px;
 }
+.navbar-brand > img {
+  width: 20px;
+  height: 20px;
+	display: inline-block;
+	margin-right: 5px;
+}
 @media (min-width: 768px) {
   .sidebar {
     z-index: 1;

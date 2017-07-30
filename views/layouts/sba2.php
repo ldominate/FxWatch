@@ -15,7 +15,7 @@ use yii\bootstrap\NavBar;
 use yii\helpers\Url;
 use yii\widgets\Menu;
 
-SBAdmin2Asset::register($this);
+$bundle = SBAdmin2Asset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -36,7 +36,7 @@ SBAdmin2Asset::register($this);
 	<!-- Navigation -->
 	<?php
 	NavBar::begin([
-		'brandLabel' => Yii::$app->name,
+		'brandLabel' => Html::img($bundle->baseUrl.'/img/bar-chart.svg', ['alt' => Yii::$app->name]).Yii::$app->name,
 		'brandUrl' => Yii::$app->homeUrl,
 		'options' => [
 			'class' => 'navbar-default navbar-static-top',
@@ -56,7 +56,6 @@ SBAdmin2Asset::register($this);
 				<li>
 					<?= Html::a(yii\bootstrap\Html::icon('glyphicon glyphicon-file').' Профиль', Url::to(['/user/update/'.Yii::$app->getUser()->getId()]))?>
 				</li>
-				<li><a href="#"><i class="fa fa-gear fa-fw"></i> Настройки</a>
 				</li>
 				<li class="divider"></li>
 				<li>
@@ -81,7 +80,6 @@ SBAdmin2Asset::register($this);
 				'options' => ['class' => 'nav metismenu', 'id' => 'menu'],
 				'activateParents' => true,
 				'items' => [
-					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-user').' Пользователи', 'url' => Url::to(['/user/index'])],
 					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-list-alt').' Справочник', 'url' => Url::to(['/catalog/default']),
 						'active' => $this->context->module->id == 'catalog',
 						//'options' => ['class' => 'dropdown'],
@@ -97,6 +95,7 @@ SBAdmin2Asset::register($this);
 					['label' => 'Home', 'url' => ['/site/index']],
 					['label' => 'About', 'url' => ['/site/about']],
 					['label' => 'Contact', 'url' => ['/site/contact']],
+					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-user').' Пользователи', 'url' => Url::to(['/user/index'])],
 				],
 				'submenuTemplate' => "\n<ul class='nav nav-second-level' role='menu'>\n{items}\n</ul>\n",
 				'activeCssClass'=>'active',
