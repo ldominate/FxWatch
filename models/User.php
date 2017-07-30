@@ -72,12 +72,25 @@ class User extends ActiveRecord implements IdentityInterface
 		return parent::beforeSave($insert);
 	}
 
+	public function afterSave($insert, $changedAttributes)
+	{
+		if(!$insert){
+			$key = 'User'.$this->id;
+			if(Yii::$app->cache->exists($key)){
+				Yii::$app->cache->delete($key);
+			}
+		}
+		parent::afterSave($insert, $changedAttributes);
+	}
+
 	/**
      * @inheritdoc
      */
     public static function findIdentity($id)
     {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+    	return Yii::$app->cache->getOrSet('User'.$id, function() use($id){
+		    return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+	    });
     }
 
     /**

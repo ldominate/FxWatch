@@ -22,6 +22,7 @@ $config = [
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
+	        'defaultDuration' => 604800
         ],
         'user' => [
             'identityClass' => 'app\models\User',
