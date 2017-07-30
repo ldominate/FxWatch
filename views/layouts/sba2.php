@@ -78,13 +78,18 @@ $bundle = SBAdmin2Asset::register($this);
 		<div id="w0-collapse" class="sidebar-nav navbar-collapse" aria-expanded="true">
 			<?= Menu::widget([
 				'options' => ['class' => 'nav metismenu', 'id' => 'menu'],
-				'activateParents' => true,
+				//'activateParents' => true,
 				'items' => [
 					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-list-alt').' Справочник', 'url' => Url::to(['/catalog/default']),
 						'active' => $this->context->module->id == 'catalog',
 						//'options' => ['class' => 'dropdown'],
 						'template' => '<a href="{url}" class="has-arrow">{label}</a>',
 						'items' => [
+							[
+								'label' => yii\bootstrap\Html::icon('glyphicon glyphicon-globe').' Страны',
+								'url' => Url::to(['/catalog/country']),
+								'active' => Yii::$app->controller->id == 'country',
+							],
 							[
 								'label' => yii\bootstrap\Html::icon('glyphicon glyphicon-usd').' Валюты',
 								'url' => Url::to(['/catalog/currency']),

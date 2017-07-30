@@ -61,6 +61,10 @@ $config = [
 	            '/catalog/currency/<id:\w{3}>' => '/catalog/currency/view',
 	            '/catalog/currency/<action:(view|update)>/<id:\w{3}>' => '/catalog/currency/<action>',
 
+	            '/catalog/country' => '/catalog/country/index',
+	            '/catalog/country/<id:\w{2}>' => '/catalog/country/view',
+	            '/catalog/country/<action:(view|update)>/<id:\w{2}>' => '/catalog/country/<action>',
+
 	            '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
 	            '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
 	            '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
