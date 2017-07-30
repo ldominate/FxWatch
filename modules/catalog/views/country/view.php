@@ -20,7 +20,15 @@ $this->params['breadcrumbs'][] = $this->title;
 			        'attributes' => [
 			            'code',
 			            'lcode',
-			            'currency_id',
+				        [
+					        'attribute' => 'currency_id',
+					        'value' => function($model) {
+						        $currency = $model->currency;
+						        return isset($currency) ? $currency->name.' ('.$currency->code.')' : $model->currency_id;
+					        },
+					        'encode' => false
+				        ],
+			            //'currency_id',
 			            'name',
 			            'timezone',
 			        ],

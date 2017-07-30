@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b03904fbe5ad537d7a067eee93fc4d8b",
+    "content-hash": "f29cde353c90ac7e14bed8b2d9508c0a",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -54,6 +54,37 @@
                 "responsive",
                 "web"
             ]
+        },
+        {
+            "name": "bower-asset/flag-icon-css",
+            "version": "2.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lipis/flag-icon-css.git",
+                "reference": "b0a4e05d5e5054e58bd7537c3f1f6712ead19dae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lipis/flag-icon-css/zipball/b0a4e05d5e5054e58bd7537c3f1f6712ead19dae",
+                "reference": "b0a4e05d5e5054e58bd7537c3f1f6712ead19dae",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "css/flag-icon.min.css",
+                    "less/flag-icon.less",
+                    "sass/_flag-icon.scss"
+                ],
+                "bower-asset-ignore": [
+                    "**/.*",
+                    "assets",
+                    "Gruntfile.coffee",
+                    "index.html",
+                    "LICENSE",
+                    "package.json"
+                ]
+            }
         },
         {
             "name": "bower-asset/jquery",
@@ -313,6 +344,80 @@
                 "html"
             ],
             "time": "2017-06-03T02:28:16+00:00"
+        },
+        {
+            "name": "hiqdev/yii2-asset-flag-icon-css",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hiqdev/yii2-asset-flag-icon-css.git",
+                "reference": "1bb27ea9afadf5fce9afa4fb46cc97531b769b70"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hiqdev/yii2-asset-flag-icon-css/zipball/1bb27ea9afadf5fce9afa4fb46cc97531b769b70",
+                "reference": "1bb27ea9afadf5fce9afa4fb46cc97531b769b70",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/flag-icon-css": "^2.0",
+                "yiisoft/yii2": "~2.0"
+            },
+            "require-dev": {
+                "hiqdev/hidev-hiqdev": "<2.0",
+                "hiqdev/hidev-php": "<2.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "hiqdev\\assets\\flagiconcss\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Andrii Vasyliev",
+                    "email": "sol@hiqdev.com",
+                    "homepage": "http://hipanel.com/",
+                    "role": "Project lead"
+                },
+                {
+                    "name": "Dmitry Naumenko",
+                    "email": "d.naumenko.a@gmail.com",
+                    "homepage": "http://silverfire.me/",
+                    "role": "Lead backend developer"
+                },
+                {
+                    "name": "Andrey Klochok",
+                    "email": "andreyklochok@gmail.com",
+                    "homepage": "http://hiqdev.com/",
+                    "role": "Lead frontend developer"
+                },
+                {
+                    "name": "Yuriy Myronchuk",
+                    "email": "bladeroot@gmail.com",
+                    "homepage": "http://hiqdev.com/",
+                    "role": "QA Lead"
+                }
+            ],
+            "description": "Yii2 asset for bower flag-icon-css",
+            "homepage": "https://github.com/hiqdev/yii2-asset-flag-icon-css",
+            "keywords": [
+                "asset",
+                "extension",
+                "flag-icon-css",
+                "yii2"
+            ],
+            "time": "2017-01-31T10:40:06+00:00"
         },
         {
             "name": "mimicreative/yii2-metismenu",

@@ -1,5 +1,6 @@
 <?php
 
+use app\modules\catalog\models\Currency;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -18,7 +19,12 @@ use yii\widgets\ActiveForm;
 
 			    <?= $form->field($model, 'lcode')->textInput(['maxlength' => true]) ?>
 
-			    <?= $form->field($model, 'currency_id')->textInput(['maxlength' => true]) ?>
+<!--			    --><?//= $form->field($model, 'currency_id')->textInput(['maxlength' => true]) ?>
+
+				<?= $form->field($model, 'currency_id')->dropDownList(
+						Currency::find()->select(['name', 'code'])->indexBy('code')->orderBy(['name' => SORT_ASC])->column(),
+						['prompt' => 'Выберите валюту']
+					) ?>
 
 			    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 

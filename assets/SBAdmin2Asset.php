@@ -26,11 +26,12 @@ class SBAdmin2Asset extends AssetBundle
 	public $depends = [
 		'yii\web\YiiAsset',
 		'yii\bootstrap\BootstrapAsset',
-		'mimicreative\assets\MetisMenuAsset'
+		'mimicreative\assets\MetisMenuAsset',
+		'hiqdev\assets\flagiconcss\FlagIconCssAsset'
 	];
 
 	//copy Res on reload
 	public $publishOptions = [
-		'forceCopy' => true,
+		'forceCopy' => false,
 	];
 }

@@ -1,5 +1,6 @@
 <?php
 
+use app\modules\catalog\models\Currency;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -7,15 +8,18 @@ use yii\grid\GridView;
 /* @var $searchModel app\modules\catalog\models\CountrySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Countries';
+$this->title = 'Страны';
 $this->params['breadcrumbs'][] = $this->title;
+
+$currencies = Currency::find()->select(['name', 'code'])->indexBy('code')->all();
+
 ?>
 <div class="country-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Country', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -25,8 +29,22 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             'code',
             'lcode',
-            'currency_id',
+            [
+	            'label' => '',
+	            'content' => function($model){
+					return Html::tag('span', '', ['class' => 'flag-icon flag-icon-'.strtolower($model->code)]);
+	            },
+	            'filter' => false,
+	            'enableSorting' => false
+            ],
             'name',
+	        [
+		        'attribute' => 'currency_id',
+		        'value' => function($model) use($currencies) {
+			        $currency = $currencies[$model->currency_id];
+			        return isset($currency) ? $currency->name.' ('.$currency->code.')' : $model->currency_id;
+		        },
+	        ],
             'timezone',
 
             ['class' => 'yii\grid\ActionColumn'],
