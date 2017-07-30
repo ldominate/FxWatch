@@ -12,6 +12,7 @@ use yii\db\ActiveRecord;
  * @property integer $number
  * @property string $mark
  * @property string $name
+ * @property boolean $active
  */
 class Currency extends ActiveRecord
 {
@@ -34,6 +35,8 @@ class Currency extends ActiveRecord
             [['code'], 'string', 'max' => 3],
             [['mark'], 'string', 'max' => 5],
             [['name'], 'string', 'max' => 40],
+	        ['active', 'boolean'],
+	        ['active', 'default', 'value' => false],
             [['number'], 'unique'],
             [['number'], 'unique'],
         ];
@@ -49,6 +52,7 @@ class Currency extends ActiveRecord
             'number' => 'Код числовой',
             'mark' => 'Знак валюты',
             'name' => 'Валюта',
+	        'active' => 'Активна'
         ];
     }
 }

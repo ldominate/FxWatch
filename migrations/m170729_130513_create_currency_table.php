@@ -25,7 +25,7 @@ class m170729_130513_create_currency_table extends Migration
 
         $this->batchInsert('currency', ['code', 'number', 'mark', 'name'],
 	        [
-		        ['RUB',643,null,'Российский рубль'],
+		        ['RUB',643,'₽','Российский рубль'],
 		        ['USD',840,'$','Доллар США'],
 		        ['EUR',978,'€','Евро'],
 		        ['JPY',392,'¥','Японская йена'],

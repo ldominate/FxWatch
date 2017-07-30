@@ -57,9 +57,12 @@ $config = [
 	            'user' => 'user/index',
 
 	            '/catalog/currency' => '/catalog/currency/index',
+	            '/catalog/currency/<id:\w{3}>' => '/catalog/currency/view',
+	            '/catalog/currency/<action:(view|update)>/<id:\w{3}>' => '/catalog/currency/<action>',
 
 	            '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
 	            '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+	            '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
 	            '<module:\w+>/<action:\w+>' => '<module>/<action>',
             ],
         ],

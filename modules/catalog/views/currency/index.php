@@ -27,6 +27,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'number',
             'mark',
             'name',
+            [
+	            'attribute' => 'active',
+	            'content' => function($model) {
+		            return isset($model->active) && $model->active ? yii\bootstrap\Html::icon('glyphicon glyphicon-ok') : '';
+	            },
+	            'filter' => [
+		            true => 'Да',
+		            false => 'Нет'
+	            ]
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

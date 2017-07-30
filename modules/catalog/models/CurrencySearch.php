@@ -17,7 +17,7 @@ class CurrencySearch extends Currency
     public function rules()
     {
         return [
-            [['code', 'mark', 'name'], 'safe'],
+            [['code', 'mark', 'name', 'active'], 'safe'],
             [['number'], 'integer'],
         ];
     }
@@ -46,6 +46,9 @@ class CurrencySearch extends Currency
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+	        'sort'=>[
+		        'defaultOrder'=>['active'=> SORT_DESC],
+	        ],
         ]);
 
         $this->load($params);
@@ -59,6 +62,7 @@ class CurrencySearch extends Currency
         // grid filtering conditions
         $query->andFilterWhere([
             'number' => $this->number,
+	        'active' => $this->active
         ]);
 
         $query->andFilterWhere(['like', 'code', $this->code])

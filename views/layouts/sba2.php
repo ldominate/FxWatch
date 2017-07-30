@@ -36,7 +36,7 @@ SBAdmin2Asset::register($this);
 	<!-- Navigation -->
 	<?php
 	NavBar::begin([
-		'brandLabel' => 'SB Admin 2',
+		'brandLabel' => Yii::$app->name,
 		'brandUrl' => Yii::$app->homeUrl,
 		'options' => [
 			'class' => 'navbar-default navbar-static-top',
@@ -83,10 +83,15 @@ SBAdmin2Asset::register($this);
 				'items' => [
 					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-user').' Пользователи', 'url' => Url::to(['/user/index'])],
 					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-list-alt').' Справочник', 'url' => Url::to(['/catalog/default']),
+						'active' => $this->context->module->id == 'catalog',
 						//'options' => ['class' => 'dropdown'],
 						'template' => '<a href="{url}" class="has-arrow">{label}</a>',
 						'items' => [
-							['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-usd').' Валюты', 'url' => Url::to(['/catalog/currency'])]
+							[
+								'label' => yii\bootstrap\Html::icon('glyphicon glyphicon-usd').' Валюты',
+								'url' => Url::to(['/catalog/currency']),
+								'active' => Yii::$app->controller->id == 'currency',
+							]
 						],
 					],
 					['label' => 'Home', 'url' => ['/site/index']],

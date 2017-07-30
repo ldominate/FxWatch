@@ -12,17 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="currency-view">
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->code], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->code], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -30,7 +19,26 @@ $this->params['breadcrumbs'][] = $this->title;
             'number',
             'mark',
             'name',
+	        [
+		        'attribute' => 'active',
+		        'format'=>'raw',
+		        'value' => function($model) {
+			        return isset($model->active) && $model->active ? yii\bootstrap\Html::icon('glyphicon glyphicon-ok') : '';
+		        },
+		        'encode' => false
+	        ],
         ],
     ]) ?>
+
+	<p>
+		<?= Html::a('Обновить', ['update', 'id' => $model->code], ['class' => 'btn btn-primary']) ?>
+		<?= Html::a('Удалить', ['delete', 'id' => $model->code], [
+			'class' => 'btn btn-danger',
+			'data' => [
+				'confirm' => 'Вы уверены, что хотите удалить данную валюту?',
+				'method' => 'post',
+			],
+		]) ?>
+	</p>
 
 </div>

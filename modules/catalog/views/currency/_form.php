@@ -7,23 +7,29 @@ use yii\widgets\ActiveForm;
 /* @var $model app\modules\catalog\models\Currency */
 /* @var $form yii\widgets\ActiveForm */
 ?>
+<div class="row">
+	<div class="col-lg-5">
+		<div class="panel panel-default currency-form">
+			<div class="panel-body">
+			    <?php $form = ActiveForm::begin(); ?>
 
-<div class="currency-form">
+			    <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
-    <?php $form = ActiveForm::begin(); ?>
+			    <?= $form->field($model, 'number')->textInput() ?>
 
-    <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
+			    <?= $form->field($model, 'mark')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'number')->textInput() ?>
+			    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'mark')->textInput(['maxlength' => true]) ?>
+				<?= $form->field($model, 'active')->checkbox() ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+			    <div class="form-group">
+			        <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Обновить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+			    </div>
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
+			    <?php ActiveForm::end(); ?>
 
-    <?php ActiveForm::end(); ?>
-
+			</div>
+		</div>
+	</div>
 </div>
