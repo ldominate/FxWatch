@@ -2,7 +2,6 @@
 
 namespace app\modules\catalog\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
@@ -48,7 +47,7 @@ class CurrencySearch extends Currency
             'query' => $query,
 	        'sort'=>[
 		        'defaultOrder'=>['active'=> SORT_DESC],
-	        ],
+	        ]
         ]);
 
         $this->load($params);

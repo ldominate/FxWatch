@@ -33,4 +33,8 @@ class CountryQuery extends ActiveQuery
     {
         return parent::one($db);
     }
+
+    public function active($active = true){
+    	return $this->andWhere(['active' => $active]);
+    }
 }

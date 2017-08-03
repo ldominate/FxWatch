@@ -46,7 +46,16 @@ $currencies = Currency::find()->select(['name', 'code'])->indexBy('code')->all()
 		        },
 	        ],
             'timezone',
-
+	        [
+		        'attribute' => 'active',
+		        'content' => function($model) {
+			        return isset($model->active) && $model->active ? yii\bootstrap\Html::icon('glyphicon glyphicon-ok') : '';
+		        },
+		        'filter' => [
+			        true => 'Да',
+			        false => 'Нет'
+		        ]
+	        ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

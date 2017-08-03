@@ -2,10 +2,8 @@
 
 namespace app\modules\catalog\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\catalog\models\Country;
 
 /**
  * CountrySearch represents the model behind the search form about `app\modules\catalog\models\Country`.
@@ -18,7 +16,7 @@ class CountrySearch extends Country
     public function rules()
     {
         return [
-            [['code', 'lcode', 'currency_id', 'name', 'timezone'], 'safe'],
+            [['code', 'lcode', 'currency_id', 'name', 'timezone', 'active'], 'safe'],
         ];
     }
 
@@ -46,6 +44,9 @@ class CountrySearch extends Country
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+	        'sort'=>[
+		        'defaultOrder'=>['active'=> SORT_DESC],
+	        ]
         ]);
 
         $this->load($params);

@@ -31,6 +31,14 @@ $this->params['breadcrumbs'][] = $this->title;
 			            //'currency_id',
 			            'name',
 			            'timezone',
+				        [
+					        'attribute' => 'active',
+					        'format'=>'raw',
+					        'value' => function($model) {
+						        return isset($model->active) && $model->active ? yii\bootstrap\Html::icon('glyphicon glyphicon-ok') : '';
+					        },
+					        'encode' => false
+				        ]
 			        ],
 			    ]) ?>
 

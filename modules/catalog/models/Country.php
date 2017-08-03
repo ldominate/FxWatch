@@ -2,7 +2,7 @@
 
 namespace app\modules\catalog\models;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "country".
@@ -12,10 +12,11 @@ use Yii;
  * @property string $currency_id
  * @property string $name
  * @property string $timezone
+ * @property boolean $active
  *
  * @property Currency $currency
  */
-class Country extends \yii\db\ActiveRecord
+class Country extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -40,6 +41,9 @@ class Country extends \yii\db\ActiveRecord
 
             [['timezone'], 'string', 'max' => 40],
 
+	        ['active', 'boolean'],
+	        ['active', 'default', 'value' => false],
+
             [['currency_id'], 'exist', 'skipOnError' => true, 'targetClass' => Currency::className(), 'targetAttribute' => ['currency_id' => 'code']],
         ];
     }
@@ -55,6 +59,7 @@ class Country extends \yii\db\ActiveRecord
             'currency_id' => 'Валюта',
             'name' => 'Название',
             'timezone' => 'Временная зона',
+	        'active' => 'Активная'
         ];
     }
 
