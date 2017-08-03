@@ -9,6 +9,8 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property string $name
+ *
+ * @property Fintool[] $fintools
  */
 class FinToolGroup extends ActiveRecord
 {
@@ -40,6 +42,14 @@ class FinToolGroup extends ActiveRecord
             'name' => 'Наименование',
         ];
     }
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getFintools()
+	{
+		return $this->hasMany(Fintool::className(), ['fintoolgroup_id' => 'id'])->inverseOf('fintoolgroup');
+	}
 
     /**
      * @inheritdoc

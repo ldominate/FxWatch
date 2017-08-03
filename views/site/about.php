@@ -6,6 +6,7 @@ $this->title = 'About';
 $this->params['breadcrumbs'][] = $this->title;
 
 $fintoolgroups = \app\modules\catalog\models\FinToolGroup::find()->all();
+$fintools = \app\modules\catalog\models\FinTool::find()->with('fintoolgroup')->all();
 
 ?>
 <div class="site-about">
@@ -19,6 +20,14 @@ $fintoolgroups = \app\modules\catalog\models\FinToolGroup::find()->all();
 	<p>
 	<?php foreach ($fintoolgroups as $finToolGroup):?>
 		<?= "{$finToolGroup->id}: {$finToolGroup->name}"?><br/>
+		<?php foreach ($finToolGroup->fintools as $finTool) : ?>
+			<?= "{$finTool->id}: {$finTool->name}"?><br/>
+		<?php endforeach;?>
 	<?php endforeach;?>
+	</p>
+	<p>
+		<?php foreach ($fintools as $finTool):?>
+			<?= "{$finTool->id}: {$finTool->name} ({$finTool->fintoolgroup->name})"?><br/>
+		<?php endforeach;?>
 	</p>
 </div>
