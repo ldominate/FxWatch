@@ -24,12 +24,13 @@ $this->params['breadcrumbs'][] = $this->title;
 		[
 			'attribute' => 'updated_at',
 			'contentOptions' =>['class' => 'text-center'],
-			'format' => ['date', 'dd.MM.Y']
+			'format' => 'date',
+			//'format' => ['date', 'dd.MM.Y']
 		],
 		[
 			'attribute' => 'created_at',
 			'contentOptions' =>['class' => 'text-center'],
-			'format' => ['date', 'dd.MM.Y']
+			'format' => 'date'
 		],
 		[
 			'attribute' => 'status',
@@ -61,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				}
 			],
 			'visibleButtons' => [
-				'delete' => function ($model, $key, $index) {
+				'delete' => function ($model) {
 					return Yii::$app->getUser()->getId() != $model->id;
 				}
 			]

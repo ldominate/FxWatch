@@ -26,9 +26,9 @@ use yii\bootstrap\ActiveForm;
 				<?= $form->field($model, 'retypePassword')->passwordInput() ?>
 
 				<?php if(!$model->isNewRecord): ?>
-					<?= $form->field($model, 'updated_at')->textInput(['readonly' => true, 'value' => Yii::$app->formatter->asDate($model->updated_at, 'd.MM.Y HH:mm')]) ?>
+					<?= $form->field($model, 'updated_at')->textInput(['readonly' => true, 'value' => Yii::$app->formatter->asDatetime($model->updated_at)]) ?>
 
-					<?= $form->field($model, 'created_at')->textInput(['readonly' => true, 'value' => Yii::$app->formatter->asDate($model->created_at, 'd.MM.Y HH:mm')]) ?>
+					<?= $form->field($model, 'created_at')->textInput(['readonly' => true, 'value' => Yii::$app->formatter->asDatetime($model->created_at)]) ?>
 				<?php endif;?>
 				<div class="form-group">
 					<?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Обновить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

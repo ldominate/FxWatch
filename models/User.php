@@ -21,7 +21,6 @@ use yii\web\IdentityInterface;
  * @property integer $created_at
  * @property integer $updated_at
  *
- * @property UserProfile $profile
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -64,12 +63,6 @@ class User extends ActiveRecord implements IdentityInterface
 			'updated_at' => 'Последние изменения',
 			'status' => 'Статус'
 		];
-	}
-
-	public function beforeSave($insert)
-	{
-		$this->updated_at = time();
-		return parent::beforeSave($insert);
 	}
 
 	public function afterSave($insert, $changedAttributes)
