@@ -18,11 +18,11 @@ class m170803_133739_create_fintoolgroup_table extends Migration
         ],'CHARACTER SET utf8 DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB');
 
 	    $this->batchInsert('fintoolgroup', ['name'],
-		    [
-		    	['Основные валюты'],
-			    ['Вспомогательные валюты'],
-			    ['Товары']
-		    ]);
+		 [
+		 	['Основные валюты'],
+			['Вспомогательные валюты'],
+			['Товары']
+		 ]);
     }
 
     /**
