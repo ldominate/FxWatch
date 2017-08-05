@@ -10,7 +10,7 @@ class m170805_025406_create_influence_table extends Migration
     /**
      * @inheritdoc
      */
-    public function up()
+    public function safeUp()
     {
         $this->createTable('influence', [
             'id' => $this->primaryKey(),
@@ -29,7 +29,7 @@ class m170805_025406_create_influence_table extends Migration
     /**
      * @inheritdoc
      */
-    public function down()
+    public function safeDown()
     {
         $this->dropTable('influence');
     }

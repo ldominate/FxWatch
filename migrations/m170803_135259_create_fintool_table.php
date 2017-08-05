@@ -73,6 +73,16 @@ class m170803_135259_create_fintool_table extends Migration
      */
     public function safeDown()
     {
+	    $this->dropForeignKey(
+		    'fk-fintool-fintoolgroup_id',
+		    'fintool'
+	    );
+
+	    $this->dropIndex(
+		    'idx-fintool-fintoolgroup_id',
+		    'fintool'
+	    );
+
         $this->dropTable('fintool');
     }
 }
