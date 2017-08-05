@@ -78,7 +78,7 @@ $bundle = SBAdmin2Asset::register($this);
 				'options' => ['class' => 'nav metismenu', 'id' => 'menu'],
 				//'activateParents' => true,
 				'items' => [
-					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-stats').' Новости', 'url' => Url::to(['/news/default']),
+					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-stats').' Новости', 'url' => Url::to(['/news']),
 						'active' => $this->context->module->id == 'news'],
 					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-list-alt').' Справочник', 'url' => Url::to(['/catalog/default']),
 						'active' => $this->context->module->id == 'catalog',

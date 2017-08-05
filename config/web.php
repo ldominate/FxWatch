@@ -69,6 +69,8 @@ $config = [
 	            '/catalog/country/<action:(view|update)>/<id:\w{2}>' => '/catalog/country/<action>',
 
 	            '/news' => '/news/default/index',
+	            '/news/create' => '/news/default/create',
+	            '/news/<action:(view|update)>/<id:\w{2}>' => '/news/default/<action>',
 
 	            '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
 	            '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
