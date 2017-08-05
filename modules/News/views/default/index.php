@@ -2,6 +2,8 @@
 
 use app\modules\catalog\models\CategoryNews;
 use app\modules\catalog\models\Country;
+use app\modules\news\models\News;
+use kartik\daterange\DateRangePicker;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -18,7 +20,7 @@ $countries = Country::find()->active()->select(['name', 'code'])->indexBy('code'
 ?>
 <div class="news-index">
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
 
     <?= GridView::widget([
@@ -57,7 +59,9 @@ $countries = Country::find()->active()->select(['name', 'code'])->indexBy('code'
 	        [
 		        'attribute' => 'published',
 		        'contentOptions' =>['class' => 'text-left'],
-		        'format' => ['datetime', \app\modules\news\models\News::DATETIME_FORMAT]
+		        'format' => ['datetime', News::DATETIME_FORMAT],
+		        //'filter' =>  \nkovacs\datetimepicker\DateTimePicker::widget(['name' => 'NewsSearch[published]', 'format' => News::DATETIME_FORMAT])
+		        'filter' => false
 	        ],
             'currency_code',
             // 'release',
