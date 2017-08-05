@@ -8,11 +8,11 @@ use yii\db\ActiveRecord;
 /**
  * This is the model class for table "currency".
  *
- * @property string $code
- * @property integer $number
- * @property string $mark
- * @property string $name
- * @property boolean $active
+ * @property string $code Код буквенный
+ * @property integer $number Код числовой
+ * @property string $mark Знак валюты
+ * @property string $name Валюта
+ * @property boolean $active Активна
  */
 class Currency extends ActiveRecord
 {
@@ -55,4 +55,13 @@ class Currency extends ActiveRecord
 	        'active' => 'Активна'
         ];
     }
+
+	/**
+	 * @inheritdoc
+	 * @return CurrencyQuery the active query used by this AR class.
+	 */
+	public static function find()
+	{
+		return new CurrencyQuery(get_called_class());
+	}
 }
