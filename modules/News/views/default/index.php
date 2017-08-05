@@ -3,7 +3,6 @@
 use app\modules\catalog\models\CategoryNews;
 use app\modules\catalog\models\Country;
 use app\modules\news\models\News;
-use kartik\daterange\DateRangePicker;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -32,11 +31,6 @@ $countries = Country::find()->active()->select(['name', 'code'])->indexBy('code'
 
 	        [
 		        'attribute' => 'categorynews_id',
-//		        'contentOptions' =>['class' => 'text-left'],
-//		        'format' => 'text',
-//		        'content' => function($data){
-//    	            return $data->categorynews->name;
-//		        },
 		        'value' => function($model) use($categoriesNews) {
 			        $categoryNews = $categoriesNews[$model->categorynews_id];
 			        return isset($categoryNews) ? $categoryNews : $model->categorynews_id;
@@ -45,11 +39,6 @@ $countries = Country::find()->active()->select(['name', 'code'])->indexBy('code'
 	        ],
 	        [
 		        'attribute' => 'country_code',
-//		        'contentOptions' =>['class' => 'text-left'],
-//		        'format' => 'text',
-//		        'content' => function($data){
-//			        return $data->countryCode->name;
-//		        },
 		        'value' => function($model) use($countries) {
 			        $country = $countries[$model->country_code];
 			        return isset($country) ? $country : $model->country_code;
@@ -60,7 +49,6 @@ $countries = Country::find()->active()->select(['name', 'code'])->indexBy('code'
 		        'attribute' => 'published',
 		        'contentOptions' =>['class' => 'text-left'],
 		        'format' => ['datetime', News::DATETIME_FORMAT],
-		        //'filter' =>  \nkovacs\datetimepicker\DateTimePicker::widget(['name' => 'NewsSearch[published]', 'format' => News::DATETIME_FORMAT])
 		        'filter' => false
 	        ],
             'currency_code',

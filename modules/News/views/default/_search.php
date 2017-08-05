@@ -16,6 +16,9 @@ $("#newssearch-published_from").closest(".input-group.date").on("dp.change", fun
 $("#newssearch-published_to").closest(".input-group.date").on("dp.change", function (e) {
 	$('#newssearch-published_from').closest(".input-group.date").data("DateTimePicker").maxDate(e.date);
 });
+$("#clearFilter").on('click', function(e) {
+	$("#filterForm").find("input").val("").submit();
+});
 });
 JS
 , \yii\web\View::POS_READY);
@@ -23,7 +26,7 @@ JS
 
 <div class="news-search">
 
-    <?php $form = ActiveForm::begin(['action' => ['index'], 'method' => 'get', 'options' => ['class' => 'form-inline'] ]); ?>
+    <?php $form = ActiveForm::begin(['action' => ['index'], 'method' => 'get', 'options' => ['id' => 'filterForm', 'class' => 'form-inline'] ]); ?>
 
 	<div class="form-group">
 
@@ -53,7 +56,7 @@ JS
 			<?= Html::submitButton('Поиск', ['class' => 'btn btn-primary btn-block']) ?>
 		</div>
 		<div class="col-md-2">
-			<?= Html::resetInput('Очистить', ['class' => 'btn btn-default btn-block']) ?>
+			<?= Html::button('Очистить', ['id' => 'clearFilter', 'class' => 'btn btn-default btn-block']) ?>
 		</div>
 	</div>
 
