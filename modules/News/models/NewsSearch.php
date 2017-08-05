@@ -58,6 +58,9 @@ class NewsSearch extends News
             return $dataProvider;
         }
 
+//        $query->with('categorynews')
+//	        ->with('countryCode');
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,

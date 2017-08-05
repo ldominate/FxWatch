@@ -66,8 +66,14 @@ class DefaultController extends Controller
 		$model = new News();
 
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			return $this->redirect(['view', 'id' => $model->id]);
+			return $this->redirect(['update', 'id' => $model->id]);
 		} else {
+			if(empty($model->published)) {
+				$model->published = time();
+				//$model->published = Yii::$app->formatter->asDatetime(time(),News::DATETIME_FORMAT);
+				$model->fact = $model->forecast = $model->deviation = $model->previous = 0.0;
+			}
+
 			return $this->render('create', [
 				'model' => $model,
 			]);
@@ -85,7 +91,7 @@ class DefaultController extends Controller
 		$model = $this->findModel($id);
 
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			return $this->redirect(['view', 'id' => $model->id]);
+			return $this->redirect(['index']);
 		} else {
 			return $this->render('update', [
 				'model' => $model,

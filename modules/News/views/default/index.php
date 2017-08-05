@@ -1,5 +1,7 @@
 <?php
 
+use app\modules\catalog\models\CategoryNews;
+use app\modules\catalog\models\Country;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -9,6 +11,10 @@ use yii\grid\GridView;
 
 $this->title = 'Список новостей';
 $this->params['breadcrumbs'][] = $this->title;
+
+$categoriesNews = CategoryNews::find()->select(['name', 'id'])->indexBy('id')->orderBy(['name' => SORT_ASC])->column();
+$countries = Country::find()->active()->select(['name', 'code'])->indexBy('code')->orderBy(['name' => SORT_ASC])->column();
+
 ?>
 <div class="news-index">
 
@@ -22,10 +28,37 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'published',
-            'categorynews_id',
-            'country_code',
+	        [
+		        'attribute' => 'categorynews_id',
+//		        'contentOptions' =>['class' => 'text-left'],
+//		        'format' => 'text',
+//		        'content' => function($data){
+//    	            return $data->categorynews->name;
+//		        },
+		        'value' => function($model) use($categoriesNews) {
+			        $categoryNews = $categoriesNews[$model->categorynews_id];
+			        return isset($categoryNews) ? $categoryNews : $model->categorynews_id;
+		        },
+		        'filter' => $categoriesNews
+	        ],
+	        [
+		        'attribute' => 'country_code',
+//		        'contentOptions' =>['class' => 'text-left'],
+//		        'format' => 'text',
+//		        'content' => function($data){
+//			        return $data->countryCode->name;
+//		        },
+		        'value' => function($model) use($countries) {
+			        $country = $countries[$model->country_code];
+			        return isset($country) ? $country : $model->country_code;
+		        },
+		        'filter' => $countries
+	        ],
+	        [
+		        'attribute' => 'published',
+		        'contentOptions' =>['class' => 'text-left'],
+		        'format' => ['datetime', \app\modules\news\models\News::DATETIME_FORMAT]
+	        ],
             'currency_code',
             // 'release',
             // 'percent_value',
@@ -35,7 +68,11 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'deviation',
             // 'previous',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+            	'class' => 'yii\grid\ActionColumn',
+	            'header' => 'Действия',
+	            'template' => '{update} {delete} {link}',
+            ],
         ],
     ]); ?>
 	<p>

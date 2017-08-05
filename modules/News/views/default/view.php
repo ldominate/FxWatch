@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\modules\news\models\News */
 
-$this->title = $model->id;
+$this->title = 'Новость от '. Yii::$app->formatter->asDatetime($model->published, \app\modules\news\models\News::DATETIME_FORMAT);
 $this->params['breadcrumbs'][] = ['label' => 'News', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

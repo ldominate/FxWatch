@@ -31,6 +31,9 @@ use app\modules\catalog\models\Influence;
  */
 class News extends ActiveRecord
 {
+	const DATETIME_FORMAT = 'dd.MM.yyyy HH:mm',
+			DATETIME_FORMAT_DB = 'yyyy-MM-dd HH:mm:ss';
+
     /**
      * @inheritdoc
      */
@@ -47,7 +50,7 @@ class News extends ActiveRecord
         return [
             [['published', 'categorynews_id', 'country_code', 'currency_code', 'influence_id', 'release', 'fact', 'forecast', 'deviation', 'previous'], 'required'],
 	        [['published'], 'trim'],
-	        [['published'], 'datetime', 'format' => 'dd.MM.yyyy HH:mm', 'timestampAttribute' => 'published'],
+	        [['published'], 'datetime', 'format' => News::DATETIME_FORMAT, 'timestampAttribute' => 'published', 'timestampAttributeFormat' => News::DATETIME_FORMAT_DB],
 
             [['categorynews_id', 'percent_value', 'influence_id'], 'integer'],
 
