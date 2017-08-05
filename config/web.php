@@ -14,6 +14,9 @@ $config = [
 		'catalog' => [
 			'class' => 'app\modules\catalog\CatalogModule',
 		],
+		'news' => [
+			'class' => 'app\modules\news\NewsModule'
+		]
 	],
     'components' => [
         'request' => [
@@ -64,6 +67,8 @@ $config = [
 	            '/catalog/country' => '/catalog/country/index',
 	            '/catalog/country/<id:\w{2}>' => '/catalog/country/view',
 	            '/catalog/country/<action:(view|update)>/<id:\w{2}>' => '/catalog/country/<action>',
+
+	            '/news' => '/news/default/index',
 
 	            '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
 	            '<controller:\w+>/<action:\w+>' => '<controller>/<action>',

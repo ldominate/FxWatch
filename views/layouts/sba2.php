@@ -10,7 +10,6 @@
 
 use yii\helpers\Html;
 use app\assets\SBAdmin2Asset;
-use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\helpers\Url;
 use yii\widgets\Menu;
@@ -56,7 +55,6 @@ $bundle = SBAdmin2Asset::register($this);
 				<li>
 					<?= Html::a(yii\bootstrap\Html::icon('glyphicon glyphicon-file').' Профиль', Url::to(['/user/update/'.Yii::$app->getUser()->getId()]))?>
 				</li>
-				</li>
 				<li class="divider"></li>
 				<li>
 					<?=
@@ -80,6 +78,8 @@ $bundle = SBAdmin2Asset::register($this);
 				'options' => ['class' => 'nav metismenu', 'id' => 'menu'],
 				//'activateParents' => true,
 				'items' => [
+					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-stats').' Новости', 'url' => Url::to(['/news/default']),
+						'active' => $this->context->module->id == 'news'],
 					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-list-alt').' Справочник', 'url' => Url::to(['/catalog/default']),
 						'active' => $this->context->module->id == 'catalog',
 						//'options' => ['class' => 'dropdown'],
