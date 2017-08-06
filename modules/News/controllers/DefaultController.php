@@ -147,12 +147,6 @@ class DefaultController extends Controller
 		$model->fintool_id = $fintool_id;
 		$model->period_id = $period_id;
 
-//		$model->datetime = '06.06.2017 00:15';
-//		$model->open = 1.0084;
-//		$model->max = 1.0087;
-//		$model->min = 1.0081;
-//		$model->close = 1.0083;
-
 		$query = NewsData::find()->thatnews($news_id, $fintool_id, $period_id);
 
 		$dataProvider = new ActiveDataProvider([
@@ -176,6 +170,22 @@ class DefaultController extends Controller
 			throw new NotFoundHttpException('The requested page does not exist.');
 		}
 		return $this->redirect(['newsdata', 'news_id' => $model->news_id, 'fintool_id' => $model->fintool_id, 'period_id' => $model->period_id]);
+	}
+
+	/**
+	 * @param $news_id
+	 * @param $fintool_id
+	 * @param $period_id
+	 * @return \yii\web\Response
+	 */
+	public function actionNewsdatadelall($news_id, $fintool_id, $period_id){
+
+		NewsData::deleteAll(
+			'news_id=:news_id AND fintool_id=:fintool_id AND period_id=:period_id',
+			[':news_id' => $news_id, ':fintool_id' => $fintool_id, ':period_id' => $period_id]
+		);
+
+		return $this->redirect(['update', 'id' => $news_id]);
 	}
 
 	/**

@@ -52,7 +52,10 @@ foreach ($period_ids as $p){
 								</div>
 								<div class="col-xs-6 col-sm-5 col-md-6 col-lg-6 text-right">
 									<?= (isset($exists_period[$fintool->id]) && ArrayHelper::isIn($period->id, $exists_period[$fintool->id]))
-										? Html::a(Html::icon('glyphicon glyphicon-trash'), ['#'], ['class' => '', 'title' => 'Удалить'])
+										? Html::a(
+											Html::icon('glyphicon glyphicon-trash'),
+											\yii\helpers\Url::to(['/news/default/newsdatadelall', 'news_id' => $model->id, 'fintool_id' => $fintool->id, 'period_id' => $period->id]),
+											['class' => '', 'title' => 'Удалить все данные'])
 										: '&nbsp;'?>
 								</div>
 							</div>
