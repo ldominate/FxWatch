@@ -43,7 +43,7 @@ class NewsData extends ActiveRecord
             [['news_id', 'fintool_id', 'period_id'], 'integer'],
 
 	        [['datetime'], 'trim'],
-	        [['datetime'], 'datetime', 'format' => News::DATETIME_FORMAT, 'timestampAttribute' => 'published', 'timestampAttributeFormat' => News::DATETIME_FORMAT_DB],
+	        [['datetime'], 'datetime', 'format' => News::DATETIME_FORMAT, 'timestampAttribute' => 'datetime', 'timestampAttributeFormat' => News::DATETIME_FORMAT_DB],
 
             [['open', 'close', 'min', 'max'], 'number'],
 

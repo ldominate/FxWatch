@@ -30,7 +30,10 @@ $periods = Period::find()->all();
 							<div class="row bottom-buffer">
 								<div class="col-xs-6 col-sm-7 col-md-6 col-lg-6 text-left"><?=$period->name?></div>
 								<div class="col-xs-6 col-sm-5 col-md-6 col-lg-6 text-right">
-									<?= Html::a(Html::icon('glyphicon glyphicon-pencil'), ['#'], ['class' => 'btn btn-primary btn-xs', 'title' => 'Изменить'])?>
+									<?= Html::a(Html::icon(
+											'glyphicon glyphicon-pencil'),
+											\yii\helpers\Url::to(['/news/default/newsdata', 'news_id' => $model->id, 'fintool_id' => $fintool->id, 'period_id' => $period->id]),
+											['class' => 'btn btn-primary btn-xs', 'title' => 'Изменить'])?>
 									&nbsp;
 									<?= Html::a(Html::icon('glyphicon glyphicon-trash'), ['#'], ['class' => 'btn btn-warning btn-xs', 'title' => 'Удалить'])?>
 								</div>

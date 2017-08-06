@@ -70,7 +70,9 @@ $config = [
 
 	            '/news' => '/news/default/index',
 	            '/news/create' => '/news/default/create',
-	            '/news/<action:(view|update)>/<id:\w{2}>' => '/news/default/<action>',
+	            '/news/data/<news_id:\d+>/<fintool_id:\d+>/<period_id:\d+>' => '/news/default/newsdata',
+	            '/news/data/del/<id:\d+>' => '/news/default/newsdatadel',
+	            '/news/<action:(view|update)>/<id:\d+>' => '/news/default/<action>',
 
 	            '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
 	            '<controller:\w+>/<action:\w+>' => '<controller>/<action>',

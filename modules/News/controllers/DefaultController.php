@@ -2,9 +2,13 @@
 
 namespace app\modules\News\controllers;
 
+use app\modules\catalog\models\FinTool;
+use app\modules\catalog\models\Period;
+use app\modules\news\models\NewsData;
 use Yii;
 use app\modules\news\models\News;
 use app\modules\news\models\NewsSearch;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -24,6 +28,7 @@ class DefaultController extends Controller
 				'class' => VerbFilter::className(),
 				'actions' => [
 					'delete' => ['POST'],
+					'newsdatadel' => ['POST']
 				],
 			],
 		];
@@ -110,6 +115,67 @@ class DefaultController extends Controller
 		$this->findModel($id)->delete();
 
 		return $this->redirect(['index']);
+	}
+
+	/**
+	 * @param integer $news_id
+	 * @param integer $fintool_id
+	 * @param integer $period_id
+	 * @return mixed
+	 * @throws NotFoundHttpException
+	 */
+	public function actionNewsdata($news_id, $fintool_id, $period_id){
+
+		if (($news = News::findOne($news_id)) === null) {
+			throw new NotFoundHttpException('The requested page does not exist.');
+		}
+
+		if (($fintool = FinTool::findOne($fintool_id)) === null) {
+			throw new NotFoundHttpException('The requested page does not exist.');
+		}
+
+		if (($period = Period::findOne($period_id)) === null) {
+			throw new NotFoundHttpException('The requested page does not exist.');
+		}
+		$model = new NewsData();
+
+		if ($model->load(Yii::$app->request->post()) && $model->save()) {
+			$model = new NewsData();
+		}
+
+		$model->news_id = $news_id;
+		$model->fintool_id = $fintool_id;
+		$model->period_id = $period_id;
+
+//		$model->datetime = '06.06.2017 00:15';
+//		$model->open = 1.0084;
+//		$model->max = 1.0087;
+//		$model->min = 1.0081;
+//		$model->close = 1.0083;
+
+		$query = NewsData::find()->thatnews($news_id, $fintool_id, $period_id);
+
+		$dataProvider = new ActiveDataProvider([
+			'query' => $query,
+			'sort' => false
+		]);
+
+		return $this->render('newsdata', ['dataProvider' => $dataProvider, 'news' => $news, 'fintool' => $fintool, 'period' => $period, 'model' => $model]);
+	}
+
+	/**
+	 * @param $id
+	 * @return \yii\web\Response
+	 * @throws NotFoundHttpException
+	 */
+	public function actionNewsdatadel($id){
+
+		if (($model = NewsData::findOne($id)) !== null) {
+			$model->delete();
+		} else {
+			throw new NotFoundHttpException('The requested page does not exist.');
+		}
+		return $this->redirect(['newsdata', 'news_id' => $model->news_id, 'fintool_id' => $model->fintool_id, 'period_id' => $model->period_id]);
 	}
 
 	/**
