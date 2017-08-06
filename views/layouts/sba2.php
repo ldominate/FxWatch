@@ -35,7 +35,7 @@ $bundle = SBAdmin2Asset::register($this);
 	<!-- Navigation -->
 	<?php
 	NavBar::begin([
-		'brandLabel' => Html::img($bundle->baseUrl.'/img/bar-chart.svg', ['alt' => Yii::$app->name]).Yii::$app->name,
+		'brandLabel' => Html::img('/img/fx-logo.png', ['alt' => Yii::$app->name]),
 		'brandUrl' => Yii::$app->homeUrl,
 		'options' => [
 			'class' => 'navbar-default navbar-static-top',

@@ -99,9 +99,11 @@ body {
 .sidebar .nav-third-level li a {
   padding-left: 52px;
 }
+a.navbar-brand{
+  padding: inherit;
+}
 .navbar-brand > img {
-  width: 20px;
-  height: 20px;
+  height: 56px;
 	display: inline-block;
 	margin-right: 5px;
 }
