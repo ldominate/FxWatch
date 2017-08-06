@@ -28,6 +28,7 @@ use app\modules\catalog\models\Influence;
  * @property Country $countryCode
  * @property Currency $currencyCode
  * @property Influence $influence
+ * @property NewsData[] $newsdatas
  */
 class News extends ActiveRecord
 {
@@ -49,6 +50,7 @@ class News extends ActiveRecord
     {
         return [
             [['published', 'categorynews_id', 'country_code', 'currency_code', 'influence_id', 'release', 'fact', 'forecast', 'deviation', 'previous'], 'required'],
+
 	        [['published'], 'trim'],
 	        [['published'], 'datetime', 'format' => News::DATETIME_FORMAT, 'timestampAttribute' => 'published', 'timestampAttributeFormat' => News::DATETIME_FORMAT_DB],
 
@@ -119,6 +121,14 @@ class News extends ActiveRecord
     {
         return $this->hasOne(Influence::className(), ['id' => 'influence_id']);
     }
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getNewsdatas()
+	{
+		return $this->hasMany(NewsData::className(), ['news_id' => 'id'])->inverseOf('news');
+	}
 
     /**
      * @inheritdoc
