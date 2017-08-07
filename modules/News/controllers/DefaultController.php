@@ -4,6 +4,7 @@ namespace app\modules\News\controllers;
 
 use app\modules\catalog\models\FinTool;
 use app\modules\catalog\models\Period;
+use app\modules\News\models\form\NewsDataUpload;
 use app\modules\news\models\NewsData;
 use Yii;
 use app\modules\news\models\News;
@@ -12,6 +13,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * Default controller for the `News` module
@@ -95,13 +97,12 @@ class DefaultController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			return $this->redirect(['index']);
-		} else {
-			return $this->render('update', [
-				'model' => $model,
-			]);
+		if ($model->load(Yii::$app->request->post())){
+			$model->save();
 		}
+		return $this->render('update', [
+			'model' => $model,
+		]);
 	}
 
 	/**
@@ -139,10 +140,63 @@ class DefaultController extends Controller
 		}
 		$model = new NewsData();
 
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			$model = new NewsData();
-		}
+		$upload = new NewsDataUpload();
 
+		if (Yii::$app->request->isPost){
+			if(Yii::$app->request->post('upload', 0) === 0){
+				if ($model->load(Yii::$app->request->post()) && $model->save()) {
+					$model = new NewsData();
+				}
+			}else{
+				$upload->dataFile = UploadedFile::getInstance($upload, 'dataFile');
+				if ($upload->upload()) {
+					$handler = fopen($upload->dataFile->tempName, 'r');
+					/**
+					 * @var NewsData[]
+					 */
+					$newsDatas = []; $lineNumber = 1;
+					while(($line = fgetcsv($handler, 0, ',')) !== false) {
+						//$dataLine[] = $line;
+
+						$newsData = new NewsData();
+						$newsData->news_id = $news_id;
+						$newsData->fintool_id = $fintool_id;
+						$newsData->period_id = $period_id;
+
+						$exp_date = explode('.', $line[0]);
+
+						if (!is_array($exp_date) || count($exp_date) < 3) {
+							$upload->addError('dataFile', 'Ошибка формата данных. Строка #:' . $lineNumber);
+							$upload->addError('dataFile', 'Формат даты не верен:' . $line[0]);
+							break;
+						}
+
+						$newsData->datetime = $exp_date[2] . '.' . $exp_date[1] . '.' . $exp_date[0] . ' ' . $line[1];
+						$newsData->open = $line[2];
+						$newsData->max = $line[3];
+						$newsData->min = $line[4];
+						$newsData->close = $line[5];
+
+						if ($newsData->validate()) {
+							$newsDatas[] = $newsData;
+						} else {
+							$upload->addError('dataFile', 'Ошибка формата данных. Строка #:' . $lineNumber);
+							foreach ($newsData->getErrors() as $error) {
+								$upload->addError('dataFile', implode(';', $error));
+							}
+							break;
+						}
+						$lineNumber++;
+					}
+					if(!$upload->hasErrors() && count($newsDatas) <= 0){
+						$upload->addError('dataFile', 'Файл не содержит данных');
+					} else {
+
+					}
+					fclose($handler);
+				}
+			}
+		}
 		$model->news_id = $news_id;
 		$model->fintool_id = $fintool_id;
 		$model->period_id = $period_id;
@@ -154,7 +208,7 @@ class DefaultController extends Controller
 			'sort' => false
 		]);
 
-		return $this->render('newsdata', ['dataProvider' => $dataProvider, 'news' => $news, 'fintool' => $fintool, 'period' => $period, 'model' => $model]);
+		return $this->render('newsdata', ['dataProvider' => $dataProvider, 'news' => $news, 'fintool' => $fintool, 'period' => $period, 'model' => $model, 'upload' => $upload]);
 	}
 
 	/**

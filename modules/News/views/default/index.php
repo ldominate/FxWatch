@@ -31,9 +31,9 @@ $countries = Country::find()->active()->select(['name', 'code'])->indexBy('code'
 
 	        [
 		        'attribute' => 'categorynews_id',
-		        'value' => function($model) use($categoriesNews) {
+		        'content' => function($model) use($categoriesNews) {
 			        $categoryNews = $categoriesNews[$model->categorynews_id];
-			        return isset($categoryNews) ? $categoryNews : $model->categorynews_id;
+			        return Html::a(isset($categoryNews) ? $categoryNews : $model->categorynews_id, \yii\helpers\Url::to(['update', 'id' => $model->id]));
 		        },
 		        'filter' => $categoriesNews
 	        ],

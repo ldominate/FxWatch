@@ -11,6 +11,7 @@
  * @var $dataProvider ActiveDataProvider
  * @var $model \app\modules\news\models\NewsData
  * @var $form yii\widgets\ActiveForm
+ * @var $upload \app\modules\News\models\form\NewsDataUpload
  */
 
 use app\modules\news\models\News;
@@ -69,12 +70,45 @@ $this->title = 'Данные по '.$fintool->name.' периодичность 
 
 </div>
 
+<div class="newdata-file-form">
+	<?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data', 'class' => 'form-inline']]); ?>
+
+	<?= Html::hiddenInput('news_id', $news->id) ?>
+	<?= Html::hiddenInput('fintool_id', $fintool->id) ?>
+	<?= Html::hiddenInput('period_id', $period->id) ?>
+	<?= Html::hiddenInput('upload', 1) ?>
+
+	<div class="row">
+		<div class="col-md-4">
+			<?= $form->field($upload, 'dataFile')->fileInput(['style' => ['display' => 'inline-block']])->label(false) ?>
+		</div>
+		<div class="col-md-6">
+			<?= Html::submitButton('Загрузить', ['class' => 'btn btn-info']) ?>
+		</div>
+	</div>
+	<?php if($upload->hasErrors()) {
+		\yii\bootstrap\Alert::begin(['options' => ['class' => 'alert-danger']]);
+			echo '<ul class="list-unstyled">';
+			foreach ($upload->getErrors() as $error){
+				echo '<li>'.implode(' ', $error).'</li>';
+			}
+			echo '</ul>';
+		\yii\bootstrap\Alert::end();
+	} else if(isset($upload->dataFile)) {
+		echo \yii\bootstrap\Alert::widget(['options' => ['class' => 'alert-success'],
+			'body' => 'Данные успешно загружены'
+		]);
+	}?>
+	<?php ActiveForm::end(); ?>
+</div>
+
 <div class="newsdata-form">
 	<?php $form = ActiveForm::begin(); ?>
 
 	<?= Html::hiddenInput('news_id', $news->id) ?>
 	<?= Html::hiddenInput('fintool_id', $fintool->id) ?>
 	<?= Html::hiddenInput('period_id', $period->id) ?>
+	<?= Html::hiddenInput('upload', 0) ?>
 
 	<div class="row">
 		<div class="col-md-3">

@@ -28,10 +28,6 @@ JS
 
     <?php $form = ActiveForm::begin(['action' => ['index'], 'method' => 'get', 'options' => ['id' => 'filterForm', 'class' => 'form-inline'] ]); ?>
 
-	<div class="form-group">
-
-	</div>
-
 	<div class="row">
 		<div class="col-md-3">
 			<?= $form->field($model, 'published_from')->widget(DateTimePicker::className(), [
