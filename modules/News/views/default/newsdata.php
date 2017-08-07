@@ -80,7 +80,7 @@ $this->title = 'Данные по '.$fintool->name.' периодичность 
 
 	<div class="row">
 		<div class="col-md-4">
-			<?= $form->field($upload, 'dataFile')->fileInput(['style' => ['display' => 'inline-block']])->label(false) ?>
+			<?= $form->field($upload, 'dataFile')->fileInput(['style' => ['display' => 'inline-block', 'width' => '500px']])->label(false) ?>
 		</div>
 		<div class="col-md-6">
 			<?= Html::submitButton('Загрузить', ['class' => 'btn btn-info']) ?>
