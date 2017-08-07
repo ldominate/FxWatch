@@ -21,7 +21,7 @@ class NewsDataUpload extends Model
 	public function rules()
 	{
 		return [
-			[['dataFile'], 'file', 'extensions' => 'txt,csv', 'maxSize' => 5*1024*1024, 'checkExtensionByMimeType' => false]
+			[['dataFile'], 'file', 'skipOnEmpty'  => false, 'extensions' => 'txt,csv', 'maxSize' => 5*1024*1024, 'checkExtensionByMimeType' => false]
 		];
 	}
 

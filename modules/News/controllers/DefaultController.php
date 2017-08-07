@@ -152,79 +152,7 @@ class DefaultController extends Controller
 				}
 			}else if(Yii::$app->request->post('upload', 0) == 1){
 
-				$upload->dataFile = UploadedFile::getInstance($upload, 'dataFile');
-				if ($upload->upload()) {
-					$handler = fopen($upload->dataFile->tempName, 'r');
-					/**
-					 * @var NewsData[]
-					 */
-					$newsDates = []; $lineNumber = 1;
-					while(($line = fgetcsv($handler, 0, ',')) !== false) {
-
-						$newsData = new NewsData();
-						$newsData->news_id = $news_id;
-						$newsData->fintool_id = $fintool_id;
-						$newsData->period_id = $period_id;
-
-						$exp_date = explode('.', $line[0]);
-
-						if (!is_array($exp_date) || count($exp_date) < 3) {
-							$upload->addError('dataFile', 'Ошибка формата данных. Строка #:' . $lineNumber);
-							$upload->addError('dataFile', 'Формат даты не верен:' . $line[0]);
-							break;
-						}
-
-						$newsData->datetime = $exp_date[2] . '.' . $exp_date[1] . '.' . $exp_date[0] . ' ' . $line[1];
-						$newsData->open = $line[2];
-						$newsData->max = $line[3];
-						$newsData->min = $line[4];
-						$newsData->close = $line[5];
-
-						if ($newsData->validate(['datetime','open','max','min','close'])) {
-							$newsDates[] = $newsData;
-						} else {
-							$upload->addError('dataFile', 'Ошибка формата данных. Строка #:' . $lineNumber);
-							foreach ($newsData->getErrors() as $error) {
-								$upload->addError('dataFile', implode(';', $error));
-							}
-							break;
-						}
-						$lineNumber++;
-					}
-					if(!$upload->hasErrors() && count($newsDates) <= 0){
-						$upload->addError('dataFile', 'Файл не содержит данных');
-					} else {
-
-						$transaction = NewsData::getDb()->beginTransaction();
-						try {
-							NewsData::deleteAll(
-								'news_id=:news_id AND fintool_id=:fintool_id AND period_id=:period_id',
-								[':news_id' => $news_id, ':fintool_id' => $fintool_id, ':period_id' => $period_id]
-							);
-
-							$postModel = new NewsData;
-							$rows = ArrayHelper::getColumn($newsDates, 'attributes');
-							Yii::$app->db->createCommand()->batchInsert(NewsData::tableName(), $postModel->attributes(), $rows)->execute();
-
-//							foreach ($newsDates as $newsData){
-//								if(!$newsData->save(false)){
-//									foreach ($newsData->getErrors() as $error) {
-//										$upload->addError('dataFile', implode(';', $error));
-//									}
-//									break;
-//								}
-//							}
-							$transaction->commit();
-						} catch(\Exception $e) {
-							$transaction->rollBack();
-							throw $e;
-						} catch(\Throwable $e) {
-							$transaction->rollBack();
-							throw $e;
-						}
-					}
-					fclose($handler);
-				}
+				$upload = $this->UploadNewsData($upload, $news_id, $fintool_id, $period_id);
 			}
 		}
 		$model->news_id = $news_id;
@@ -286,5 +214,93 @@ class DefaultController extends Controller
 		} else {
 			throw new NotFoundHttpException('The requested page does not exist.');
 		}
+	}
+
+	/**
+	 * @param $upload NewsDataUpload
+	 * @param $news_id integer
+	 * @param $fintool_id integer
+	 * @param $period_id integer
+	 * @return NewsDataUpload
+	 * @throws \Exception
+	 * @throws \Throwable
+	 */
+	protected function UploadNewsData($upload, $news_id, $fintool_id, $period_id): NewsDataUpload
+	{
+		$upload->dataFile = UploadedFile::getInstance($upload, 'dataFile');
+		if ($upload->upload()) {
+			$handler = fopen($upload->dataFile->tempName, 'r');
+			/**
+			 * @var NewsData[]
+			 */
+			$newsDates = [];
+			$lineNumber = 1;
+			while (($line = fgetcsv($handler, 0, ',')) !== false) {
+
+				$newsData = new NewsData();
+				$newsData->news_id = $news_id;
+				$newsData->fintool_id = $fintool_id;
+				$newsData->period_id = $period_id;
+
+				$exp_date = explode('.', $line[0]);
+
+				if (!is_array($exp_date) || count($exp_date) < 3) {
+					$upload->addError('dataFile', 'Ошибка формата данных. Строка #:' . $lineNumber);
+					$upload->addError('dataFile', 'Формат даты не верен:' . $line[0]);
+					break;
+				}
+
+				$newsData->datetime = $exp_date[2] . '.' . $exp_date[1] . '.' . $exp_date[0] . ' ' . $line[1];
+				$newsData->open = $line[2];
+				$newsData->max = $line[3];
+				$newsData->min = $line[4];
+				$newsData->close = $line[5];
+
+				if ($newsData->validate(['datetime', 'open', 'max', 'min', 'close'])) {
+					$newsDates[] = $newsData;
+				} else {
+					$upload->addError('dataFile', 'Ошибка формата данных. Строка #:' . $lineNumber);
+					foreach ($newsData->getErrors() as $error) {
+						$upload->addError('dataFile', implode(';', $error));
+					}
+					break;
+				}
+				$lineNumber++;
+			}
+			if (!$upload->hasErrors() && count($newsDates) <= 0) {
+				$upload->addError('dataFile', 'Файл не содержит данных');
+			} else {
+
+				$transaction = NewsData::getDb()->beginTransaction();
+				try {
+					NewsData::deleteAll(
+						'news_id=:news_id AND fintool_id=:fintool_id AND period_id=:period_id',
+						[':news_id' => $news_id, ':fintool_id' => $fintool_id, ':period_id' => $period_id]
+					);
+
+					$postModel = new NewsData;
+					$rows = ArrayHelper::getColumn($newsDates, 'attributes');
+					Yii::$app->db->createCommand()->batchInsert(NewsData::tableName(), $postModel->attributes(), $rows)->execute();
+
+//							foreach ($newsDates as $newsData){
+//								if(!$newsData->save(false)){
+//									foreach ($newsData->getErrors() as $error) {
+//										$upload->addError('dataFile', implode(';', $error));
+//									}
+//									break;
+//								}
+//							}
+					$transaction->commit();
+				} catch (\Exception $e) {
+					$transaction->rollBack();
+					throw $e;
+				} catch (\Throwable $e) {
+					$transaction->rollBack();
+					throw $e;
+				}
+			}
+			fclose($handler);
+		}
+		return $upload;
 	}
 }
