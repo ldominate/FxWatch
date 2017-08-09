@@ -8,6 +8,7 @@ use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\news\models\News */
+/* @var $associated \app\modules\news\models\News[] */
 
 $this->title = 'Редактирование новости от '. Yii::$app->formatter->asDatetime($model->published, \app\modules\news\models\News::DATETIME_FORMAT);
 $this->params['breadcrumbs'][] = ['label' => 'Новости', 'url' => ['index']];
@@ -65,4 +66,10 @@ foreach ($period_ids as $p){
 			</div>
 		<?php endforeach;?>
 	</div>
+
+	<?php if(isset($associated) && count($associated) > 0) : ?>
+	<div class="associated">
+
+	</div>
+	<?php endif; ?>
 </div>

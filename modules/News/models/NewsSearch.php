@@ -5,7 +5,6 @@ namespace app\modules\news\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\news\models\News;
 use yii\helpers\ArrayHelper;
 
 /**

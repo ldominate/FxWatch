@@ -101,8 +101,11 @@ class DefaultController extends Controller
 		if ($model->load(Yii::$app->request->post())){
 			$model->save();
 		}
+		$associated_news = News::find()->associated($model->id, $model->published)->all();
+
 		return $this->render('update', [
 			'model' => $model,
+			'associated' => $associated_news
 		]);
 	}
 

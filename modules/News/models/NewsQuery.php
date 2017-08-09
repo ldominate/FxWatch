@@ -2,6 +2,7 @@
 
 namespace app\modules\news\models;
 
+use Yii;
 use yii\db\ActiveQuery;
 
 /**
@@ -33,4 +34,20 @@ class NewsQuery extends ActiveQuery
     {
         return parent::one($db);
     }
+
+	/**
+	 * @param $id integer
+	 * @param $published string
+	 * @return $this News|array|null
+	 */
+	public function associated($id, $published){
+
+		return $this->where(['<>', 'id', $id])
+			->andWhere([
+			'between',
+			'published',
+			Yii::$app->formatter->asDatetime(strtotime('-'.News::DELTA_ASSOCIATED_NEWS.' second '.$published), News::DATETIME_FORMAT_DB),
+			Yii::$app->formatter->asDatetime(strtotime('+'.News::DELTA_ASSOCIATED_NEWS.' second '.$published), News::DATETIME_FORMAT_DB)])
+			->orderBy(['published' => SORT_DESC]);
+	}
 }

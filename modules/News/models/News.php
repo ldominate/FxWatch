@@ -35,6 +35,11 @@ class News extends ActiveRecord
 	const DATETIME_FORMAT = 'dd.MM.yyyy HH:mm',
 			DATETIME_FORMAT_DB = 'yyyy-MM-dd HH:mm:ss';
 
+	/**
+	 * Смещение времени для выборки сопутствующих новостей. В секундах.
+	 */
+	const DELTA_ASSOCIATED_NEWS = 1800;
+
     /**
      * @inheritdoc
      */

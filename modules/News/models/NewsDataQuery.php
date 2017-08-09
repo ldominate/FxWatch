@@ -3,6 +3,7 @@
 namespace app\modules\news\models;
 
 use yii\db\ActiveQuery;
+use yii\db\Query;
 
 /**
  * This is the ActiveQuery class for [[NewsData]].
@@ -46,4 +47,5 @@ class NewsDataQuery extends ActiveQuery
 		    ->andWhere(['fintool_id' => $fintool_id])
 		    ->andWhere(['period_id' => $period_id]);
     }
+
 }
