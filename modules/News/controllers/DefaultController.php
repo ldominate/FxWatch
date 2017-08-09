@@ -101,7 +101,7 @@ class DefaultController extends Controller
 		if ($model->load(Yii::$app->request->post())){
 			$model->save();
 		}
-		$associated_news = News::find()->associated($model->id, $model->published)->all();
+		$associated_news = News::find()->associated($model->id, $model->published)->with('influence')->all();
 
 		return $this->render('update', [
 			'model' => $model,
@@ -166,7 +166,9 @@ class DefaultController extends Controller
 
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,
-			'sort' => false
+			'sort' => [
+				'defaultOrder'=>['datetime'=> SORT_ASC],
+			]
 		]);
 
 		return $this->render('newsdata', ['dataProvider' => $dataProvider, 'news' => $news, 'fintool' => $fintool, 'period' => $period, 'model' => $model, 'upload' => $upload]);

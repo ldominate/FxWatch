@@ -2,15 +2,16 @@
 
 use app\modules\catalog\models\FinTool;
 use app\modules\catalog\models\Period;
+use app\modules\news\models\News;
 use app\modules\news\models\NewsData;
 use yii\bootstrap\Html;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\news\models\News */
-/* @var $associated \app\modules\news\models\News[] */
+/* @var $associated News[] */
 
-$this->title = 'Редактирование новости от '. Yii::$app->formatter->asDatetime($model->published, \app\modules\news\models\News::DATETIME_FORMAT);
+$this->title = 'Редактирование новости от '. Yii::$app->formatter->asDatetime($model->published, News::DATETIME_FORMAT);
 $this->params['breadcrumbs'][] = ['label' => 'Новости', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Обновить';
@@ -30,7 +31,7 @@ foreach ($period_ids as $p){
 }
 
 ?>
-<div class="news-update">
+<div class="news-update bottom-block">
 
     <?= $this->render('_form', ['model' => $model]) ?>
 
@@ -69,7 +70,36 @@ foreach ($period_ids as $p){
 
 	<?php if(isset($associated) && count($associated) > 0) : ?>
 	<div class="associated">
-
+		<table class="table table-striped table-bordered table-hover">
+			<thead>
+			<tr>
+				<th><?=$model->getAttributeLabel('published')?></th>
+				<th><?=$model->getAttributeLabel('currency_code')?></th>
+				<th><?=$model->getAttributeLabel('release')?></th>
+				<th><?=$model->getAttributeLabel('influence_id')?></th>
+				<th><?=$model->getAttributeLabel('fact')?></th>
+				<th><?=$model->getAttributeLabel('forecast')?></th>
+				<th><?=$model->getAttributeLabel('deviation')?></th>
+				<th><?=$model->getAttributeLabel('previous')?></th>
+				<th>&nbsp;</th>
+			</tr>
+			</thead>
+			<tbody>
+			<?php foreach ($associated as $ass_news) : ?>
+			<tr>
+				<td><?=Yii::$app->formatter->asTime($ass_news->published, 'HH:mm')?></td>
+				<td class="text-right"><?=$ass_news->currency_code ?></td>
+				<td class="text-right"><?=$ass_news->release ?></td>
+				<td class="text-center"><?=$ass_news->influence->name?></td>
+				<td class="text-center"><?= $ass_news->percent_value ? number_format($ass_news->fact, 1, '.', '').'%' : number_format($ass_news->fact, 2, '.', ' ')?></td>
+				<td class="text-center"><?= $ass_news->percent_value ? number_format($ass_news->forecast, 1, '.', '').'%' : number_format($ass_news->forecast, 2, '.', ' ')?></td>
+				<td class="text-center"><?= $ass_news->percent_value ? number_format($ass_news->deviation, 1, '.', '').'%' : number_format($ass_news->deviation, 2, '.', ' ')?></td>
+				<td class="text-center"><?= $ass_news->percent_value ? number_format($ass_news->previous, 1, '.', '').'%' : number_format($ass_news->previous, 2, '.', ' ')?></td>
+				<td><?=Html::a(Html::icon('glyphicon glyphicon-pencil'), ['update', 'id' => $ass_news->id], ['title' => 'Изменить'])?></td>
+			</tr>
+			<?php endforeach;?>
+			</tbody>
+		</table>
 	</div>
 	<?php endif; ?>
 </div>

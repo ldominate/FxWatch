@@ -452,6 +452,9 @@ a.desc:after {
 .row .bottom-buffer {
   margin-bottom: 6px;
 }
+.bottom-block {
+  margin-bottom: 30px;
+}
 @media (max-width: 767px) {
   ul.timeline:before {
     left: 40px;

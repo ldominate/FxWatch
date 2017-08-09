@@ -29,7 +29,13 @@ $this->title = 'Данные по '.$fintool->name.' периодичность 
 
 	<?= GridView::widget([
 		'dataProvider' => $dataProvider,
-		'layout' => "{items}\n{summary}\n{pager}",
+		'layout' => "{items}\n
+			<div class=\"pull-left\">{pager}</div>
+			<div class=\"pull-right\">{summary}</div>
+			<div class=\"clearfix\"></div>",
+		'tableOptions' => [
+			'class' => 'table table-striped table-bordered table-condensed'
+		],
 		'columns' => [
 			['class' => 'yii\grid\SerialColumn'],
 
