@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\News\controllers;
+namespace app\modules\news\controllers;
 
 use app\modules\catalog\models\FinTool;
 use app\modules\catalog\models\Period;
-use app\modules\News\models\form\NewsDataUpload;
+use app\modules\news\models\form\NewsDataUpload;
 use app\modules\news\models\NewsData;
 use Yii;
 use app\modules\news\models\News;

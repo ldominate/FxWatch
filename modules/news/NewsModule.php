@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\News;
+namespace app\modules\news;
 
 /**
  * News module definition class
@@ -10,7 +10,7 @@ class NewsModule extends \yii\base\Module
     /**
      * @inheritdoc
      */
-    public $controllerNamespace = 'app\modules\News\controllers';
+    public $controllerNamespace = 'app\modules\news\controllers';
 
     /**
      * @inheritdoc
