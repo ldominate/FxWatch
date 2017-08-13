@@ -97,9 +97,6 @@ $bundle = SBAdmin2Asset::register($this);
 							]
 						],
 					],
-					['label' => 'Home', 'url' => ['/site/index']],
-					['label' => 'About', 'url' => ['/site/about']],
-					['label' => 'Contact', 'url' => ['/site/contact']],
 					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-user').' Пользователи', 'url' => Url::to(['/user/index'])],
 				],
 				'submenuTemplate' => "\n<ul class='nav nav-second-level' role='menu'>\n{items}\n</ul>\n",
