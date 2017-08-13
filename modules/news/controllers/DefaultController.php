@@ -79,7 +79,7 @@ class DefaultController extends Controller
 			if(empty($model->published)) {
 				$model->published = time();
 				//$model->published = Yii::$app->formatter->asDatetime(time(),News::DATETIME_FORMAT);
-				$model->fact = $model->forecast = $model->deviation = $model->previous = 0.0;
+				//$model->fact = $model->forecast = $model->deviation = $model->previous = 0.0;
 			}
 
 			return $this->render('create', [

@@ -33,18 +33,18 @@ $model->published = Yii::$app->formatter->asDatetime($model->published, News::DA
 			]) ?>
 		</div>
 		<div class="col-md-3">
-			<?= $form->field($model, 'currency_code')->dropDownList($currencies) ?>
+			<?= $form->field($model, 'currency_code')->dropDownList($currencies, ['prompt' => '']) ?>
 		</div>
 		<div class="col-md-3">
-			<?= $form->field($model, 'country_code')->dropDownList($countries) ?>
+			<?= $form->field($model, 'country_code')->dropDownList($countries, ['prompt' => '']) ?>
 		</div>
 		<div class="col-md-3">
-			<?= $form->field($model, 'categorynews_id')->dropDownList($categoriesNews) ?>
+			<?= $form->field($model, 'categorynews_id')->dropDownList($categoriesNews, ['prompt' => '']) ?>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-3">
-			<?= $form->field($model, 'influence_id')->dropDownList($influences) ?>
+			<?= $form->field($model, 'influence_id')->dropDownList($influences, ['prompt' => '']) ?>
 		</div>
 		<div class="col-md-9">
 			<?= $form->field($model, 'release')->textInput(['maxlength' => true]) ?>
