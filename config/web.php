@@ -10,6 +10,7 @@ $config = [
 	'language' => 'ru-RU',
 	'layout' => 'sba2',
     'bootstrap' => ['log'],
+	'defaultRoute' => '/news',
 	'modules' => [
 		'catalog' => [
 			'class' => 'app\modules\catalog\CatalogModule',
