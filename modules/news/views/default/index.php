@@ -68,6 +68,6 @@ $countries = Country::find()->active()->select(['name', 'code'])->indexBy('code'
         ],
     ]); ?>
 	<p>
-		<?= Html::a('Добавить новость', ['create'], ['class' => 'btn btn-success']) ?>
+		<?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
 	</p>
 </div>
