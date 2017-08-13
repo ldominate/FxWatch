@@ -49,7 +49,7 @@ JS
 	</div>
 	<div class="row">
 		<div class="col-md-2">
-			<?= Html::submitButton('Поиск', ['class' => 'btn btn-primary btn-block']) ?>
+			<?= Html::submitButton('Поиск', ['class' => 'btn btn-success btn-block']) ?>
 		</div>
 		<div class="col-md-2">
 			<?= Html::button('Очистить', ['id' => 'clearFilter', 'class' => 'btn btn-default btn-block']) ?>
