@@ -85,7 +85,7 @@ class News extends ActiveRecord
             'categorynews_id' => 'Категория',
             'country_code' => 'Страна',
             'currency_code' => 'Валюта',
-            'release' => 'Выпуск',
+            'release' => 'Публикация',
             'percent_value' => '%',
             'influence_id' => 'Влияние',
             'fact' => 'Факт',

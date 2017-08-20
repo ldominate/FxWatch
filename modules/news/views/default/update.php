@@ -29,7 +29,16 @@ foreach ($period_ids as $p){
 		}
 	}
 }
-
+/**
+ * @param $news News
+ * @param $field string
+ * @return string
+ */
+function formatValue($news, $field){
+	return $news->percent_value
+		? number_format($news[$field], 1, '.', '').'%'
+		: number_format($news[$field], 2, '.', ' ');
+}
 ?>
 <div class="news-update bottom-block">
 
@@ -91,10 +100,10 @@ foreach ($period_ids as $p){
 				<td class="text-right"><?=$ass_news->currency_code ?></td>
 				<td class="text-right"><?=$ass_news->release ?></td>
 				<td class="text-center"><?=$ass_news->influence->name?></td>
-				<td class="text-center"><?= $ass_news->percent_value ? number_format($ass_news->fact, 1, '.', '').'%' : number_format($ass_news->fact, 2, '.', ' ')?></td>
-				<td class="text-center"><?= $ass_news->percent_value ? number_format($ass_news->forecast, 1, '.', '').'%' : number_format($ass_news->forecast, 2, '.', ' ')?></td>
-				<td class="text-center"><?= $ass_news->percent_value ? number_format($ass_news->deviation, 1, '.', '').'%' : number_format($ass_news->deviation, 2, '.', ' ')?></td>
-				<td class="text-center"><?= $ass_news->percent_value ? number_format($ass_news->previous, 1, '.', '').'%' : number_format($ass_news->previous, 2, '.', ' ')?></td>
+				<td class="text-center"><?=formatValue($ass_news, 'fact')?></td>
+				<td class="text-center"><?=formatValue($ass_news, 'forecast')?></td>
+				<td class="text-center"><?=formatValue($ass_news, 'deviation')?></td>
+				<td class="text-center"><?=formatValue($ass_news, 'previous')?></td>
 				<td><?=Html::a(Html::icon('glyphicon glyphicon-pencil'), ['update', 'id' => $ass_news->id], ['title' => 'Изменить'])?></td>
 			</tr>
 			<?php endforeach;?>
