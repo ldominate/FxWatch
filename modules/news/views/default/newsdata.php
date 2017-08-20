@@ -59,7 +59,7 @@ $this->title = 'Данные по '.$fintool->name.' периодичность 
 							? ['/news/default/newsdatadel', 'id' => $model['id']]
 							: [$action,'id'=>$model['id'],'hvost'=>$index.$key];
 					},
-					'newsdatadel' => function($url, $model) {
+					'newsdatadel' => function($url) {
 						$options = [
 							'title' => 'Удалить',
 							'aria-label' => 'Удалить данные',
@@ -126,16 +126,16 @@ $this->title = 'Данные по '.$fintool->name.' периодичность 
 			<?= $form->field($model, 'period_id')->hiddenInput()->label(false) ?>
 		</div>
 		<div class="col-md-2">
-			<?= $form->field($model, 'min')->textInput(['class' => 'form-control text-right', 'maxlength' => true]) ?>
+			<?= $form->field($model, 'open')->textInput(['class' => 'form-control text-right', 'maxlength' => 12]) ?>
 		</div>
 		<div class="col-md-2">
-			<?= $form->field($model, 'max')->textInput(['class' => 'form-control text-right', 'maxlength' => true]) ?>
+			<?= $form->field($model, 'max')->textInput(['class' => 'form-control text-right', 'maxlength' => 12]) ?>
 		</div>
 		<div class="col-md-2">
-			<?= $form->field($model, 'open')->textInput(['class' => 'form-control text-right', 'maxlength' => true]) ?>
+			<?= $form->field($model, 'min')->textInput(['class' => 'form-control text-right', 'maxlength' => 12]) ?>
 		</div>
 		<div class="col-md-2">
-			<?= $form->field($model, 'close')->textInput(['class' => 'form-control text-right', 'maxlength' => true]) ?>
+			<?= $form->field($model, 'close')->textInput(['class' => 'form-control text-right', 'maxlength' => 12]) ?>
 		</div>
 	</div>
 
