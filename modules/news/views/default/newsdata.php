@@ -38,18 +38,16 @@ $this->title = 'Данные по '.$fintool->name.' периодичность 
 		],
 		'columns' => [
 			['class' => 'yii\grid\SerialColumn'],
-
 			[
 				'attribute' => 'datetime',
 				'contentOptions' =>['class' => 'text-left'],
 				'format' => ['datetime', News::DATETIME_FORMAT],
 				'filter' => false
 			],
-			'min',
-			'max',
 			'open',
+			'max',
+			'min',
 			'close',
-
 			[
 				'class' => 'yii\grid\ActionColumn',
 				'template' => '{newsdatadel}',
