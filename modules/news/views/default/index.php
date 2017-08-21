@@ -13,7 +13,7 @@ use yii\grid\GridView;
 $this->title = 'Список новостей';
 $this->params['breadcrumbs'][] = $this->title;
 
-$categoriesNews = CategoryNews::find()->select(['name', 'id'])->indexBy('id')->orderBy(['name' => SORT_ASC])->column();
+$categoriesNews = CategoryNews::find()->select(['name', 'is_month', 'id'])->indexBy('id')->orderBy(['name' => SORT_ASC])->all();
 $countries = Country::find()->active()->select(['name', 'code'])->indexBy('code')->orderBy(['name' => SORT_ASC])->column();
 
 ?>
@@ -33,9 +33,17 @@ $countries = Country::find()->active()->select(['name', 'code'])->indexBy('code'
 		        'attribute' => 'categorynews_id',
 		        'content' => function($model) use($categoriesNews) {
 			        $categoryNews = $categoriesNews[$model->categorynews_id];
-			        return Html::a(isset($categoryNews) ? $categoryNews : $model->categorynews_id, \yii\helpers\Url::to(['update', 'id' => $model->id]));
+			        return Html::a(isset($categoryNews)
+				        ? ($categoryNews->is_month)
+					        ? str_replace(CategoryNews::PLACEHOLDER_MONTH,
+						        empty($model->сategory_month)
+							        ? Yii::$app->formatter->asDate($model->published, 'MMMM')
+							        : $model->category_month,
+						        $categoryNews->name)
+					        : $categoryNews->name
+				        : $model->categorynews_id, \yii\helpers\Url::to(['update', 'id' => $model->id]));
 		        },
-		        'filter' => $categoriesNews
+		        'filter' => \yii\helpers\ArrayHelper::getColumn($categoriesNews, 'name')
 	        ],
 	        [
 		        'attribute' => 'country_code',

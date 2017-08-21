@@ -13,6 +13,8 @@ use yii\db\ActiveRecord;
  */
 class CategoryNews extends ActiveRecord
 {
+	const PLACEHOLDER_MONTH = '[месяц]';
+
     /**
      * @inheritdoc
      */
