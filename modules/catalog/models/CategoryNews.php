@@ -9,6 +9,7 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property string $name
+ * @property boolean $is_month
  */
 class CategoryNews extends ActiveRecord
 {
@@ -27,6 +28,8 @@ class CategoryNews extends ActiveRecord
     {
         return [
             [['name'], 'string', 'max' => 155],
+	        [['is_month'], 'default', 'value' => false],
+	        [['is_month'], 'boolean']
         ];
     }
 
@@ -38,6 +41,7 @@ class CategoryNews extends ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Наименование',
+	        'is_month' => 'В названии метка месяца'
         ];
     }
 

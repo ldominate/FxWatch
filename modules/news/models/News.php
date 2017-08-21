@@ -17,6 +17,7 @@ use app\modules\catalog\models\Influence;
  * @property string $country_code
  * @property string $currency_code
  * @property string $release
+ * @property string $сategory_month
  * @property integer $percent_value
  * @property integer $influence_id
  * @property double $fact
@@ -34,6 +35,21 @@ class News extends ActiveRecord
 {
 	const DATETIME_FORMAT = 'dd.MM.yyyy HH:mm',
 			DATETIME_FORMAT_DB = 'yyyy-MM-dd HH:mm:ss';
+
+	const CATEGORY_MONTH = [
+		'Январь',
+		'Февраль',
+		'Март',
+		'Апрель',
+		'Май',
+		'Июнь',
+		'Июль',
+		'Август',
+		'Сентябрь',
+		'Октябрь',
+		'Ноябрь',
+		'Декабрь'
+	];
 
 	/**
 	 * Смещение времени для выборки сопутствующих новостей. В секундах.
@@ -62,10 +78,17 @@ class News extends ActiveRecord
             [['categorynews_id', 'percent_value', 'influence_id'], 'integer'],
 
             [['fact', 'forecast', 'deviation', 'previous'], 'number'],
+
             [['country_code'], 'string', 'max' => 2],
             [['currency_code'], 'string', 'max' => 3],
+
             [['release'], 'string', 'max' => 255],
 	        [['release'], 'trim'],
+
+	        [['сategory_month'], 'trim'],
+	        [['сategory_month'], 'default', 'value' => null],
+	        [['сategory_month'], 'string', 'max' => 10],
+	        [['сategory_month'], 'in', 'range' => News::CATEGORY_MONTH],
 
             [['categorynews_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categorynews::className(), 'targetAttribute' => ['categorynews_id' => 'id']],
             [['country_code'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_code' => 'code']],
@@ -86,6 +109,7 @@ class News extends ActiveRecord
             'country_code' => 'Страна',
             'currency_code' => 'Валюта',
             'release' => 'Публикация',
+	        'сategory_month' => 'Месяц',
             'percent_value' => '%',
             'influence_id' => 'Влияние',
             'fact' => 'Факт',
