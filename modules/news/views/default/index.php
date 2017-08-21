@@ -33,12 +33,12 @@ $countries = Country::find()->active()->select(['name', 'code'])->indexBy('code'
 		        'attribute' => 'categorynews_id',
 		        'content' => function($model) use($categoriesNews) {
 			        $categoryNews = $categoriesNews[$model->categorynews_id];
-			        return Html::a(isset($categoryNews)
+			        return Html::a(isset($categoryNews) // ? $categoryNews->name
 				        ? ($categoryNews->is_month)
 					        ? str_replace(CategoryNews::PLACEHOLDER_MONTH,
-						        empty($model->сategory_month)
-							        ? Yii::$app->formatter->asDate($model->published, 'MMMM')
-							        : $model->category_month,
+						        isset($model['сategory_month']) && !empty($model->сategory_month)
+							        ? $model->сategory_month
+							        : Yii::$app->formatter->asDate($model->published, 'MMMM'),
 						        $categoryNews->name)
 					        : $categoryNews->name
 				        : $model->categorynews_id, \yii\helpers\Url::to(['update', 'id' => $model->id]));
