@@ -46,8 +46,11 @@ $model->published = Yii::$app->formatter->asDatetime($model->published, News::DA
 		<div class="col-md-3">
 			<?= $form->field($model, 'influence_id')->dropDownList($influences, ['prompt' => '']) ?>
 		</div>
-		<div class="col-md-9">
+		<div class="col-md-7">
 			<?= $form->field($model, 'release')->textInput(['maxlength' => true]) ?>
+		</div>
+		<div class="col-md-2">
+			<?= $form->field($model, 'сategory_month')->dropDownList(array_combine(News::CATEGORY_MONTH, News::CATEGORY_MONTH), ['prompt' => '']) ?>
 		</div>
 	</div>
 	<div class="row">
