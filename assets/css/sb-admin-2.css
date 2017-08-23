@@ -99,9 +99,11 @@ body {
 .sidebar .nav-third-level li a {
   padding-left: 52px;
 }
+a.navbar-brand{
+  padding: inherit;
+}
 .navbar-brand > img {
-  width: 20px;
-  height: 20px;
+  height: 56px;
 	display: inline-block;
 	margin-right: 5px;
 }
@@ -443,6 +445,15 @@ a.desc:after {
 
 .sort-ordinal a.desc:after {
   content: "\e156";
+}
+.row .top-buffer {
+  margin-top:6px;
+}
+.row .bottom-buffer {
+  margin-bottom: 6px;
+}
+.bottom-block {
+  margin-bottom: 30px;
 }
 @media (max-width: 767px) {
   ul.timeline:before {

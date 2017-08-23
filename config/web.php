@@ -10,10 +10,14 @@ $config = [
 	'language' => 'ru-RU',
 	'layout' => 'sba2',
     'bootstrap' => ['log'],
+	'defaultRoute' => '/news',
 	'modules' => [
 		'catalog' => [
 			'class' => 'app\modules\catalog\CatalogModule',
 		],
+		'news' => [
+			'class' => 'app\modules\news\NewsModule'
+		]
 	],
     'components' => [
         'request' => [
@@ -64,6 +68,13 @@ $config = [
 	            '/catalog/country' => '/catalog/country/index',
 	            '/catalog/country/<id:\w{2}>' => '/catalog/country/view',
 	            '/catalog/country/<action:(view|update)>/<id:\w{2}>' => '/catalog/country/<action>',
+
+	            '/news' => '/news/default/index',
+	            '/news/create' => '/news/default/create',
+	            '/news/data/<news_id:\d+>/<fintool_id:\d+>/<period_id:\d+>' => '/news/default/newsdata',
+	            '/news/data/del/<id:\d+>' => '/news/default/newsdatadel',
+	            '/news/data/delall/<news_id:\d+>/<fintool_id:\d+>/<period_id:\d+>' => '/news/default/newsdatadelall',
+	            '/news/<action:(view|update)>/<id:\d+>' => '/news/default/<action>',
 
 	            '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
 	            '<controller:\w+>/<action:\w+>' => '<controller>/<action>',

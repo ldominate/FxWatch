@@ -1,6 +1,7 @@
 <?php
 
 use app\modules\catalog\models\Currency;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -41,9 +42,11 @@ $currencies = Currency::find()->select(['name', 'code'])->indexBy('code')->all()
 	        [
 		        'attribute' => 'currency_id',
 		        'value' => function($model) use($currencies) {
-			        $currency = $currencies[$model->currency_id];
+    	            if(!isset($model->currency_id)) return '';
+			        $currency = array_key_exists($model->currency_id, $currencies) ? $currencies[$model->currency_id] : null;
 			        return isset($currency) ? $currency->name.' ('.$currency->code.')' : $model->currency_id;
 		        },
+		        'filter' => ArrayHelper::map($currencies, 'code', 'name')
 	        ],
             'timezone',
 	        [
