@@ -70,6 +70,7 @@ $config = [
 	            '/catalog/country/<action:(view|update)>/<id:\w{2}>' => '/catalog/country/<action>',
 
 	            '/news' => '/news/default/index',
+	            '/news/widget' => '/news/default/widget',
 	            '/news/create' => '/news/default/create',
 	            '/news/data/<news_id:\d+>/<fintool_id:\d+>/<period_id:\d+>' => '/news/default/newsdata',
 	            '/news/data/del/<id:\d+>' => '/news/default/newsdatadel',

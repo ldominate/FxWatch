@@ -80,6 +80,8 @@ $bundle = SBAdmin2Asset::register($this);
 				'items' => [
 					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-stats').' Новости', 'url' => Url::to(['/news']),
 						'active' => $this->context->module->id == 'news'],
+					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-blackboard').' Виджет', 'url' => Url::to(['/news/widget']),
+						'active' => $this->context->module->id == 'news'],
 					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-list-alt').' Справочник', 'url' => Url::to(['/catalog/default']),
 						'active' => $this->context->module->id == 'catalog',
 						//'options' => ['class' => 'dropdown'],
