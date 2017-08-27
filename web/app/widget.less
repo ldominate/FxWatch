@@ -1,3 +1,24 @@
-.widget{
-  width: 1024px;
+#widget.widget{
+  width: 100%;
+  height: 400px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  .navigation-box{
+    display: block;
+    flex:1 1 30%;
+    max-width: none;
+    min-width: 0px;
+    outline: 0;
+  }
+  .graph-box{
+    display: block;
+    flex: 1 1 70%;
+    max-width: none;
+    min-width: 0px;
+    outline: 0;
+  }
 }

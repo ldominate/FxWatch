@@ -47,7 +47,7 @@ module.exports = {
 		extensions: [".js", ".jsx", ".less", ".css"],
 		alias: {
 			dxCommonCss: path.join(__dirname, "/node_modules/devextreme/dist/css/dx.common.css"),
-			dxLightCss: path.join(__dirname, "/node_modules/devextreme/dist/css/dx.light.css")
+			dxLightCss: path.join(__dirname, "/node_modules/devextreme/dist/css/dx.light.compact.css")
 		}
 	},
 	resolveLoader: {
