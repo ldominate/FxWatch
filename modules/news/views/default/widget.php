@@ -12,6 +12,8 @@ $this->title = 'Виджет';
 $this->registerJsFile('/js/vendor.js',['position' => yii\web\View::POS_END]);
 $this->registerJsFile('/js/widget.js?v='.rand(),['position' => yii\web\View::POS_END]);
 
-?>
+$this->registerCssFile('/js/widget.css');
 
+?>
+<div id="widget" class="thumbnail widget"></div>
 <button id="gmi" class="btn btn-default">Жми</button>

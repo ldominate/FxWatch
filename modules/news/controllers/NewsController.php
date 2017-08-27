@@ -2,6 +2,7 @@
 
 namespace app\modules\news\controllers;
 
+use app\modules\news\models\NewsSearch;
 use yii\filters\AccessControl;
 use yii\filters\ContentNegotiator;
 use yii\filters\VerbFilter;
@@ -54,4 +55,21 @@ class NewsController extends ActiveController
 //	{
 //		return true;
 //	}
+	public function actions(){
+
+		$actions = parent::actions();
+
+		$actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
+
+		return $actions;
+	}
+
+	public function prepareDataProvider()
+	{
+		$searchModel = new NewsSearch();
+
+		$queryParams = ['NewsSearch' => \Yii::$app->request->queryParams];
+
+		return $searchModel->search($queryParams);
+	}
 }
