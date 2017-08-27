@@ -23,6 +23,9 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'XKvkaCvN3-syonh249uJ85ozdDDMEkXM',
+//	        'parsers' => [
+//		        'application/json' => 'yii\web\JsonParser',
+//	        ]
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -57,7 +60,10 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+	        //'enableStrictParsing' => true,
             'rules' => [
+	            //['class' => 'yii\rest\UrlRule', 'controller' => 'news/news'],
+
 	            'login' => 'user/login',
 	            'user' => 'user/index',
 
@@ -69,8 +75,12 @@ $config = [
 	            '/catalog/country/<id:\w{2}>' => '/catalog/country/view',
 	            '/catalog/country/<action:(view|update)>/<id:\w{2}>' => '/catalog/country/<action>',
 
-	            '/news' => '/news/default/index',
 	            '/news/widget' => '/news/default/widget',
+	            '/news/widget/news' => '/news/news',
+	            //'PUT,PATCH /news/widget/news/<id:\d+>' => '/news/news/update',
+	            '/news/widget/news/<id:\d+>' => '/news/news/view',
+
+	            '/news' => '/news/default/index',
 	            '/news/create' => '/news/default/create',
 	            '/news/data/<news_id:\d+>/<fintool_id:\d+>/<period_id:\d+>' => '/news/default/newsdata',
 	            '/news/data/del/<id:\d+>' => '/news/default/newsdatadel',
@@ -82,7 +92,7 @@ $config = [
 	            '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
 	            '<module:\w+>/<action:\w+>' => '<module>/<action>',
             ],
-        ],
+        ]
     ],
 	'as beforeRequest' => [
 		'class' => 'yii\filters\AccessControl',

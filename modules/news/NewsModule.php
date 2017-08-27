@@ -2,10 +2,12 @@
 
 namespace app\modules\news;
 
+use yii\base\Module;
+
 /**
  * News module definition class
  */
-class NewsModule extends \yii\base\Module
+class NewsModule extends Module
 {
     /**
      * @inheritdoc
