@@ -1,4 +1,5 @@
 import CustomStore from "devextreme/data/custom_store";
+import groupArray from "group-array";
 import RestClient from "another-rest-client";
 
 const api = new RestClient('http://fxwatch/news/widget');
@@ -11,11 +12,19 @@ export default new CustomStore({
 		console.log(loadOption);
 		return api.news.get({sort: "-published"})
 			.then((news) => {
-				return news.map(n => {
+				const newsMap = news.map(n => {
 					n.published = new Date(n.published.replace(" ", "T"));
-					console.log(n);
+					//console.log(n);
+					n.publishedDay = n.published.toLocaleDateString();
 					return n;
 				});
+				const groupNewsKey = groupArray(newsMap, "publishedDay");
+				let groupNews = [];
+				for(let prop in groupNewsKey){
+					groupNews.push({key: groupNewsKey[prop][0].published, items: groupNewsKey[prop]})
+				}
+				console.log(groupNews);
+				return groupNews;
 			});
 	},
 	totalCount: options => {

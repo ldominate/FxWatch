@@ -49,6 +49,12 @@ $(".navigation-box > .tabs-container").dxTabs({
 
 $("#news_list").dxList({
 	dataSource: NewsSource,
+	grouped: true,
+	height: 356,
+	groupTemplate: function(data) {
+		return $(`<b>${data.key.toLocaleDateString("ru-RU", {weekday: "short", year: "2-digit", month: "short", formatMatcher: "basic"})}</b>`);
+
+	},
 	itemTemplate: function(data, index) {
 		var result = $("<div>").addClass("news");
 

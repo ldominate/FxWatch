@@ -19,7 +19,7 @@ $this->registerCssFile('/js/widget.css');
 <div id="widget" class="thumbnail widget">
 	<div class="navigation-box">
 		<div class="tabs-container"></div>
-		<div id="news_list"></div>
+		<div id="news_list" class="list-news"></div>
 	</div>
 	<div class="graph-box">safd</div>
 </div>
