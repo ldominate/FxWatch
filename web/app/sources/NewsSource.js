@@ -9,7 +9,7 @@ export default new CustomStore({
 	load: loadOption => {
 		"use strict";
 		console.log(loadOption);
-		return api.news.get()
+		return api.news.get({sort: "-published"})
 			.then((news) => {
 				return news.map(n => {
 					n.published = new Date(n.published.replace(" ", "T"));

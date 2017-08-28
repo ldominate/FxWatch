@@ -17,10 +17,10 @@ $this->registerCssFile('/js/widget.css');
 
 ?>
 <div id="widget" class="thumbnail widget">
-	<div class="navigation-box thumbnail">
+	<div class="navigation-box">
 		<div class="tabs-container"></div>
 		<div id="news_list"></div>
 	</div>
-	<div class="graph-box thumbnail">safd</div>
+	<div class="graph-box">safd</div>
 </div>
 <button id="gmi" class="btn btn-default">Жми</button>

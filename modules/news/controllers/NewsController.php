@@ -2,7 +2,7 @@
 
 namespace app\modules\news\controllers;
 
-use app\modules\news\models\NewsSearch;
+use app\modules\news\models\NewsRest;
 use yii\filters\AccessControl;
 use yii\filters\ContentNegotiator;
 use yii\filters\VerbFilter;
@@ -11,7 +11,7 @@ use yii\web\Response;
 
 class NewsController extends ActiveController
 {
-    public $modelClass = 'app\modules\news\models\News';
+	public $modelClass = 'app\modules\news\models\NewsRest';
 
 	public function behaviors()
 	{
@@ -50,6 +50,7 @@ class NewsController extends ActiveController
 //		];
 		return $behaviors;
 	}
+
 //
 //	public function checkAccess($action, $model = null, $params = [])
 //	{
@@ -66,9 +67,9 @@ class NewsController extends ActiveController
 
 	public function prepareDataProvider()
 	{
-		$searchModel = new NewsSearch();
+		$searchModel = new NewsRest();
 
-		$queryParams = ['NewsSearch' => \Yii::$app->request->queryParams];
+		$queryParams = ['NewsRest' => \Yii::$app->request->queryParams];
 
 		return $searchModel->search($queryParams);
 	}

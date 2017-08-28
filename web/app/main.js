@@ -27,7 +27,7 @@ api.on('response', function(xhr) {
 $("#gmi").on("click", (btn) => {
 	"use strict";
 
-	api.news.get({currency_code: "USD"}).then((news) => {
+	api.news.get({currency_code: "USD", sort: "-published"}).then((news) => {
 		console.log(news);
 	});
 	// api.news.get().then((news) => {
