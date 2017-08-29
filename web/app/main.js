@@ -61,15 +61,10 @@ $("#news_list").dxList({
 	itemTemplate: function(data, index) {
 		const result = $("<div>").addClass("item-news");
 
-		//$("<img>").attr("src", data.ImageSrc).appendTo(result);
 		$("<div>").addClass("time-news").text(data.published.toLocaleTimeString("ru-RU", {hour:"numeric", minute: "2-digit"})).appendTo(result);
 		$("<div>").html(`<span class="flag-icon flag-icon-${data.country_code.toLowerCase()}"></span>${data.countryCode}`).appendTo(result);
 		$("<div>").html(data.categorynews).appendTo(result);
-		//$("<div>").text(data.published.toLocaleTimeString()).appendTo(result);
-		// $("<div>").addClass("price")
 		// 	.html(Globalize.formatCurrency(data.Price, "USD", { maximumFractionDigits: 0 })).appendTo(result);
-
 		return result;
-
 	}
 });

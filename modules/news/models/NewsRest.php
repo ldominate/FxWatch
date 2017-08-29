@@ -73,6 +73,9 @@ class NewsRest extends News
 
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,
+			'pagination' => [
+				'pageSize' => $params['NewsRest']['limit'],  // ALL results, no pagination
+			],
 			'sort'=>[
 				'defaultOrder'=>['published'=> SORT_DESC],
 			]
