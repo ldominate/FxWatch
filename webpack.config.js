@@ -88,7 +88,14 @@ module.exports = {
 			},
 			{
 				test: /\.less$/,
-				loader: ExtractTextPlugin.extract({fallback: "postcss-loader", use: ["css-loader", "less"]}),
+				loader: ExtractTextPlugin.extract({fallback: "postcss-loader", use: ["css-loader", {
+					loader: "less-loader",
+					options: {
+						path: [
+							path.resolve(__dirname, "node_modules")
+						]
+					}
+				}]}),
 				exclude: [/node_modules/, /public/]
 			},
 			{
@@ -105,7 +112,7 @@ module.exports = {
 			},
 			{
 				test: /\.svg$/,
-				loader: "url-loader?limit=26000$mimetype=image/svg+xml"
+				loader: "url-loader?limit=500000$mimetype=image/svg+xml"
 			},
 			{
 				test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
