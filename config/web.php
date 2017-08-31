@@ -76,6 +76,7 @@ $config = [
 	            '/catalog/country/<action:(view|update)>/<id:\w{2}>' => '/catalog/country/<action>',
 
 	            '/catalog/periods' => '/catalog/period/periods',
+	            '/catalog/fintoolgroups' => '/catalog/fin-tool-group/fin-tool-groups',
 
 	            '/news/widget' => '/news/default/widget',
 	            '/news/widget/news' => '/news/news',
@@ -101,7 +102,7 @@ $config = [
 		'rules' => [
 			[
 				'allow' => true,
-				'actions' => ['login', 'periods'],
+				'actions' => ['login', 'periods', 'fin-tool-groups'],
 				'roles' => ['?']
 			],
 			[

@@ -39,9 +39,20 @@ class FinToolGroup extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Наименование',
+            'name' => 'Наименование'
         ];
     }
+
+	public function fields()
+	{
+		return [
+			'id',
+			'name',
+			'fintools' => function($model){
+				return $model->fintools;
+			}
+		];
+	}
 
 	/**
 	 * @return \yii\db\ActiveQuery
