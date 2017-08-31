@@ -75,6 +75,8 @@ $config = [
 	            '/catalog/country/<id:\w{2}>' => '/catalog/country/view',
 	            '/catalog/country/<action:(view|update)>/<id:\w{2}>' => '/catalog/country/<action>',
 
+	            '/catalog/periods' => '/catalog/period/periods',
+
 	            '/news/widget' => '/news/default/widget',
 	            '/news/widget/news' => '/news/news',
 	            //'PUT,PATCH /news/widget/news/<id:\d+>' => '/news/news/update',
@@ -99,7 +101,7 @@ $config = [
 		'rules' => [
 			[
 				'allow' => true,
-				'actions' => ['login'],
+				'actions' => ['login', 'periods'],
 				'roles' => ['?']
 			],
 			[
