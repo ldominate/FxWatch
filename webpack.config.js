@@ -13,7 +13,7 @@ module.exports = {
 	},
 	output:{
 		path: path.resolve(__dirname, "web/js"),
-		publicPath: "web/js",
+		publicPath: "/js",
 		filename: "[name].js"
 	},
 	watchOptions: {
@@ -67,7 +67,7 @@ module.exports = {
 						}
 					}
 				],
-				exclude: [/node_modules/, /public/]
+				exclude: [/node_modules/, /js/]
 			},
 			{
 				test: /\.jsx$/,
@@ -79,7 +79,7 @@ module.exports = {
 						}
 					}
 				],
-				exclude: [/node_modules/, /public/]
+				exclude: [/node_modules/, /js/]
 			},
 			{
 				test: /\.css$/,
@@ -96,7 +96,7 @@ module.exports = {
 						]
 					}
 				}]}),
-				exclude: [/node_modules/, /public/]
+				exclude: [/node_modules/, /js/]
 			},
 			{
 				test: /\.gif$/,

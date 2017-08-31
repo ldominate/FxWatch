@@ -23,13 +23,13 @@ api.on('response', function(xhr) {
 	pagination.pageCount = xhr.getResponseHeader("X-Pagination-Page-Count");
 	pagination.perPage = xhr.getResponseHeader("X-Pagination-Per-Page");
 	pagination.totalCount = xhr.getResponseHeader("X-Pagination-Total-Count");
-	console.log(pagination);
+	//console.log(pagination);
 });
 
 export default new CustomStore({
 	load: loadOption => {
 		"use strict";
-		console.log(loadOption);
+		//console.log(loadOption);
 
 		const param = {
 			sort: "-published",

@@ -6,6 +6,9 @@ import $ from "jquery";
 import RestClient from "another-rest-client";
 import dxList from "devextreme/ui/list";
 import dxTabs from "devextreme/ui/tabs";
+import dxDropDownBox from "devextreme/ui/drop_down_box";
+import dxTreeView from "devextreme/ui/tree_view";
+import CustomStore from "devextreme/data/custom_store";
 import  NewsSource from "./sources/NewsSource";
 
 import "dxCommonCss";
@@ -48,7 +51,126 @@ $(".navigation-box > .tabs-container").dxTabs({
 		console.log(e);
 		//selectBox.option("value", e.itemData.id);
 	}
-})
+});
+
+$(".graph-news-box .news-item-tabs .news-data-period-tabs").dxTabs({
+	dataSource: {
+		load: loadOption => {
+			"use strict";
+			const d =  $.Deferred();
+
+			$.getJSON('/catalog/periods').done(result => {
+				console.log(result);
+				d.resolve(result.map(p => ({id: p.id, text: p.name})));
+			});
+			return d.promise();
+		}
+	},
+	selectedIndex: 0,
+	//width: 200,
+});
+
+const syncTreeViewSelection = function(treeView, value){
+	if (!value) {
+		treeView.unselectAll();
+	} else {
+		treeView.selectItem(value);
+	}
+};
+
+let fingroups =[];
+//let fingroups = [{"id":"g1","name":"Основные валюты","fintools":[{"id":1,"fintoolgroup_id":1,"name":"EURUSD"},{"id":2,"fintoolgroup_id":1,"name":"GBPUSD"},{"id":4,"fintoolgroup_id":1,"name":"USDJPY"},{"id":7,"fintoolgroup_id":1,"name":"EURGBP"},{"id":8,"fintoolgroup_id":1,"name":"EURJPY"},{"id":11,"fintoolgroup_id":1,"name":"EURCHF"},{"id":26,"fintoolgroup_id":1,"name":"USDRUB"},{"id":27,"fintoolgroup_id":1,"name":"EURRUB"}]},{"id":"g2","name":"Вспомогательные валюты","fintools":[{"id":3,"fintoolgroup_id":2,"name":"USDCHF"},{"id":5,"fintoolgroup_id":2,"name":"AUDUSD"},{"id":6,"fintoolgroup_id":2,"name":"NZDUSD"},{"id":9,"fintoolgroup_id":2,"name":"GBPJPY"},{"id":10,"fintoolgroup_id":2,"name":"GBPCHF"},{"id":12,"fintoolgroup_id":2,"name":"USDCAD"},{"id":13,"fintoolgroup_id":2,"name":"AUDJPY"},{"id":14,"fintoolgroup_id":2,"name":"AUDNZD"},{"id":15,"fintoolgroup_id":2,"name":"AUDCAD"},{"id":16,"fintoolgroup_id":2,"name":"CHFJPY"},{"id":17,"fintoolgroup_id":2,"name":"EURAUD"},{"id":18,"fintoolgroup_id":2,"name":"EURCAD"},{"id":19,"fintoolgroup_id":2,"name":"CADJPY"},{"id":20,"fintoolgroup_id":2,"name":"EURNZD"},{"id":21,"fintoolgroup_id":2,"name":"GBPAUD"},{"id":22,"fintoolgroup_id":2,"name":"GBPCAD"},{"id":23,"fintoolgroup_id":2,"name":"NZDJPY"},{"id":24,"fintoolgroup_id":2,"name":"AUDCHF"},{"id":25,"fintoolgroup_id":2,"name":"CADCHF"}]},{"id":"g3","name":"Товары","fintools":[{"id":28,"fintoolgroup_id":3,"name":"Золото"},{"id":29,"fintoolgroup_id":3,"name":"Серебро"},{"id":30,"fintoolgroup_id":3,"name":"Нефть (Brend)"}]}];
+
+// $.getJSON('/catalog/fintoolgroups').done(result => {
+// 	console.log(result);
+// 	fingroups = result.map(fg => ({id: `g${fg.id}`, name: fg.name, disabled: false, fintools: fg.fintools}));
+// 	//d.resolve(fingroups);
+// });
+
+const dropBox = $(".graph-parent .news-item-tabs .news-data-fintool-box").dxDropDownBox({
+	value: 1,
+	valueExpr: "id",
+	displayExpr: "name",
+	placeholder: "Select a value...",
+	showClearButton: true,
+	deferRendering: false,
+	dropDownOptions: {
+		width: 200,
+		height: 300,
+	},
+	//dataSource: fingroups,
+	//opened: true,
+	dataSource: new CustomStore({
+		load: loadOption => {
+			"use strict";
+			const d =  $.Deferred();
+			$.getJSON('/catalog/fintoolgroups').done(result => {
+				console.log(result);
+				fingroups = result.map(fg => ({id: `g${fg.id}`, name: fg.name, expanded: false, fintools: fg.fintools}));
+				d.resolve(fingroups);
+			});
+			return d.promise();
+			// fingroups = $.getJSON('/catalog/fintoolgroups');//.map(fg => ({id: `g${fg.id}`, name: fg.name, expanded: false, fintools: fg.fintools}));
+			// console.log(fingroups);
+			// return fingroups;
+		},
+		byKey: key => {
+			"use strict";
+			const d = new $.Deferred();
+			if(/[g]\d+/.test(key)){
+
+			}else {
+				fingroups.forEach(item => {
+					item.fintools.forEach(tool => {
+						if(tool.id === key){
+							d.resolve(tool);
+							return d.promise();
+						}
+					});
+				});
+			}
+			console.log(key);
+			return d.promise();
+		}
+	}),
+	contentTemplate: function(e){
+		const value = e.component.option("value"),
+			$treeView = $("<div>").dxTreeView({
+				dataSource: e.component.option("dataSource"),
+				//items: e.component.option("items"),
+				//dataStructure: "plain",
+				keyExpr: "id",
+				parentIdExpr: "categoryId",
+				selectionMode: "single",
+				displayExpr: "name",
+				selectByClick: true,
+				itemsExpr: "fintools",
+				//width: 200,
+				//height: 300,
+				onContentReady: function(args){
+					//e.component.reset();
+					syncTreeViewSelection(args.component, value);
+				},
+				selectNodesRecursive: false,
+				onItemSelectionChanged: function(args){
+					const value = args.component.getSelectedNodesKeys();
+
+					e.component.option("value", value);
+				}
+			});
+
+		const treeView = $treeView.dxTreeView("instance");
+
+		e.component.on("valueChanged", function(args){
+			syncTreeViewSelection(treeView, args.value);
+		});
+
+		return $treeView;
+	}
+});
+
+// const ds = dropBox.dxDropDownBox("instance").content();
+// console.log(ds);
 
 $("#news_list").dxList({
 	dataSource: NewsSource,
