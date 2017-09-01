@@ -8,6 +8,7 @@ import dxList from "devextreme/ui/list";
 import dxTabs from "devextreme/ui/tabs";
 import dxDropDownBox from "devextreme/ui/drop_down_box";
 import dxTreeView from "devextreme/ui/tree_view";
+import dxChart from "devextreme/viz/chart";
 import CustomStore from "devextreme/data/custom_store";
 import  NewsSource from "./sources/NewsSource";
 
@@ -188,5 +189,170 @@ $("#news_list").dxList({
 		$("<div>").html(data.categorynews).appendTo(result);
 		// 	.html(Globalize.formatCurrency(data.Price, "USD", { maximumFractionDigits: 0 })).appendTo(result);
 		return result;
+	}
+});
+
+$("#newsdata_candle_stick_left").dxChart({
+	// adaptiveLayout: {
+	// 	height: 40,
+	// 	keepLabels: true,
+	// 	width: 60
+	// },
+	dataSource: new CustomStore({
+		load: loadOption => {
+			"use strict";
+			const d =  $.Deferred();
+			$.getJSON('/news/widget/news/data/5/1/2').done(result => {
+				//d.resolve(result);
+				// console.log(result);
+				let newsdatas = result.map(nd => {
+					nd.datetime = new Date(nd.datetime.replace(" ", "T"));
+					return nd;
+				});
+				// console.log(newsdatas);
+				d.resolve(newsdatas);
+			});
+			return d.promise();
+		},
+		byKey: key => {
+			"use strict";
+			const d = new $.Deferred();
+
+			console.log(key);
+			return d.promise();
+		}
+	}),
+	commonSeriesSettings: {
+		argumentField: "datetime",
+		type: "candlestick"
+	},
+	legend: {
+		itemTextPosition: 'left',
+		visible: false
+	},
+	series: [
+		{
+			name: "DELL",
+			openValueField: "open",
+			highValueField: "max",
+			lowValueField: "min",
+			closeValueField: "close",
+			reduction: {
+				color: "red"
+			}
+		}
+	],
+	valueAxis: {
+		//tickInterval: 0.0001,
+		// title: {
+		// 	text: ""
+		// },
+		// label: {
+		// 	format: {
+		// 		type: "currency",
+		// 		precision: 0
+		// 	}
+		// },
+		// max: 1.141,
+		// min: 1.139,
+	},
+	argumentAxis: {
+		label: {
+			format: "shortDate"
+		}
+	},
+	"export": {
+		enabled: false
+	},
+	tooltip: {
+		enabled: true,
+		location: "edge",
+		customizeTooltip: function (arg) {
+			return {
+				text: `Open: ${arg.openValue}<br/>Close: ${arg.closeValue}<br/>High: ${arg.highValue}<br/>Low: ${arg.lowValue}`
+			};
+		}
+	}
+});
+$("#newsdata_candle_stick_right").dxChart({
+	// adaptiveLayout: {
+	// 	height: 40,
+	// 	keepLabels: true,
+	// 	width: 60
+	// },
+	dataSource: new CustomStore({
+		load: loadOption => {
+			"use strict";
+			const d =  $.Deferred();
+			$.getJSON('/news/widget/news/data/3/1/1').done(result => {
+				//d.resolve(result);
+				// console.log(result);
+				let newsdatas = result.map(nd => {
+					nd.datetime = new Date(nd.datetime.replace(" ", "T"));
+					return nd;
+				});
+				// console.log(newsdatas);
+				d.resolve(newsdatas);
+			});
+			return d.promise();
+		},
+		byKey: key => {
+			"use strict";
+			const d = new $.Deferred();
+
+			console.log(key);
+			return d.promise();
+		}
+	}),
+	commonSeriesSettings: {
+		argumentField: "datetime",
+		type: "candlestick"
+	},
+	legend: {
+		itemTextPosition: 'left',
+		visible: false
+	},
+	series: [
+		{
+			name: "DELL",
+			openValueField: "open",
+			highValueField: "max",
+			lowValueField: "min",
+			closeValueField: "close",
+			reduction: {
+				color: "red"
+			}
+		}
+	],
+	valueAxis: {
+		//tickInterval: 0.0001,
+		// title: {
+		// 	text: ""
+		// },
+		// label: {
+		// 	format: {
+		// 		type: "currency",
+		// 		precision: 0
+		// 	}
+		// },
+		// max: 1.141,
+		// min: 1.139,
+	},
+	argumentAxis: {
+		label: {
+			format: d => d.toLocaleDateString("ru-RU", {month: "2-digit", day: "2-digit", year: "2-digit", formatMatcher: "basic"})
+		}
+	},
+	"export": {
+		enabled: false
+	},
+	tooltip: {
+		enabled: true,
+		location: "edge",
+		customizeTooltip: function (arg) {
+			return {
+				text: `Open: ${arg.openValue}<br/>Close: ${arg.closeValue}<br/>High: ${arg.highValue}<br/>Low: ${arg.lowValue}`
+			};
+		}
 	}
 });

@@ -32,9 +32,7 @@ $this->registerCssFile('/js/widget.css');
 						</div>
 						<div class="news-data-fintool-box"></div>
 					</div>
-					<div class="candle-stick-left">
-						Candle left
-					</div>
+					<div id="newsdata_candle_stick_left" class="candle-stick-left"></div>
 				</div>
 				<div class="candle-stick-box-right">
 					<div class="news-item-tabs">
@@ -43,9 +41,7 @@ $this->registerCssFile('/js/widget.css');
 						</div>
 						<div class="news-data-fintool-box"></div>
 					</div>
-					<div class="candle-stick-right">
-						Candle right
-					</div>
+					<div  id="newsdata_candle_stick_right" class="candle-stick-right"></div>
 				</div>
 			</div>
 		</div>
