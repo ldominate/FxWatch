@@ -175,6 +175,22 @@ class DefaultController extends Controller
 	}
 
 	/**
+	 * @param $nid integer news id
+	 * @param $fid integer fintool id
+	 * @param $pid integer period id
+	 * @return \yii\web\Response
+	 */
+	public function actionNewsDataJson($nid, $fid, $pid){
+
+		$newsdatas = [];
+
+		if(isset($nid) && is_numeric($nid) && isset($fid) && is_numeric($fid) && isset($pid) && is_numeric($pid)){
+			$newsdatas = NewsData::find()->thatnews($nid, $fid, $pid)->orderBy('datetime')->all();
+		}
+		return $this->asJson($newsdatas);
+	}
+
+	/**
 	 * @param $id
 	 * @return \yii\web\Response
 	 * @throws NotFoundHttpException

@@ -53,7 +53,7 @@ $(".navigation-box > .tabs-container").dxTabs({
 	}
 });
 
-$(".graph-news-box .news-item-tabs .news-data-period-tabs").dxTabs({
+$("#period_tabs_left, #period_tabs_right").dxTabs({
 	dataSource: {
 		load: loadOption => {
 			"use strict";
@@ -67,7 +67,7 @@ $(".graph-news-box .news-item-tabs .news-data-period-tabs").dxTabs({
 		}
 	},
 	selectedIndex: 0,
-	//width: 200,
+	width: 200,
 });
 
 const syncTreeViewSelection = function(treeView, value){
