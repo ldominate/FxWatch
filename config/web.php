@@ -81,6 +81,7 @@ $config = [
 	            '/news/widget/news/data/<nid:\d+>/<fid:\d+>/<pid:\d+>' => '/news/default/news-data-json',
 	            '/news/widget' => '/news/default/widget',
 	            '/news/widget/news' => '/news/news',
+	            '/news/widget/newsweek' => '/news/default/news-week',
 	            //'PUT,PATCH /news/widget/news/<id:\d+>' => '/news/news/update',
 	            '/news/widget/news/<id:\d+>' => '/news/news/view',
 
@@ -104,7 +105,7 @@ $config = [
 		'rules' => [
 			[
 				'allow' => true,
-				'actions' => ['login', 'periods', 'fin-tool-groups', 'news-data-json'],
+				'actions' => ['login', 'news-week', 'periods', 'fin-tool-groups', 'news-data-json'],
 				'roles' => ['?']
 			],
 			[

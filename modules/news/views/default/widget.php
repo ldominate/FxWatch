@@ -25,23 +25,23 @@ $this->registerCssFile('/js/widget.css');
 		<div class="graph-news-box">
 			<div class="news-info-title"></div>
 			<div class="graph-parent">
-				<div class="candle-stick-box-left">
+				<div class="candle-stick-box candle-stick-box-left">
 					<div class="news-item-tabs">
 						<div class="news-data-period-tabs">
 							<div id="period_tabs_left"></div>
 						</div>
 						<div class="news-data-fintool-box"></div>
 					</div>
-					<div id="newsdata_candle_stick_left" class="candle-stick-left"></div>
+					<div id="newsdata_candle_stick_left" class="candle-stick candle-stick-left"></div>
 				</div>
-				<div class="candle-stick-box-right">
+				<div class="candle-stick-box candle-stick-box-right">
 					<div class="news-item-tabs">
 						<div class="news-data-period-tabs">
 							<div id="period_tabs_right"></div>
 						</div>
 						<div class="news-data-fintool-box"></div>
 					</div>
-					<div  id="newsdata_candle_stick_right" class="candle-stick-right"></div>
+					<div  id="newsdata_candle_stick_right" class="candle-stick candle-stick-right"></div>
 				</div>
 			</div>
 		</div>

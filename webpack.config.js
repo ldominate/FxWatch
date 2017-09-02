@@ -13,7 +13,7 @@ module.exports = {
 	},
 	output:{
 		path: path.resolve(__dirname, "web/js"),
-		publicPath: "/js",
+		publicPath: "/js/",
 		filename: "[name].js"
 	},
 	watchOptions: {
@@ -112,7 +112,15 @@ module.exports = {
 			},
 			{
 				test: /\.svg$/,
-				loader: "url-loader?limit=500000$mimetype=image/svg+xml"
+				use: [
+					{
+						loader: "url-loader",
+						options: {
+							limit: 1024,
+							mimetype: "image/svg+xml"
+						}
+					}
+				]
 			},
 			{
 				test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,

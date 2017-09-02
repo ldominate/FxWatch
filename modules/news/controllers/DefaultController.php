@@ -6,6 +6,7 @@ use app\modules\catalog\models\FinTool;
 use app\modules\catalog\models\Period;
 use app\modules\news\models\form\NewsDataUpload;
 use app\modules\news\models\NewsData;
+use app\modules\news\models\NewsRest;
 use Yii;
 use app\modules\news\models\News;
 use app\modules\news\models\NewsSearch;
@@ -50,6 +51,23 @@ class DefaultController extends Controller
 			'searchModel' => $searchModel,
 			'dataProvider' => $dataProvider,
 		]);
+	}
+
+	public function actionNewsWeek(){
+		//$monday_this_week_date = Yii::$app->formatter->asDatetime(strtotime('Monday next week T00:00:00'), News::DATETIME_FORMAT_DB);
+		//$sunday_this_week_date = Yii::$app->formatter->asDatetime(strtotime('Sunday next week T23:59:59'), News::DATETIME_FORMAT_DB);
+
+		$news_this_week = NewsRest::find()
+			->with('categorynews')
+			->with('countryCode')
+			->andWhere([
+			'between',
+			'published',
+			Yii::$app->formatter->asDatetime(strtotime('Monday this week T00:00:00'), News::DATETIME_FORMAT_DB),
+			Yii::$app->formatter->asDatetime(strtotime('Sunday this week T23:59:59'), News::DATETIME_FORMAT_DB)])
+			->orderBy(['published' => SORT_DESC])->all();
+
+		return $this->asJson($news_this_week);
 	}
 
 	/**
