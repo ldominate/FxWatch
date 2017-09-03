@@ -2,6 +2,7 @@ import { Component } from "react";
 import { connect } from "react-redux";
 
 import NewsItemTabs from "./NewsItemTabs";
+import CandleStick from "./CandleStick";
 
 class CandleStickBox extends Component{
 	constructor(props){
@@ -12,6 +13,7 @@ class CandleStickBox extends Component{
 		const cssRow = this.props.hasOwnProperty("className") ? ` ${this.props.className}` : "";
 		return (<div className={`candle-stick-box${cssRow}`}>
 			<NewsItemTabs/>
+			<CandleStick/>
 		</div>);
 	}
 }

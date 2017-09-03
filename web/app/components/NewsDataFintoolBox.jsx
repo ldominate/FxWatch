@@ -54,6 +54,7 @@ class NewsDataFintoolBox extends Component{
 				const value = args.component.getSelectedNodesKeys();
 
 				e.component.option("value", value);
+				e.component.close();
 			}
 		});
 
