@@ -6,10 +6,10 @@ import "whatwg-fetch";
 import CustomStore from "devextreme/data/custom_store";
 import groupArray from "group-array";
 
-export default  new CustomStore({
+export default new CustomStore({
 	load: loadOption => {
 		"use strict";
-		console.log(loadOption);
+		//console.log(loadOption);
 
 		const url = `/news/widget/newsweek/1000/0`;
 
@@ -27,7 +27,7 @@ export default  new CustomStore({
 				for(let prop in groupNewsKey){
 					groupNews.push({key: groupNewsKey[prop][0].published, items: groupNewsKey[prop]})
 				}
-				console.log(groupNews);
+				//console.log(groupNews);
 				return groupNews;
 			}).catch(function(ex) {
 				console.log('parsing failed', ex);
@@ -39,5 +39,6 @@ export default  new CustomStore({
 
 		console.log(key);
 		return d.promise();
-	}
+	},
+	loadMode: "raw"
 })
