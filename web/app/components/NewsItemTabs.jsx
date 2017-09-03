@@ -2,6 +2,7 @@ import { Component } from "react";
 import { connect } from "react-redux";
 
 import PeriodNewsDataTabs from "./PeriodNewsDataTabs";
+import NewsDataFintoolBox from "./NewsDataFintoolBox";
 
 class NewsItemTabs extends Component{
 	constructor(props){
@@ -13,6 +14,7 @@ class NewsItemTabs extends Component{
 			<div className="news-data-period-tabs">
 				<PeriodNewsDataTabs/>
 			</div>
+			<NewsDataFintoolBox/>
 		</div>);
 	}
 }

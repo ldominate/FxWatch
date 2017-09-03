@@ -23,7 +23,7 @@ class NavigationNewsTabs extends Component{
 		});
 	}
 	render(){
-		return (<div ref="tabs" className="tabs-container"></div>);
+		return (<div ref="tabs" className="tabs-container" />);
 	}
 }
 
