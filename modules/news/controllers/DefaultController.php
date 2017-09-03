@@ -53,19 +53,36 @@ class DefaultController extends Controller
 		]);
 	}
 
-	public function actionNewsWeek(){
+	/**
+	 * @return \yii\web\Response
+	 */
+	public function actionNewsWeek($t, $s){
 		//$monday_this_week_date = Yii::$app->formatter->asDatetime(strtotime('Monday next week T00:00:00'), News::DATETIME_FORMAT_DB);
 		//$sunday_this_week_date = Yii::$app->formatter->asDatetime(strtotime('Sunday next week T23:59:59'), News::DATETIME_FORMAT_DB);
 
-		$news_this_week = NewsRest::find()
-			->with('categorynews')
-			->with('countryCode')
+		$headers = Yii::$app->response->headers;
+
+		$query = NewsRest::find()
 			->andWhere([
-			'between',
-			'published',
-			Yii::$app->formatter->asDatetime(strtotime('Monday this week T00:00:00'), News::DATETIME_FORMAT_DB),
-			Yii::$app->formatter->asDatetime(strtotime('Sunday this week T23:59:59'), News::DATETIME_FORMAT_DB)])
-			->orderBy(['published' => SORT_DESC])->all();
+				'between',
+				'published',
+				Yii::$app->formatter->asDatetime(strtotime('Monday this week T00:00:00'), News::DATETIME_FORMAT_DB),
+				Yii::$app->formatter->asDatetime(strtotime('Sunday this week T23:59:59'), News::DATETIME_FORMAT_DB)]);
+
+		$headers->add('X-Pagination-Total-Count', $query->count());
+
+		$query->with('categorynews')
+			->with('countryCode')
+			->orderBy(['published' => SORT_DESC]);
+
+		if(isset($t) && is_numeric($t)){
+			$query->limit($t);
+		}
+		if(isset($s) && is_numeric($s)){
+			$query->offset($s);
+		}
+
+		$news_this_week = $query->all();
 
 		return $this->asJson($news_this_week);
 	}

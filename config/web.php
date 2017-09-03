@@ -81,7 +81,7 @@ $config = [
 	            '/news/widget/news/data/<nid:\d+>/<fid:\d+>/<pid:\d+>' => '/news/default/news-data-json',
 	            '/news/widget' => '/news/default/widget',
 	            '/news/widget/news' => '/news/news',
-	            '/news/widget/newsweek' => '/news/default/news-week',
+	            '/news/widget/newsweek/<t:\d+>/<s:\d+>' => '/news/default/news-week',
 	            //'PUT,PATCH /news/widget/news/<id:\d+>' => '/news/news/update',
 	            '/news/widget/news/<id:\d+>' => '/news/news/view',
 
