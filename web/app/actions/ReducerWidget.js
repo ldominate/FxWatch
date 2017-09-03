@@ -8,10 +8,15 @@ import {
 	RECEIVE_NEWS_WEEK
 } from "./ActionsWidget";
 
+export const NEWS_SOURCE_WEEK = "NEWS_SOURCE_WEEK";
+
 export function initSate(){
 	"use strict";
 	return {
-		sourceNewsList: 0
+		newsList: {
+			sourceNews: NEWS_SOURCE_WEEK,
+			grouped: true
+		}
 	}
 }
 

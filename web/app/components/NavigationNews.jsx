@@ -2,6 +2,7 @@ import { Component } from "react";
 import { connect } from "react-redux";
 
 import NavigationNewsTabs from "./NavigationNewsTabs";
+import NavigationNewsList from "./NavigationNewsList";
 
 class NavigationNews extends Component{
 	constructor(props){
@@ -11,6 +12,7 @@ class NavigationNews extends Component{
 	render(){
 		return (<div className="navigation-box">
 			<NavigationNewsTabs />
+			<NavigationNewsList />
 		</div>);
 	}
 }

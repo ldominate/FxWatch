@@ -26,10 +26,12 @@
 		"group-array": "^0.3.3",
 		"immutable": "^3.8.1",
 		"jquery": "3.2.1",
+		"promise-polyfill": "^6.0.2",
 		"react": "^15.6.1",
 		"react-dom": "^15.6.1",
 		"react-redux": "^5.0.6",
-		"redux": "^3.7.2"
+		"redux": "^3.7.2",
+		"whatwg-fetch": "^2.0.3"
 	},
 	"devDependencies": {
 		"babel-cli": "6.26.0",

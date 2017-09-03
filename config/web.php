@@ -105,7 +105,7 @@ $config = [
 		'rules' => [
 			[
 				'allow' => true,
-				'actions' => ['login', 'news-week', 'periods', 'fin-tool-groups', 'news-data-json'],
+				'actions' => ['login', 'periods', 'news-week', 'fin-tool-groups', 'news-data-json' ],
 				'roles' => ['?']
 			],
 			[

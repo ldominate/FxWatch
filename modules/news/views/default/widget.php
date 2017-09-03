@@ -16,7 +16,7 @@ $this->registerCssFile('/js/vendor.css');
 $this->registerCssFile('/js/widget.css');
 
 ?>
-<div class="thumbnail widget">
+<div id="widget_temp" class="thumbnail widget">
 	<div class="navigation-box">
 		<div class="tabs-container"></div>
 		<div id="news_list" class="list-news"></div>
