@@ -16,7 +16,7 @@ $this->registerCssFile('/js/vendor.css');
 $this->registerCssFile('/js/widget.css');
 
 ?>
-<div id="widget" class="thumbnail widget">
+<div class="thumbnail widget">
 	<div class="navigation-box">
 		<div class="tabs-container"></div>
 		<div id="news_list" class="list-news"></div>
@@ -47,4 +47,5 @@ $this->registerCssFile('/js/widget.css');
 		</div>
 	</div>
 </div>
+<div id="widget"></div>
 <button id="gmi" class="btn btn-default">Жми</button>

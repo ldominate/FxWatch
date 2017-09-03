@@ -1,6 +1,15 @@
 /**
  * Created by johny on 26.08.2017.
  */
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import { fromJS } from "immutable";
+import { initSate } from "./actions/ReducerWidget";
+import Reducer from "./actions/ReducerWidget";
+import Widget from "./components/Widget";
+
 
 import $ from "jquery";
 import RestClient from "another-rest-client";
@@ -17,7 +26,8 @@ import "dxLightCss";
 
 import "flag-icon-css/css/flag-icon";
 
-import "./widget.less";
+
+
 
 const api = new RestClient('http://fxwatch/news/widget');
 
@@ -356,3 +366,12 @@ $("#newsdata_candle_stick_right").dxChart({
 		}
 	}
 });
+
+const store = createStore(Reducer, fromJS(initSate()));
+
+ReactDOM.render(
+	<Provider store={store}>
+		<Widget />
+	</Provider>,
+	document.getElementById("widget")
+)

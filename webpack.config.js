@@ -67,7 +67,7 @@ module.exports = {
 						}
 					}
 				],
-				exclude: [/node_modules/, /js/]
+				exclude: [/node_modules/]
 			},
 			{
 				test: /\.jsx$/,
@@ -79,7 +79,7 @@ module.exports = {
 						}
 					}
 				],
-				exclude: [/node_modules/, /js/]
+				exclude: [/node_modules/]
 			},
 			{
 				test: /\.css$/,
