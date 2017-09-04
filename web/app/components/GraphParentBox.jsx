@@ -10,8 +10,8 @@ class GraphParentBox extends Component{
 
 	render(){
 		return (<div className="graph-parent">
-			<CandleStickBox className="candle-stick-box-left"/>
-			<CandleStickBox className="candle-stick-box-right"/>
+			<CandleStickBox side="leftCandle" className="candle-stick-box-left"/>
+			<CandleStickBox side="rightCandle" className="candle-stick-box-right"/>
 		</div>);
 	}
 }

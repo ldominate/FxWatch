@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import $ from "jquery";
 import dxList from "devextreme/ui/list";
 
+import { selectNews } from "../actions/ActionsWidget";
+
 import NewsWeekSource from "../sources/NewsWeekSource";
 
 class NavigationNewsList extends Component{
@@ -17,6 +19,8 @@ class NavigationNewsList extends Component{
 			dataSource: NewsWeekSource,
 			grouped: true,
 			height: 356,
+			selectionMode: "single",
+			showSelectionControls: false,
 			groupTemplate: function(data) {
 				return $(`<b>${data.key.toLocaleDateString("ru-RU", {
 					weekday: "short",
@@ -37,16 +41,19 @@ class NavigationNewsList extends Component{
 				$("<div>").html(data.categorynews)
 					.appendTo(result);
 				return result;
-			}
+			},
+			onSelectionChanged: this.props.selectNews
 		}).dxList("instance");
 	}
 	render(){
-		return (<div className="list-news"></div>);
+		return (<div className="list-news" />);
 	}
 }
 
 const mapStateToProps = (state) => ({});
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+	selectNews: (params) => dispatch(selectNews(params.addedItems[0]))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavigationNewsList);

@@ -15,6 +15,7 @@ class CustomStoreWrapper {
 		}
 		//console.log("const");
 		this.fetch = null;
+		this.data = null;
 		this.store = new CustomStore({
 			load: loadOption => {
 				"use strict";
@@ -48,10 +49,21 @@ class CustomStoreWrapper {
 	receiveFetch(json){
 		//console.log(json);
 		this.fetch = null;
+		this.data = json;
 		return json.map(p => ({id: p.id, text: p.name}));
 	}
 	getStore(){
 		return this.store;
+	}
+	getIndexById(id){
+		if(this.data) {
+			for (let i = 0; i < this.data.length; i++) {
+				if (this.data[i].id === id) {
+					return i;
+				}
+			}
+		}
+		return 0;
 	}
 }
 

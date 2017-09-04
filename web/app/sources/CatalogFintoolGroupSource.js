@@ -85,6 +85,20 @@ class CustomStoreWrapper {
 	getStore(){
 		return this.store;
 	}
+	getFintoolIdByName(name){
+		let result = 0;
+		this.data.forEach(item => {
+			item.fintools.forEach(tool => {
+				// console.log(name);
+				// console.log(tool);
+				// console.log(tool.name === name);
+				if(tool.name === name){
+					result = tool.id;
+				}
+			});
+		});
+		return result;
+	}
 }
 
 export default new CustomStoreWrapper()

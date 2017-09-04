@@ -15,10 +15,19 @@ class NewsDataFintoolBox extends Component{
 		this.contentValue = null;
 		this.treeView = null;
 	}
+	shouldComponentUpdate(nextProps, nextState) {
+		//console.log(nextProps.value);
+		this.dropDown.dxDropDownBox("instance").beginUpdate();
+		this.dropDown.dxDropDownBox("instance").option({
+			"value": nextProps.value
+		});
+		this.dropDown.dxDropDownBox("instance").endUpdate();
+		return false;
+	}
 	componentDidMount(){
 		this.dropDown = $(ReactDOM.findDOMNode(this));
 		this.dropDown.dxDropDownBox({
-			value: 1,
+			value: this.props.value,
 			valueExpr: "id",
 			displayExpr: "name",
 			placeholder: "Выберите значение...",
@@ -82,7 +91,9 @@ class NewsDataFintoolBox extends Component{
 	}
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state, ownProps) => ({
+	value: state.getIn([ownProps.side, "fintool"])
+});
 
 const mapDispatchToProps = (dispatch) => ({});
 

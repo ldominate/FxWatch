@@ -11,11 +11,20 @@ class PeriodNewsDataTabs extends Component{
 		super(props);
 		this.tabs = null;
 	}
+	shouldComponentUpdate(nextProps, nextState) {
+		//console.log(nextProps.value);
+		this.tabs.dxTabs("instance").beginUpdate();
+		this.tabs.dxTabs("instance").option({
+			"selectedIndex": CatalogPeriodsSource.getIndexById(nextProps.value)
+		});
+		this.tabs.dxTabs("instance").endUpdate();
+		return false;
+	}
 	componentDidMount(){
 		this.tabs = $(ReactDOM.findDOMNode(this));
 		this.tabs.dxTabs({
 			dataSource: CatalogPeriodsSource.getStore(),
-			selectedIndex: 0,
+			selectedIndex: CatalogPeriodsSource.getIndexById(this.props.value),
 			width: 200,
 			onItemClick: function(e) {
 				console.log(e);
@@ -24,11 +33,13 @@ class PeriodNewsDataTabs extends Component{
 		});
 	}
 	render(){
-		return (<div></div>);
+		return (<div className="period_tabs" />);
 	}
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state, ownProps) => ({
+	value: state.getIn([ownProps.side, "period"])
+});
 
 const mapDispatchToProps = (dispatch) => ({});
 

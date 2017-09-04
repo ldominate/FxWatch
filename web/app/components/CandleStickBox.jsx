@@ -12,8 +12,8 @@ class CandleStickBox extends Component{
 	render(){
 		const cssRow = this.props.hasOwnProperty("className") ? ` ${this.props.className}` : "";
 		return (<div className={`candle-stick-box${cssRow}`}>
-			<NewsItemTabs/>
-			<CandleStick/>
+			<NewsItemTabs side={this.props.side}/>
+			<CandleStick side={this.props.side}/>
 		</div>);
 	}
 }
