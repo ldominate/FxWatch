@@ -8,6 +8,8 @@ import dxTreeView from "devextreme/ui/tree_view";
 
 import CatalogFintoolGroupSource from "../sources/CatalogFintoolGroupSource";
 
+import { selectFintool } from "../actions/ActionsWidget";
+
 class NewsDataFintoolBox extends Component{
 	constructor(props){
 		super(props);
@@ -40,7 +42,13 @@ class NewsDataFintoolBox extends Component{
 			//dataSource: fingroups,
 			//opened: true,
 			dataSource: CatalogFintoolGroupSource.getStore(),
-			contentTemplate: this.contentTemplate
+			contentTemplate: this.contentTemplate,
+			onValueChanged: e => {
+				//console.log(e);
+				if(Array.isArray(e.value)){
+					this.props.selectFintool({id: e.value[0], side: this.props.side});
+				}
+			}
 		});
 	}
 	contentTemplate(e){
@@ -59,13 +67,23 @@ class NewsDataFintoolBox extends Component{
 			//height: 300,
 			onContentReady: this.contentReady,
 			selectNodesRecursive: false,
-			onItemSelectionChanged: (args) => {
+			onItemSelectionChanged: args => {
 				const value = args.component.getSelectedNodesKeys();
 
 				e.component.option("value", value);
 				e.component.close();
+				//console.log(args);
 			}
 		});
+
+		// function tvSelChange(args) {
+		// 	const value = args.component.getSelectedNodesKeys();
+		//
+		// 	e.component.option("value", value);
+		// 	e.component.close();
+		// 	//console.log(args);
+		// 	this.props.selectFintool({id: value, side: this.props.side});
+		// }
 
 		this.treeView = $treeView.dxTreeView("instance");
 
@@ -78,6 +96,7 @@ class NewsDataFintoolBox extends Component{
 	}
 	componentOnValueChanged(args){
 		this.syncTreeViewSelection(this.treeView, args.value);
+		//this.props.selectFintool({id: args.value, side: this.props.side});
 	}
 	syncTreeViewSelection(treeView, value) {
 		if (!value) {
@@ -95,6 +114,8 @@ const mapStateToProps = (state, ownProps) => ({
 	value: state.getIn([ownProps.side, "fintool"])
 });
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+	selectFintool: fintoolSide => dispatch(selectFintool(fintoolSide))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewsDataFintoolBox);

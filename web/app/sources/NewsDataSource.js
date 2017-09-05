@@ -36,6 +36,7 @@ export default function (getParams){
 			console.log(key);
 			return d.promise();
 		},
-		loadMode: "raw"
+		// loadMode: "raw",
+		// cacheRawData: false
 	});
 }

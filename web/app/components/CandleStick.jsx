@@ -12,15 +12,37 @@ class CandleStick extends Component{
 		super(props);
 		this.candle = null;
 	}
+	shouldComponentUpdate(nextProps, nextState) {
+		console.log(nextProps.nid, nextProps.fid, nextProps.pid);
+		//this.candle.dxChart("instance").render();
+		this.candle.dxChart("instance").beginUpdate();
+		this.candle.dxChart("instance").option({
+			dataSource: NewsDataSource(() => ({
+				nid: nextProps.nid,
+				fid: nextProps.fid,
+				pid: nextProps.pid
+			}))
+		});
+		this.candle.dxChart("instance").endUpdate();
+		return false;
+	}
 	componentDidMount() {
-		this.dropDown = $(ReactDOM.findDOMNode(this));
-		this.dropDown.dxChart({
+		this.candle = $(ReactDOM.findDOMNode(this));
+		this.candle.dxChart({
 			// adaptiveLayout: {
 			// 	height: 40,
 			// 	keepLabels: true,
 			// 	width: 60
 			// },
-			dataSource: NewsDataSource(() => ({nid: 3, fid: 1, pid: 1})),
+			dataSource: NewsDataSource(() => ({
+				nid: this.props.nid,
+				fid: this.props.fid,
+				pid: this.props.pid
+			})),
+			loadingIndicator: {
+				show: true,
+				text: "Загрузка..."
+			},
 			commonSeriesSettings: {
 				argumentField: "datetime",
 				type: "candlestick"
@@ -77,14 +99,18 @@ class CandleStick extends Component{
 					};
 				}
 			}
-		});
+		}).dxChart("instance");
 	}
 	render(){
 		return (<div className="candle-stick" />);
 	}
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state, ownProps) => ({
+	nid: state.getIn(["news", "id"]),
+	fid: state.getIn([ownProps.side, "fintool"]),
+	pid: state.getIn([ownProps.side, "period"])
+});
 
 const mapDispatchToProps = (dispatch) => ({});
 

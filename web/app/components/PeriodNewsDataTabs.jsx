@@ -6,6 +6,8 @@ import dxTabs from "devextreme/ui/tabs";
 
 import CatalogPeriodsSource from "../sources/CatalogPeriodsSource";
 
+import { selectPeriod } from "../actions/ActionsWidget";
+
 class PeriodNewsDataTabs extends Component{
 	constructor(props){
 		super(props);
@@ -26,9 +28,9 @@ class PeriodNewsDataTabs extends Component{
 			dataSource: CatalogPeriodsSource.getStore(),
 			selectedIndex: CatalogPeriodsSource.getIndexById(this.props.value),
 			width: 200,
-			onItemClick: function(e) {
-				console.log(e);
-				//selectBox.option("value", e.itemData.id);
+			onSelectionChanged: e => {
+				//console.log(e);
+				return this.props.selectPeriod({...e.addedItems[0], ...{side: this.props.side}});
 			}
 		});
 	}
@@ -41,6 +43,8 @@ const mapStateToProps = (state, ownProps) => ({
 	value: state.getIn([ownProps.side, "period"])
 });
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+	selectPeriod: (periodSide) => dispatch(selectPeriod(periodSide))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PeriodNewsDataTabs);

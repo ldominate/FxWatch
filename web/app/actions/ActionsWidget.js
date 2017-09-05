@@ -20,7 +20,7 @@ export function selectNews(news){
 	//console.log(CatalogFintoolGroupSource.data);
 	// const loadFinG = fintoolG.load({});
 	const sideName = getSidesFintool(news.currency_code);
-	console.log(sideName);
+	//console.log(sideName);
 	const fintoolSide = {
 		sides: {
 			left: CatalogFintoolGroupSource.getFintoolIdByName(sideName.left),
@@ -28,4 +28,17 @@ export function selectNews(news){
 		},
 	};
 	return {...{type: SELECT_NEWS_ITEM}, ...news, ...fintoolSide};
+}
+
+export const SELECT_PERIOD = "SELECT_PERIOD";
+export function selectPeriod(periodSide){
+	"use strict";
+	//console.log(periodSide);
+	return {...{type: SELECT_PERIOD}, ...periodSide };
+}
+
+export const SELECT_FINTOOL = "SELECT_FINTOOL";
+export function selectFintool(fintoolSide){
+	"use strict";
+	return {...{type: SELECT_FINTOOL}, ...fintoolSide};
 }

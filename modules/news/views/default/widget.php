@@ -16,36 +16,5 @@ $this->registerCssFile('/js/vendor.css');
 $this->registerCssFile('/js/widget.css');
 
 ?>
-<div id="widget_temp" class="thumbnail widget">
-	<div class="navigation-box">
-		<div class="tabs-container"></div>
-		<div id="news_list" class="list-news"></div>
-	</div>
-	<div class="graph-box">
-		<div class="graph-news-box">
-			<div class="news-info-title"></div>
-			<div class="graph-parent">
-				<div class="candle-stick-box candle-stick-box-left">
-					<div class="news-item-tabs">
-						<div class="news-data-period-tabs">
-							<div id="period_tabs_left"></div>
-						</div>
-						<div class="news-data-fintool-box"></div>
-					</div>
-					<div id="newsdata_candle_stick_left" class="candle-stick candle-stick-left"></div>
-				</div>
-				<div class="candle-stick-box candle-stick-box-right">
-					<div class="news-item-tabs">
-						<div class="news-data-period-tabs">
-							<div id="period_tabs_right"></div>
-						</div>
-						<div class="news-data-fintool-box"></div>
-					</div>
-					<div  id="newsdata_candle_stick_right" class="candle-stick candle-stick-right"></div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+
 <div id="widget"></div>
-<button id="gmi" class="btn btn-default">Жми</button>
