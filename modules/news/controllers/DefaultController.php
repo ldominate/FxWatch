@@ -105,11 +105,13 @@ class DefaultController extends Controller
 			->where(['id' => $id]);
 
 		$query->select('`Nw`.*')
-			->from(['Bn' => $subQuery, 'Nw' => 'News'])
+			->from(['Bn' => $subQuery, 'Nw' => NewsRest::tableName()])
+			->with('categorynews')
+			->with('countryCode')
 			->with('influence');
 
 		$query->andWhere('`Nw`.`id` <> `Bn`.`id`')
-			->andWhere('`Nw`.`categorynews_id` = `Bn`.`categorynews_id`')
+			//->andWhere('`Nw`.`categorynews_id` = `Bn`.`categorynews_id`')
 			->andWhere('`Nw`.`published` <= `Bn`.`published`')
 			->orderBy(['`Nw`.`published`' => SORT_DESC]);
 
