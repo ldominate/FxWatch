@@ -51,6 +51,9 @@ class NewsRest extends News
 			'сategory_month',
 			'percent_value',
 			'influence_id',
+			'influence' => function($model){
+				return isset($model['influence']) ? $model->influence->name : $model->influence;
+			},
 			'fact',
 			'forecast',
 			'deviation',

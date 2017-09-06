@@ -76,15 +76,6 @@ class NewsDataFintoolBox extends Component{
 			}
 		});
 
-		// function tvSelChange(args) {
-		// 	const value = args.component.getSelectedNodesKeys();
-		//
-		// 	e.component.option("value", value);
-		// 	e.component.close();
-		// 	//console.log(args);
-		// 	this.props.selectFintool({id: value, side: this.props.side});
-		// }
-
 		this.treeView = $treeView.dxTreeView("instance");
 
 		e.component.on("valueChanged", this.componentOnValueChanged);

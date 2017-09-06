@@ -89,6 +89,45 @@ class DefaultController extends Controller
 	}
 
 	/**
+	 * @param $id
+	 * @return \yii\web\Response
+	 */
+	public function actionNewsAssociated($id, $t, $s){
+
+		if(!isset($id) || !is_numeric($id)) return $this->asJson([]);
+
+		$headers = Yii::$app->response->headers;
+
+		$query = NewsRest::find();
+
+		$subQuery = NewsRest::find()
+			->select(['id', 'published', 'categorynews_id'])
+			->where(['id' => $id]);
+
+		$query->select('`Nw`.*')
+			->from(['Bn' => $subQuery, 'Nw' => 'News'])
+			->with('influence');
+
+		$query->andWhere('`Nw`.`id` <> `Bn`.`id`')
+			->andWhere('`Nw`.`categorynews_id` = `Bn`.`categorynews_id`')
+			->andWhere('`Nw`.`published` <= `Bn`.`published`')
+			->orderBy(['`Nw`.`published`' => SORT_DESC]);
+
+		$headers->add('X-Pagination-Total-Count', $query->count());
+
+		if(isset($t) && is_numeric($t)){
+			$query->limit($t);
+		}
+		if(isset($s) && is_numeric($s)){
+			$query->offset($s);
+		}
+
+		$news_associated = $query->all();
+
+		return $this->asJson($news_associated);
+	}
+
+	/**
 	 * Displays a single News model.
 	 * @param integer $id
 	 * @return mixed
