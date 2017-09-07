@@ -35,11 +35,23 @@ class NewsAssociatedBox extends Component{
 			columns: [{
 					dataField: "published",
 					caption: "Дата и время",
-					dataType: "date"
+					dataType: "date",
+					width: 120,
+					calculateCellValue: rowData => {
+						return rowData.published.toLocaleString("ru-RU", {
+							month: "2-digit",
+							day: "2-digit",
+							year: "numeric",
+							hour:"numeric",
+							minute: "2-digit",
+							formatMatcher: "basic"});
+					}
 				},{
 					dataField: "currency_code",
 					caption: "Валюта",
-					dataType: "string"
+					dataType: "string",
+					cssClass: "columns currency",
+					width: 60
 				},{
 					dataField: "release",
 					caption: "Публикация",
@@ -47,23 +59,44 @@ class NewsAssociatedBox extends Component{
 				},{
 					dataField: "influence",
 					caption: "Влияние",
-					dataType: "string"
+					dataType: "string",
+					width: 75
 				},{
 					dataField: "fact",
 					caption: "Факт",
-					dataType: "number"
+					dataType: "string",
+					cssClass: "columns num-value",
+					width: 70,
+					calculateCellValue: rowData => {
+						return (rowData.percent_value) ? `${rowData.fact}%` : rowData.fact;
+					}
 				},{
 					dataField: "forecast",
 					caption: "Прогноз",
-					dataType: "number"
+					dataType: "string",
+					cssClass: "columns num-value",
+					width: 70,
+					calculateCellValue: rowData => {
+						return (rowData.percent_value) ? `${rowData.forecast}%` : rowData.forecast;
+					}
 				},{
 					dataField: "deviation",
 					caption: "Отклонение",
-					dataType: "number"
+					dataType: "string",
+					cssClass: "columns num-value",
+					width: 70,
+					calculateCellValue: rowData => {
+						return (rowData.percent_value) ? `${rowData.deviation}%` : rowData.deviation;
+					}
 				},{
 					dataField: "previous",
 					caption: "Предыдущее",
-					dataType: "number"
+					dataType: "string",
+					cssClass: "columns num-value",
+					width: 70,
+					calculateCellValue: rowData => {
+						return (rowData.percent_value) ? `${rowData.previous}%` : rowData.previous;
+					}
 			}],
 			remoteOperations: {
 				paging: true
@@ -71,14 +104,20 @@ class NewsAssociatedBox extends Component{
 			paging: {
 				pageSize: 6
 			},
+			//rowAlternationEnabled: true,
+			showRowLines: true,
+			hoverStateEnabled: true,
 			// pager: {
 			// 	showPageSizeSelector: true,
 			// 	allowedPageSizes: [7, 14, 30]
 			// },
 			height: 160,
 			loadPanel: {
-				enabled: true
+				enabled: true,
+				text: "Загрузка...",
+				showPane: false
 			},
+			noDataText: "Нет данных",
 			scrolling: {
 			 	mode: "virtual"
 			},
