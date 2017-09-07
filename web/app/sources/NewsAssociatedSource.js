@@ -12,7 +12,7 @@ export default function (getParams){
 	return new CustomStore({
 		load: loadOption => {
 			"use strict";
-			console.log(loadOption);
+			//console.log(loadOption);
 			const d = new $.Deferred();
 
 			const params = getParams();
@@ -31,7 +31,7 @@ export default function (getParams){
 					nd.published = new Date(nd.published.replace(" ", "T"));
 					return nd;
 				});
-				console.log(totalCount);
+				//console.log(totalCount);
 				d.resolve(result, { totalCount: totalCount });
 			}).catch(function(ex) {
 				console.log('parsing failed', ex);

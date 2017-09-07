@@ -7,6 +7,7 @@ import {
 	REQUEST_NEWS_WEEK,
 	RECEIVE_NEWS_WEEK,
 	SELECT_NEWS_ITEM,
+	SELECT_NEWS_ASSOCIATED,
 	SELECT_PERIOD,
 	SELECT_FINTOOL
 } from "./ActionsWidget";
@@ -18,7 +19,8 @@ export function initSate(){
 	return {
 		newsList: {
 			sourceNews: NEWS_SOURCE_WEEK,
-			grouped: true
+			grouped: true,
+			unselectAll: false
 		},
 		news: {
 			id: 0,
@@ -37,10 +39,24 @@ export function initSate(){
 
 export default (state, action) => {
 	"use strict";
-	console.log(action);
+	//console.log(action);
 	switch (action.type){
 		case SELECT_NEWS_ITEM:{
 			return state.withMutations(m => {
+				if(m.getIn(["newsList", "unselectAll"])) {
+					m.setIn(["newsList", "unselectAll"], false);
+				}
+				m.setIn(["news", "id"], action.id);
+				m.setIn(["news", "currency"], action.currency_code);
+				m.setIn(["leftCandle", "fintool"], action.sides.left);
+				m.setIn(["rightCandle", "fintool"], action.sides.right);
+			});
+		}
+		case SELECT_NEWS_ASSOCIATED:{
+			return state.withMutations(m => {
+				if(!m.getIn(["newsList", "unselectAll"])){
+					m.setIn(["newsList", "unselectAll"], true);
+				}
 				m.setIn(["news", "id"], action.id);
 				m.setIn(["news", "currency"], action.currency_code);
 				m.setIn(["leftCandle", "fintool"], action.sides.left);

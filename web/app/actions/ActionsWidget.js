@@ -13,21 +13,31 @@ export function receiveNewsWeek(){
 
 }
 
-export const SELECT_NEWS_ITEM = "SELECT_NEWS_ITEM";
-export function selectNews(news){
+function makeFintoolSide(news){
 	"use strict";
-	//const fintoolG = CatalogFintoolGroupSource.getStore();
-	//console.log(CatalogFintoolGroupSource.data);
-	// const loadFinG = fintoolG.load({});
+	//console.log(news);
 	const sideName = getSidesFintool(news.currency_code);
 	//console.log(sideName);
-	const fintoolSide = {
+	return {
 		sides: {
 			left: CatalogFintoolGroupSource.getFintoolIdByName(sideName.left),
 			right: CatalogFintoolGroupSource.getFintoolIdByName(sideName.right)
 		},
 	};
-	return {...{type: SELECT_NEWS_ITEM}, ...news, ...fintoolSide};
+}
+
+export const SELECT_NEWS_ITEM = "SELECT_NEWS_ITEM";
+export function selectNews(news){
+	"use strict";
+
+	return {...{type: SELECT_NEWS_ITEM}, ...news, ...makeFintoolSide(news)};
+}
+
+export const SELECT_NEWS_ASSOCIATED = "SELECT_NEWS_ASSOCIATED";
+export function selectAssociatedNews(news){
+	"use strict";
+
+	return {...{type: SELECT_NEWS_ASSOCIATED}, ...news, ...makeFintoolSide(news)};
 }
 
 export const SELECT_PERIOD = "SELECT_PERIOD";

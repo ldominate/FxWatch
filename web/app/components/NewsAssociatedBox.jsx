@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import $ from "jquery";
 import dxDataGrid from "devextreme/ui/data_grid";
 
+import { selectAssociatedNews } from "../actions/ActionsWidget";
+
 import NewsAssociatedSource from "../sources/NewsAssociatedSource";
 
 class NewsAssociatedBox extends Component{
@@ -15,7 +17,7 @@ class NewsAssociatedBox extends Component{
 	}
 	shouldComponentUpdate(nextProps, nextState) {
 		this.paramF = () => ({nid: nextProps.nid});
-		console.log(this.grid.dxDataGrid("instance").totalCount());
+		//console.log(this.grid.dxDataGrid("instance").totalCount());
 		this.grid.dxDataGrid("instance").refresh();
 		// this.grid.dxDataGrid("instance").beginUpdate();
 		// this.grid.dxDataGrid("instance").option({
@@ -107,6 +109,9 @@ class NewsAssociatedBox extends Component{
 			//rowAlternationEnabled: true,
 			showRowLines: true,
 			hoverStateEnabled: true,
+			selection: {
+				mode: "single"
+			},
 			// pager: {
 			// 	showPageSizeSelector: true,
 			// 	allowedPageSizes: [7, 14, 30]
@@ -123,7 +128,8 @@ class NewsAssociatedBox extends Component{
 			},
 			sorting: {
 				mode: "none"
-			}
+			},
+			onSelectionChanged: this.props.selectNews
 		}).dxDataGrid("instance");
 	}
 	render(){
@@ -131,11 +137,15 @@ class NewsAssociatedBox extends Component{
 	}
 }
 
-
 const mapStateToProps = (state) => ({
 	nid: state.getIn(["news", "id"])
 });
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+	selectNews: (selectedItems) => {
+		//console.log(selectedItems);
+		return dispatch(selectAssociatedNews(selectedItems.selectedRowsData[0]))
+	}
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewsAssociatedBox);
