@@ -79,10 +79,9 @@ class CandleStick extends Component{
 			},
 			argumentAxis: {
 				label: {
-					format: d => d.toLocaleDateString("ru-RU", {
-						month: "2-digit",
-						day: "2-digit",
-						year: "2-digit",
+					format: d => d.toLocaleTimeString("ru-RU", {
+						hour:"numeric",
+						minute: "2-digit",
 						formatMatcher: "basic"
 					})
 				}

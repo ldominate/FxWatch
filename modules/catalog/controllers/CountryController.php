@@ -44,6 +44,19 @@ class CountryController extends Controller
         ]);
     }
 
+	/**
+	 * @return \yii\web\Response
+	 */
+    public function actionActualJson(){
+
+    	$countries = Country::find()
+		    ->active()
+		    ->orderBy(['name' => SORT_ASC])
+		    ->all();
+
+    	return $this->asJson($countries);
+    }
+
     /**
      * Displays a single Country model.
      * @param string $id
