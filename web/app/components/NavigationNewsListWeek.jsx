@@ -4,13 +4,11 @@ import { connect } from "react-redux";
 import $ from "jquery";
 import dxList from "devextreme/ui/list";
 
-import "flag-icon-css/css/flag-icon";
-
 import { selectNews } from "../actions/ActionsWidget";
 
 import NewsWeekSource from "../sources/NewsWeekSource";
 
-class NavigationNewsList extends Component{
+class NavigationNewsListWeek extends Component{
 	constructor(props){
 		super(props);
 		this.list = null;
@@ -71,4 +69,4 @@ const mapDispatchToProps = (dispatch) => ({
 	}
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavigationNewsList);
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationNewsListWeek);

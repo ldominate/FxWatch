@@ -52,3 +52,14 @@ export function selectFintool(fintoolSide){
 	"use strict";
 	return {...{type: SELECT_FINTOOL}, ...fintoolSide};
 }
+
+export const NEWS_SOURCE_WEEK = "NEWS_SOURCE_WEEK";
+export const NEWS_SOURCE_REGION = "NEW_SOURCE_REGION";
+export const NEWS_SOURCE_SEARCH = "NEWS_SOURCE_SEARCH";
+
+export const SELECT_NEWS_SOURCE = "SELECT_NEWS_SOURCE";
+export function selectNewsSource(item){
+	"use strict";
+
+	return {...{type: SELECT_NEWS_SOURCE}, ...item};
+}

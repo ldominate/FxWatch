@@ -5,6 +5,7 @@ import NavigationNews from "./NavigationNews";
 import MainBox from "./MainBox";
 
 import "./Widget.less";
+import "flag-icon-css/css/flag-icon";
 
 class Widget extends Component{
 	constructor(props){

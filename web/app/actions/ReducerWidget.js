@@ -9,10 +9,13 @@ import {
 	SELECT_NEWS_ITEM,
 	SELECT_NEWS_ASSOCIATED,
 	SELECT_PERIOD,
-	SELECT_FINTOOL
+	SELECT_FINTOOL,
+	SELECT_NEWS_SOURCE,
+	NEWS_SOURCE_WEEK,
+	NEWS_SOURCE_REGION,
+	NEWS_SOURCE_SEARCH
 } from "./ActionsWidget";
 
-export const NEWS_SOURCE_WEEK = "NEWS_SOURCE_WEEK";
 
 export function initSate(){
 	"use strict";
@@ -20,7 +23,8 @@ export function initSate(){
 		newsList: {
 			sourceNews: NEWS_SOURCE_WEEK,
 			grouped: true,
-			unselectAll: false
+			unselectAll: false,
+			country: 0
 		},
 		news: {
 			id: 0,
@@ -39,7 +43,7 @@ export function initSate(){
 
 export default (state, action) => {
 	"use strict";
-	//console.log(action);
+	console.log(action);
 	switch (action.type){
 		case SELECT_NEWS_ITEM:{
 			return state.withMutations(m => {
@@ -72,6 +76,9 @@ export default (state, action) => {
 			return state.withMutations(m => {
 				m.setIn([action.side, "fintool"], action.id);
 			});
+		}
+		case SELECT_NEWS_SOURCE:{
+			return state.setIn(["newsList", "sourceNews"], action.id);
 		}
 		default:
 			return state;
