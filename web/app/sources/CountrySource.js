@@ -37,7 +37,13 @@ class CustomStoreWrapper {
 				"use strict";
 				const d = new $.Deferred();
 
-				console.log(key);
+				//console.log(key);
+				if(key){
+					const country = this.data[this.getIndexById(key)];
+					d.resolve({code: country.code, text: country.name});
+				}else{
+					d.resolve({code:"", text: ""});
+				}
 				return d.promise();
 			},
 			loadMode: "raw",

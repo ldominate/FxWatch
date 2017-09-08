@@ -63,3 +63,9 @@ export function selectNewsSource(item){
 
 	return {...{type: SELECT_NEWS_SOURCE}, ...item};
 }
+
+export const SELECT_COUNTRY_NEWS = "SELECT_COUNTRY_NEWS";
+export function selectCountry(code){
+	"use strict";
+	return {...{type: SELECT_COUNTRY_NEWS}, ...{code:code}};
+}

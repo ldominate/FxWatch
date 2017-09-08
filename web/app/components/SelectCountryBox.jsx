@@ -6,10 +6,18 @@ import dxSelectBox from "devextreme/ui/select_box";
 
 import CountrySource from "../sources/CountrySource";
 
+import {selectCountry} from "../actions/ActionsWidget";
+
 class SelectCountryBox extends Component{
 	constructor(props){
 		super(props);
 		this.selectBox = null;
+	}
+	shouldComponentUpdate(nextProps, nextState) {
+		this.selectBox.dxSelectBox("instance").option({
+			value: nextProps.value
+		});
+		return false;
 	}
 	componentDidMount(){
 		this.selectBox = $(ReactDOM.findDOMNode(this));
@@ -31,6 +39,7 @@ class SelectCountryBox extends Component{
 				container.append(result);
 			},
 			//displayExpr: "text",
+			value: this.props.value,
 			valueExpr: "code",
 			itemTemplate: function(data) {
 				return `<div class="custom-item">
@@ -38,6 +47,7 @@ class SelectCountryBox extends Component{
 						<span class="product-name">${data.text}</span>
 						</div>`;
 			},
+			onValueChanged: this.props.selectCountry,
 			placeholder: "Выберите страну..."
 		}).dxSelectBox("instance");
 	}
@@ -46,8 +56,12 @@ class SelectCountryBox extends Component{
 	}
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+	value: state.getIn(["newsList", "country"])
+});
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+	selectCountry: (e) => dispatch(selectCountry(e.value))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectCountryBox);

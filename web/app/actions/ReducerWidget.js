@@ -11,6 +11,7 @@ import {
 	SELECT_PERIOD,
 	SELECT_FINTOOL,
 	SELECT_NEWS_SOURCE,
+	SELECT_COUNTRY_NEWS,
 	NEWS_SOURCE_WEEK,
 	NEWS_SOURCE_REGION,
 	NEWS_SOURCE_SEARCH
@@ -24,7 +25,7 @@ export function initSate(){
 			sourceNews: NEWS_SOURCE_WEEK,
 			grouped: true,
 			unselectAll: false,
-			country: 0
+			country: ""
 		},
 		news: {
 			id: 0,
@@ -79,6 +80,9 @@ export default (state, action) => {
 		}
 		case SELECT_NEWS_SOURCE:{
 			return state.setIn(["newsList", "sourceNews"], action.id);
+		}
+		case SELECT_COUNTRY_NEWS: {
+			return state.setIn(["newsList", "country"], action.code);
 		}
 		default:
 			return state;
