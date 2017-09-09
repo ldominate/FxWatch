@@ -130,6 +130,55 @@ class DefaultController extends Controller
 	}
 
 	/**
+	 * @param $t integer Take
+	 * @param $s integer Skip
+	 * @param $c string Country code
+	 * @param $sch string Search
+	 * @return \yii\web\Response
+	 */
+	public function actionNewsList($t, $s){
+
+		$headers = Yii::$app->response->headers;
+
+		$query = NewsRest::find();
+
+		$query->with('categorynews')
+			->with('countryCode')
+			->with('influence');
+
+		$c = Yii::$app->request->get('c', '');
+		if(strlen($c) == 2){
+			$query->andWhere(['=', 'country_code', $c]);
+		}
+
+		$sch = Yii::$app->request->get('sch', '');
+		if(strlen($sch) > 0){
+			$query->join('LEFT JOIN', 'categorynews', 'categorynews.id = news.categorynews_id');
+			$query->join('LEFT JOIN', 'country', 'country.code = news.country_code');
+			$query->join('LEFT JOIN', 'currency', 'currency.code = news.currency_code');
+			$query->andWhere(['like', 'categorynews.name', $sch]);
+			$query->orWhere(['or like', 'country.name', $sch]);
+			$query->orWhere(['or like', 'country_code', $sch]);
+			$query->orWhere(['or like', 'currency_code', $sch]);
+			$query->orWhere(['or like', 'currency.name', $sch]);
+		}
+
+		$headers->add('X-Pagination-Total-Count', $query->count());
+
+		if(isset($t) && is_numeric($t)){
+			$query->limit($t);
+		}
+		if(isset($s) && is_numeric($s)){
+			$query->offset($s);
+		}
+		$query->orderBy(['published' => SORT_DESC]);
+
+		$newsList = $query->all();
+
+		return $this->asJson($newsList);
+	}
+
+	/**
 	 * Displays a single News model.
 	 * @param integer $id
 	 * @return mixed
