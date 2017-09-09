@@ -12,14 +12,16 @@ export default function (getParams){
 	return new CustomStore({
 		load: loadOption => {
 			"use strict";
-			console.log(loadOption);
+			//console.log(loadOption);
 			const d = new $.Deferred();
 
 			const params = getParams();
-			console.log(params);
+			//console.log(params);
 			params.t = loadOption.take || 10;
 			params.s = loadOption.skip || 0;
-			//searchValue
+			if(typeof loadOption.searchValue === "string" && loadOption.searchValue.length > 0){
+				params.sch = loadOption.searchValue;
+			}
 			const esc = encodeURIComponent;
 			const query = Object.keys(params)
 				.map(k => {
@@ -27,7 +29,7 @@ export default function (getParams){
 					return `${esc(k)}=${esc(params[k])}`;
 				})
 				.join("&");
-			console.log(query);
+			//console.log(query);
 
 			const url = `/news/widget/list?${query}`;
 			let totalCount = 0;

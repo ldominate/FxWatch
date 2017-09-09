@@ -14,7 +14,8 @@ import {
 	SELECT_COUNTRY_NEWS,
 	NEWS_SOURCE_WEEK,
 	NEWS_SOURCE_REGION,
-	NEWS_SOURCE_SEARCH
+	NEWS_SOURCE_SEARCH,
+	SEARCH_NEWS
 } from "./ActionsWidget";
 
 
@@ -25,7 +26,8 @@ export function initSate(){
 			sourceNews: NEWS_SOURCE_WEEK,
 			grouped: true,
 			unselectAll: false,
-			country: ""
+			country: "",
+			search: ""
 		},
 		news: {
 			id: 0,
@@ -83,6 +85,9 @@ export default (state, action) => {
 		}
 		case SELECT_COUNTRY_NEWS: {
 			return state.setIn(["newsList", "country"], action.code);
+		}
+		case SEARCH_NEWS: {
+			return state.setIn(["newsList", "search"], action.search);
 		}
 		default:
 			return state;

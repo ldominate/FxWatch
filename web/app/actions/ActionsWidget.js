@@ -69,3 +69,8 @@ export function selectCountry(code){
 	"use strict";
 	return {...{type: SELECT_COUNTRY_NEWS}, ...{code:code}};
 }
+
+export const SEARCH_NEWS = "SEARCH_NEWS";
+export function searchNews(search){
+	return {...{type: SEARCH_NEWS}, ...{search: search}};
+}

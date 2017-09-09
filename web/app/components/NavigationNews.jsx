@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import NavigationNewsTabs from "./NavigationNewsTabs";
 import NavigationNewsListWeek from "./NavigationNewsListWeek";
 import NavigationNewsListRegion from "./NavigationNewsListRegion";
+import NavegationNewsListSearch from "./NavigationNewsListSearch";
 
 import { NEWS_SOURCE_WEEK, NEWS_SOURCE_REGION, NEWS_SOURCE_SEARCH } from "../actions/ActionsWidget"
 
@@ -17,6 +18,9 @@ class NavigationNews extends Component{
 		switch(this.props.sourceNews) {
 			case NEWS_SOURCE_REGION:
 				navNewsList = <NavigationNewsListRegion />;
+				break;
+			case NEWS_SOURCE_SEARCH:
+				navNewsList = <NavegationNewsListSearch />;
 				break;
 			case NEWS_SOURCE_WEEK:
 			default:

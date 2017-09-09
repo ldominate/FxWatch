@@ -6,38 +6,39 @@ import dxList from "devextreme/ui/list";
 
 import { selectNews } from "../actions/ActionsWidget";
 
-import SelectCountryBox from "./SelectCountryBox";
+import SearchNewsBox from "./SearchNewsBox";
 
 import NewsListSource from "../sources/NewsListSource";
 
 import DataStore from "devextreme/data/data_source";
 
-class NavigationNewsListRegion extends Component{
+class NavigationNewsListSearch extends Component{
 	constructor(props){
 		super(props);
 		this.list = null;
-		this.country = this.props.newsList.country;
+		this.dataSource =  new DataStore({
+			store: NewsListSource(() => ({})),
+			paginate: true,
+			pageSize: 10
+		});
+		this.search = this.props.newsList.search;
 	}
 	shouldComponentUpdate(nextProps, nextState){
 		if(nextProps.newsList.unselectAll){
 			this.list.dxList("instance").unselectAll();
-			console.log("unselected");
+			console.log("search unselected");
 		}
-		console.log(nextProps);
-		if(this.country !== nextProps.newsList.country){
-			this.country = nextProps.newsList.country;
-			this.list.dxList("instance").reload();
+		if(this.search !== nextProps.newsList.search){
+			this.search = nextProps.newsList.search;
+			this.dataSource.searchValue(nextProps.newsList.search);
+			this.dataSource.load();
 		}
 		return false;
 	}
 	componentDidMount(){
-		this.list = $(ReactDOM.findDOMNode(this.refs.listRegion));
+		this.list = $(ReactDOM.findDOMNode(this.refs.listSearch));
 		this.list.dxList({
-			dataSource: new DataStore({
-				store: NewsListSource(this.getParams.bind(this)),
-				paginate: true,
-				pageSize: 10
-			}),
+			dataSource: this.dataSource,
 			height: 332,
 			selectionMode: "single",
 			showSelectionControls: false,
@@ -64,13 +65,10 @@ class NavigationNewsListRegion extends Component{
 			onSelectionChanged: this.props.selectNews
 		}).dxList("instance");
 	}
-	getParams(){
-		return {c: this.country};
-	}
 	render(){
 		return (<div className="list-news">
-			<SelectCountryBox/>
-			<div ref="listRegion"/>
+			<SearchNewsBox />
+			<div ref="listSearch" />
 		</div>);
 	}
 }
@@ -87,4 +85,4 @@ const mapDispatchToProps = (dispatch) => ({
 	}
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavigationNewsListRegion);
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationNewsListSearch);
