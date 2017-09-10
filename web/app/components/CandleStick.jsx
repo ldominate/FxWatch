@@ -11,20 +11,33 @@ class CandleStick extends Component{
 	constructor(props){
 		super(props);
 		this.candle = null;
+		this.params = {
+			nid: this.props.nid,
+			fid: this.props.fid,
+			pid: this.props.pid
+		};
+		this.dataSource = NewsDataSource(this.getParams.bind(this));
+	}
+	getParams(){
+		return this.params;
 	}
 	shouldComponentUpdate(nextProps, nextState) {
-		console.log(nextProps.nid, nextProps.fid, nextProps.pid);
+		//console.log(nextProps.nid, nextProps.fid, nextProps.pid);
 
+		this.params = {
+			nid: nextProps.nid,
+			fid: nextProps.fid,
+			pid: nextProps.pid
+		};
+		//this.dataSource.load();
 		this.candle.dxChart("instance").beginUpdate();
 		this.candle.dxChart("instance").option({
-			dataSource: NewsDataSource(() => ({
-				nid: nextProps.nid,
-				fid: nextProps.fid,
-				pid: nextProps.pid
-			}))
+			dataSource: this.dataSource
 		});
 		this.candle.dxChart("instance").endUpdate();
-		//this.candle.dxChart("instance").render();
+		// this.candle.dxChart("instance").render({
+		// 	force: true
+		// });
 		return false;
 	}
 	componentDidMount() {
@@ -35,11 +48,7 @@ class CandleStick extends Component{
 			// 	keepLabels: true,
 			// 	width: 60
 			// },
-			dataSource: NewsDataSource(() => ({
-				nid: this.props.nid,
-				fid: this.props.fid,
-				pid: this.props.pid
-			})),
+			dataSource: this.dataSource,
 			loadingIndicator: {
 				show: true,
 				text: "Загрузка..."
@@ -126,7 +135,7 @@ class CandleStick extends Component{
 				let val = null;
 				if (vis && pointInfo.closeValue < pointInfo.openValue) {
 					val = (pointInfo.lowValue - pointInfo.openValue);
-					console.log(val);
+					//console.log(val);
 					//alert(this.highValue);
 					// return {
 					// 	visible: false,
@@ -136,7 +145,7 @@ class CandleStick extends Component{
 					// };
 				}else if( vis && pointInfo.closeValue > pointInfo.openValue){
 					val = (pointInfo.highValue - pointInfo.openValue);
-					console.log(val);
+					//console.log(val);
 					// return {
 					// 	position: "outside",
 					// 	visible: true,
@@ -177,7 +186,7 @@ class CandleStick extends Component{
 					// 	visible: true,
 					// 	width: 1
 					// },
-					backgroundColor: (val > 0) ? "#449d44": "#ff0000",
+					backgroundColor: (val > 0) ? "#449d44": "#c9302c",
 					//verticalOffset: 1,
 					// argumentFormat: {
 					// 	type: "fixedPoint",

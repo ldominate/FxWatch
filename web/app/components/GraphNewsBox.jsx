@@ -2,6 +2,7 @@ import { Component } from "react";
 import { connect } from "react-redux";
 
 import GraphParentBox from "./GraphParentBox";
+import NewsInfoBox from "./NewsInfoBox";
 
 class GraphNewsBox extends Component{
 	constructor(props){
@@ -10,7 +11,7 @@ class GraphNewsBox extends Component{
 
 	render(){
 		return (<div className="graph-news-box">
-			<div className="news-info-title"></div>
+			<NewsInfoBox/>
 			<GraphParentBox/>
 		</div>);
 	}

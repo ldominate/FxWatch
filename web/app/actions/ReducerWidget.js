@@ -32,7 +32,8 @@ export function initSate(){
 		news: {
 			id: 0,
 			currency: "",
-			published: null
+			published: null,
+			categorynews: ""
 		},
 		leftCandle: {
 			period: 1,
@@ -56,6 +57,7 @@ export default (state, action) => {
 				}
 				m.setIn(["news", "id"], action.id);
 				m.setIn(["news", "published"], action.published);
+				m.setIn(["news", "categorynews"], action.categorynews);
 				m.setIn(["news", "currency"], action.currency_code);
 				m.setIn(["leftCandle", "fintool"], action.sides.left);
 				m.setIn(["rightCandle", "fintool"], action.sides.right);
