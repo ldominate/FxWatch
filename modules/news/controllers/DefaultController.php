@@ -161,6 +161,11 @@ class DefaultController extends Controller
 			$query->orWhere(['or like', 'country_code', $sch]);
 			$query->orWhere(['or like', 'currency_code', $sch]);
 			$query->orWhere(['or like', 'currency.name', $sch]);
+			$query->orWhere(['or like', 'release', $sch]);
+			$query->orWhere(['or like', 'fact', $sch]);
+			$query->orWhere(['or like', 'forecast', $sch]);
+			$query->orWhere(['or like', 'deviation', $sch]);
+			$query->orWhere(['or like', 'previous', $sch]);
 		}
 
 		$headers->add('X-Pagination-Total-Count', $query->count());

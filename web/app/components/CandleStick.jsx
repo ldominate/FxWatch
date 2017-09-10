@@ -14,7 +14,7 @@ class CandleStick extends Component{
 	}
 	shouldComponentUpdate(nextProps, nextState) {
 		console.log(nextProps.nid, nextProps.fid, nextProps.pid);
-		//this.candle.dxChart("instance").render();
+
 		this.candle.dxChart("instance").beginUpdate();
 		this.candle.dxChart("instance").option({
 			dataSource: NewsDataSource(() => ({
@@ -24,6 +24,7 @@ class CandleStick extends Component{
 			}))
 		});
 		this.candle.dxChart("instance").endUpdate();
+		//this.candle.dxChart("instance").render();
 		return false;
 	}
 	componentDidMount() {
@@ -45,12 +46,19 @@ class CandleStick extends Component{
 			},
 			commonSeriesSettings: {
 				argumentField: "datetime",
-				type: "candlestick"
+				type: "candlestick",
+				label: {
+					visible: true
+				}
 			},
 			legend: {
 				itemTextPosition: 'left',
 				visible: false
 			},
+			// crosshair:{
+			// 	enabled: true,
+			// 	dashStyle: "dash"
+			// },
 			series: [
 				{
 					name: "DELL",
@@ -58,9 +66,9 @@ class CandleStick extends Component{
 					highValueField: "max",
 					lowValueField: "min",
 					closeValueField: "close",
-					reduction: {
-						color: "red"
-					}
+					// reduction: {
+					// 	color: "red"
+					// }
 				}
 			],
 			valueAxis: {
@@ -70,8 +78,8 @@ class CandleStick extends Component{
 				// },
 				// label: {
 				// 	format: {
-				// 		type: "currency",
-				// 		precision: 0
+				// 		type: "fixedPoint",
+				// 		precision: 4
 				// 	}
 				// },
 				// max: 1.141,
@@ -97,6 +105,113 @@ class CandleStick extends Component{
 						text: `Откр.: ${arg.openValue}<br/>Мин.: ${arg.lowValue}<br/>Макс.: ${arg.highValue}<br/>Закр.: ${arg.closeValue}`
 					};
 				}
+			},
+			customizeLabel: pointInfo => {
+				//console.log(pointInfo);
+				const vis = pointInfo.argument.getTime() === this.props.published.getTime();
+				//if(pointInfo.argument.getTime() !== this.props.published.getTime()){
+					// console.log(pointInfo);
+					// console.log(this.props.published);
+					// console.log(pointInfo.argument.getTime(), this.props.published.getTime());
+					//return null;
+					// return {
+					// 	//position: "outside",
+					// 	//verticalOffset: 2,
+					// 	visible: true,
+					// 	// customizeText: () => {
+					// 	// 	return "D";
+					// 	// }
+					// };
+				//}
+				let val = null;
+				if (vis && pointInfo.closeValue < pointInfo.openValue) {
+					val = (pointInfo.lowValue - pointInfo.openValue);
+					console.log(val);
+					//alert(this.highValue);
+					// return {
+					// 	visible: false,
+					// 	customizeText: () => {
+					// 		return "";
+					// 	}
+					// };
+				}else if( vis && pointInfo.closeValue > pointInfo.openValue){
+					val = (pointInfo.highValue - pointInfo.openValue);
+					console.log(val);
+					// return {
+					// 	position: "outside",
+					// 	visible: true,
+					// 	format: {
+					// 		type: "fixedPoint",
+					// 		precision: 4,
+					// 		percentPrecision: 2
+					// 	},
+					// 	verticalOffset: 1,
+					// 	// argumentFormat: {
+					// 	// 	type: "fixedPoint",
+					// 	// 	argumentPrecision: 5
+					// 	// },
+					// 	customizeText: function() {
+					// 		//console.log("Close");
+					// 		//return val;
+					// 		//return "C";
+					// 		return val.toLocaleString("en-US", {
+					// 		 	maximumFractionDigits: 15
+					// 		});
+					// 	}
+					// }
+				}
+				return {
+					position: "outside",
+					visible: val || false,
+					format: {
+						type: "fixedPoint",
+						precision: 4,
+						percentPrecision: 2
+					},
+					font: {
+						size: 10,
+						//color: "#449d44"
+					},
+					// border: {
+					// 	color: "#449d44",
+					// 	visible: true,
+					// 	width: 1
+					// },
+					backgroundColor: (val > 0) ? "#449d44": "#ff0000",
+					//verticalOffset: 1,
+					// argumentFormat: {
+					// 	type: "fixedPoint",
+					// 	argumentPrecision: 5
+					// },
+					customizeText: function() {
+						if(val !== null){
+							return val.toLocaleString("en-US", {
+								maximumFractionDigits: 15
+							});
+						}
+						//console.log("Open");
+						//return "O";
+						//return val;
+						//return "▲"+"\n$" + this.valueText;
+						return null;
+					}
+				};
+				// else{
+				// 	console.log("Nothing");
+				// 	return {
+				// 		visible: true,
+				// 		customizeText: function() {
+				// 			return "N";
+				// 		}
+				// 	};
+				// }
+				// return {
+				// 	//position: "outside",
+				// 	visible: false,
+				// 	customizeText: () => {
+				// 		return null;
+				// 	}
+				// };
 			}
 		}).dxChart("instance");
 	}
@@ -108,7 +223,8 @@ class CandleStick extends Component{
 const mapStateToProps = (state, ownProps) => ({
 	nid: state.getIn(["news", "id"]),
 	fid: state.getIn([ownProps.side, "fintool"]),
-	pid: state.getIn([ownProps.side, "period"])
+	pid: state.getIn([ownProps.side, "period"]),
+	published: state.getIn(["news", "published"])
 });
 
 const mapDispatchToProps = (dispatch) => ({});
