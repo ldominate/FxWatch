@@ -16,6 +16,7 @@ export default function (getParams){
 			const d = new $.Deferred();
 
 			const params = getParams();
+			if(params.nid <= 0) return;
 			const t = loadOption.take || 6;
 			const s = loadOption.skip || 0;
 			const url = `/news/widget/associated/${params.nid}/${t}/${s}`;
@@ -48,7 +49,8 @@ export default function (getParams){
 			return d.promise();
 		},
 		totalCount: option => {
-			console.log(option);
+			//console.log(option);
+			return 0;
 		}
 		// loadMode: "raw",
 		// cacheRawData: false

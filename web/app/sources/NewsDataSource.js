@@ -13,7 +13,7 @@ export default function (getParams){
 			//console.log(loadOption);
 
 			const params = getParams();
-
+			if(params.nid <= 0) return;
 			const url = `/news/widget/news/data/${params.nid}/${params.fid}/${params.pid}`;
 
 			return fetch(url)

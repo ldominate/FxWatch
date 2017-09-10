@@ -53,7 +53,7 @@ class CustomStoreWrapper {
 				}else{
 					this.defKey = {d, key};
 				}
-				console.log(key);
+				//console.log(key);
 				return d.promise();
 			},
 			loadMode: "raw",
@@ -63,7 +63,7 @@ class CustomStoreWrapper {
 		return instance;
 	}
 	keyResolve(){
-		console.log(this.defKey);
+		//console.log(this.defKey);
 		if(this.defKey){
 			this.data.forEach(item => {
 				item.fintools.forEach(tool => {
@@ -87,16 +87,19 @@ class CustomStoreWrapper {
 	}
 	getFintoolIdByName(name){
 		let result = 0;
-		this.data.forEach(item => {
-			item.fintools.forEach(tool => {
-				// console.log(name);
-				// console.log(tool);
-				// console.log(tool.name === name);
-				if(tool.name === name){
-					result = tool.id;
-				}
+		console.log(this.data);
+		if(this.data) {
+			this.data.forEach(item => {
+				item.fintools.forEach(tool => {
+					// console.log(name);
+					// console.log(tool);
+					// console.log(tool.name === name);
+					if (tool.name === name) {
+						result = tool.id;
+					}
+				});
 			});
-		});
+		}
 		return result;
 	}
 }

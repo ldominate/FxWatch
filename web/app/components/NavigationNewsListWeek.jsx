@@ -12,6 +12,10 @@ class NavigationNewsListWeek extends Component{
 	constructor(props){
 		super(props);
 		this.list = null;
+		this.dataSource = NewsWeekSource(this.loadingData.bind(this));
+		//this.dataSource.load();
+		this.isLoaded = false;
+		//this.dataSource.on("onLoaded", this.loadingData);
 	}
 	shouldComponentUpdate(nextProps, nextState) {
 		if(nextProps.newsList.unselectAll){
@@ -19,10 +23,15 @@ class NavigationNewsListWeek extends Component{
 		}
 		return false;
 	}
+	loadingData(){
+		//console.log("this");
+		this.isLoaded = true;
+		//this.list.dxList("instance").selectItem({ group: 0, item: 0});
+	}
 	componentDidMount() {
 		this.list = $(ReactDOM.findDOMNode(this));
 		this.list.dxList({
-			dataSource: NewsWeekSource,
+			dataSource: this.dataSource,
 			grouped: true,
 			height: 356,
 			selectionMode: "single",
@@ -48,7 +57,11 @@ class NavigationNewsListWeek extends Component{
 					.appendTo(result);
 				return result;
 			},
-			onSelectionChanged: this.props.selectNews
+			onSelectionChanged: this.props.selectNews,
+			onContentReady: e => {
+				//console.log("ready");
+				if(this.isLoaded) e.component.selectItem({ group: 0, item: 0});
+			}
 		}).dxList("instance");
 	}
 	render(){
@@ -65,7 +78,6 @@ const mapDispatchToProps = (dispatch) => ({
 		if(Array.isArray(params.addedItems) && params.addedItems.length){
 			return dispatch(selectNews(params.addedItems[0]))
 		}
-		return;
 	}
 });
 

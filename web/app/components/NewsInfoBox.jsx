@@ -1,5 +1,4 @@
 import { Component } from "react";
-//import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 
 class NewsInfoBox extends Component{
@@ -15,7 +14,7 @@ class NewsInfoBox extends Component{
 			year: "numeric",
 			hour:"numeric",
 			minute: "2-digit",
-			formatMatcher: "basic"})}` : "";
+			formatMatcher: "basic"})}` : <span>&nbsp;</span>;
 		return (
 			<div className="news-info-title">{newsInfo}</div>
 		);
@@ -26,8 +25,6 @@ const mapStateToProps = (state) => ({
 	news: state.get("news").toJSON()
 });
 
-const mapDispatchToProps = (dispatch) => ({
-	selectCountry: (e) => dispatch(selectCountry(e.value))
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewsInfoBox);
