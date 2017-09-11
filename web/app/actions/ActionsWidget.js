@@ -74,3 +74,18 @@ export const SEARCH_NEWS = "SEARCH_NEWS";
 export function searchNews(search){
 	return {...{type: SEARCH_NEWS}, ...{search: search}};
 }
+
+export const LOADED_FINTOOL = "LOADED_FINTOOL";
+export function loadedFintool(){
+	return {type: LOADED_FINTOOL};
+}
+
+export const LOADED_PERIOD = "LOADED_PERIOD";
+export function loadedPeriod(){
+	return {type: LOADED_PERIOD};
+}
+
+export const SELECTED_FIRST_NEWS = "SELECTED_FIRST_NEWS";
+export function selectedFirst(){
+	return {type: SELECTED_FIRST_NEWS};
+}

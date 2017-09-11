@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import $ from "jquery";
 import dxList from "devextreme/ui/list";
 
-import { selectNews } from "../actions/ActionsWidget";
+import { selectNews, selectedFirst } from "../actions/ActionsWidget";
 
 import NewsWeekSource from "../sources/NewsWeekSource";
 
@@ -20,6 +20,10 @@ class NavigationNewsListWeek extends Component{
 	shouldComponentUpdate(nextProps, nextState) {
 		if(nextProps.newsList.unselectAll){
 			this.list.dxList("instance").unselectAll();
+		}
+		if(nextProps.newsList.selectFirst){
+			if(this.isLoaded) this.list.dxList("instance").selectItem({ group: 0, item: 0});
+			this.props.selectedFirst();
 		}
 		return false;
 	}
@@ -60,7 +64,7 @@ class NavigationNewsListWeek extends Component{
 			onSelectionChanged: this.props.selectNews,
 			onContentReady: e => {
 				//console.log("ready");
-				if(this.isLoaded) e.component.selectItem({ group: 0, item: 0});
+				//if(this.isLoaded) e.component.selectItem({ group: 0, item: 0});
 			}
 		}).dxList("instance");
 	}
@@ -78,7 +82,8 @@ const mapDispatchToProps = (dispatch) => ({
 		if(Array.isArray(params.addedItems) && params.addedItems.length){
 			return dispatch(selectNews(params.addedItems[0]))
 		}
-	}
+	},
+	selectedFirst: () => dispatch(selectedFirst())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavigationNewsListWeek);

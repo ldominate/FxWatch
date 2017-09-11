@@ -8,7 +8,7 @@ import dxTreeView from "devextreme/ui/tree_view";
 
 import CatalogFintoolGroupSource from "../sources/CatalogFintoolGroupSource";
 
-import { selectFintool } from "../actions/ActionsWidget";
+import { selectFintool, loadedFintool } from "../actions/ActionsWidget";
 
 class NewsDataFintoolBox extends Component{
 	constructor(props){
@@ -27,6 +27,7 @@ class NewsDataFintoolBox extends Component{
 		return false;
 	}
 	componentDidMount(){
+		CatalogFintoolGroupSource.setLoadedFunc(this.props.loadedFintool);
 		this.dropDown = $(ReactDOM.findDOMNode(this));
 		this.dropDown.dxDropDownBox({
 			value: this.props.value,
@@ -106,7 +107,8 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	selectFintool: fintoolSide => dispatch(selectFintool(fintoolSide))
+	selectFintool: fintoolSide => dispatch(selectFintool(fintoolSide)),
+	loadedFintool: (result) => dispatch(loadedFintool())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewsDataFintoolBox);

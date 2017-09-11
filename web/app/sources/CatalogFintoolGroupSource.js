@@ -18,6 +18,7 @@ class CustomStoreWrapper {
 		this.fetch = null;
 		this.data = null;
 		this.defKey = null;
+		this.loadedFunc = (result) => { console.log(result)};
 		this.store = new CustomStore({
 			load: loadOption => {
 				"use strict";
@@ -56,6 +57,7 @@ class CustomStoreWrapper {
 				//console.log(key);
 				return d.promise();
 			},
+			onLoaded: this.loadedFuncIn.bind(this),
 			loadMode: "raw",
 			cacheRawData:true
 		});
@@ -85,9 +87,17 @@ class CustomStoreWrapper {
 	getStore(){
 		return this.store;
 	}
+	loadedFuncIn(result){
+		if(typeof this.loadedFunc === "function"){
+			this.loadedFunc(result);
+		}
+	}
+	setLoadedFunc(loadedFunc){
+		this.loadedFunc = loadedFunc;
+	}
 	getFintoolIdByName(name){
 		let result = 0;
-		console.log(this.data);
+		//console.log(this.data);
 		if(this.data) {
 			this.data.forEach(item => {
 				item.fintools.forEach(tool => {

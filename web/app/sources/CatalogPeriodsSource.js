@@ -16,6 +16,7 @@ class CustomStoreWrapper {
 		//console.log("const");
 		this.fetch = null;
 		this.data = null;
+		this.loadedFunc = (result) => { console.log(result)};
 		this.store = new CustomStore({
 			load: loadOption => {
 				"use strict";
@@ -40,6 +41,7 @@ class CustomStoreWrapper {
 				console.log(key);
 				return d.promise();
 			},
+			onLoaded: this.loadedFuncIn.bind(this),
 			loadMode: "raw",
 			cacheRawData:true
 		});
@@ -54,6 +56,14 @@ class CustomStoreWrapper {
 	}
 	getStore(){
 		return this.store;
+	}
+	loadedFuncIn(result){
+		if(typeof this.loadedFunc === "function"){
+			this.loadedFunc(result);
+		}
+	}
+	setLoadedFunc(loadedFunc){
+		this.loadedFunc = loadedFunc;
 	}
 	getIndexById(id){
 		if(this.data) {

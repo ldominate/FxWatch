@@ -15,7 +15,10 @@ import {
 	NEWS_SOURCE_WEEK,
 	NEWS_SOURCE_REGION,
 	NEWS_SOURCE_SEARCH,
-	SEARCH_NEWS
+	SEARCH_NEWS,
+	LOADED_FINTOOL,
+	LOADED_PERIOD,
+	SELECTED_FIRST_NEWS
 } from "./ActionsWidget";
 
 
@@ -27,7 +30,10 @@ export function initSate(){
 			grouped: true,
 			unselectAll: false,
 			country: "",
-			search: ""
+			search: "",
+			isLoadFintool: false,
+			isLoadPeriod: false,
+			selectFirst: false
 		},
 		news: {
 			id: 0,
@@ -94,6 +100,27 @@ export default (state, action) => {
 		}
 		case SEARCH_NEWS: {
 			return state.setIn(["newsList", "search"], action.search);
+		}
+		case LOADED_FINTOOL: {
+			if(state.getIn(["newsList", "isLoadFintool"])) return state;
+			return state.update("newsList", nl => nl.withMutations(nlm => {
+				nlm.set("isLoadFintool", true);
+				if(nlm.get("isLoadPeriod")){
+					nlm.set("selectFirst", true);
+				}
+			}));
+		}
+		case LOADED_PERIOD: {
+			if(state.getIn(["newsList", "isLoadPeriod"])) return state;
+			return state.update("newsList", nl => nl.withMutations(nlm => {
+				nlm.set("isLoadPeriod", true);
+				if(nlm.get("isLoadFintool")){
+					nlm.set("selectFirst", true);
+				}
+			}))
+		}
+		case SELECTED_FIRST_NEWS: {
+			return state.setIn(["newsList", "selectFirst"], false);
 		}
 		default:
 			return state;
