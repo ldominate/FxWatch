@@ -85,7 +85,6 @@ $config = [
 	            '/news/widget/newsweek/<t:\d+>/<s:\d+>' => '/news/default/news-week',
 	            '/news/widget/list' => '/news/default/news-list',
 	            '/news/widget/associated/<id:\d+>/<t:\d+>/<s:\d+>' => '/news/default/news-associated',
-	            //'PUT,PATCH /news/widget/news/<id:\d+>' => '/news/news/update',
 	            '/news/widget/news/<id:\d+>' => '/news/news/view',
 
 

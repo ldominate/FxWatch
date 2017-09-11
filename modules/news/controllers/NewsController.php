@@ -35,19 +35,6 @@ class NewsController extends ActiveController
 				],
 			],
 		];
-
-//		return [
-//			'access' => [
-//				'class' => AccessControl::className(),
-//				'rules' => [
-//					[
-//						'actions' => ['*'],
-//						'allow' => true,
-//						'roles' => ['@'],
-//					]
-//				],
-//			]
-//		];
 		return $behaviors;
 	}
 

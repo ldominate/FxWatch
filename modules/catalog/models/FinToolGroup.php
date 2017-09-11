@@ -59,7 +59,7 @@ class FinToolGroup extends ActiveRecord
 	 */
 	public function getFintools()
 	{
-		return $this->hasMany(Fintool::className(), ['fintoolgroup_id' => 'id'])->inverseOf('fintoolgroup');
+		return $this->hasMany(FinTool::className(), ['fintoolgroup_id' => 'id'])->inverseOf('fintoolgroup');
 	}
 
     /**
