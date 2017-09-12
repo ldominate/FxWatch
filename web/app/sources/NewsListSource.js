@@ -6,6 +6,7 @@ import "whatwg-fetch";
 import $ from "jquery";
 
 import CustomStore from "devextreme/data/custom_store";
+import {wrapHost} from "./UrlHostPath";
 
 export default function (getParams){
 	"use strict";
@@ -31,7 +32,7 @@ export default function (getParams){
 				.join("&");
 			//console.log(query);
 
-			const url = `/news/widget/list?${query}`;
+			const url = wrapHost(`/news/widget/list?${query}`);
 			let totalCount = 0;
 
 			fetch(url)

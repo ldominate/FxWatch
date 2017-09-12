@@ -4,6 +4,7 @@ if (!window.Promise) window.Promise = Promise;
 import "whatwg-fetch";
 
 import CustomStore from "devextreme/data/custom_store";
+import {wrapHost} from "./UrlHostPath";
 
 export default function (getParams){
 	"use strict";
@@ -14,7 +15,7 @@ export default function (getParams){
 
 			const params = getParams();
 			if(params.nid <= 0) return;
-			const url = `/news/widget/news/data/${params.nid}/${params.fid}/${params.pid}`;
+			const url = wrapHost(`/news/widget/news/data/${params.nid}/${params.fid}/${params.pid}`);
 
 			return fetch(url)
 				.then(function(response) {

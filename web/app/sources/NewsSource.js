@@ -1,8 +1,9 @@
 import CustomStore from "devextreme/data/custom_store";
 import groupArray from "group-array";
 import RestClient from "another-rest-client";
+import {wrapHost} from "./UrlHostPath";
 
-const api = new RestClient('http://fxwatch/news/widget');
+const api = new RestClient(wrapHost('/news/widget'));
 
 api.res("news");
 

@@ -6,6 +6,8 @@ import "whatwg-fetch";
 import $ from "jquery";
 import CustomStore from "devextreme/data/custom_store";
 
+import { wrapHost} from "./UrlHostPath";
+
 let instance = null;
 
 class CustomStoreWrapper {
@@ -25,7 +27,7 @@ class CustomStoreWrapper {
 				//console.log("pload");
 				//console.log(loadOption);
 
-				const url = "/catalog/fintoolgroups";
+				const url = wrapHost("/catalog/fintoolgroups");
 				if(!this.fetch) {
 					this.fetch = fetch(url)
 						.then(function (response) {

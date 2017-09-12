@@ -5,6 +5,8 @@ import "whatwg-fetch";
 
 import CustomStore from "devextreme/data/custom_store";
 
+import { wrapHost } from "./UrlHostPath";
+
 let instance = null;
 
 class CustomStoreWrapper {
@@ -23,7 +25,7 @@ class CustomStoreWrapper {
 				//console.log("pload");
 				//console.log(loadOption);
 
-				const url = "/catalog/periods";
+				const url = wrapHost("/catalog/periods");
 				if(!this.fetch) {
 					this.fetch = fetch(url)
 						.then(function (response) {

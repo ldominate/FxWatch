@@ -5,6 +5,7 @@ import "whatwg-fetch";
 
 import CustomStore from "devextreme/data/custom_store";
 import groupArray from "group-array";
+import {wrapHost} from "./UrlHostPath";
 
 export default function (onLoaded) {
 	return new CustomStore({
@@ -12,7 +13,7 @@ export default function (onLoaded) {
 			"use strict";
 			//console.log(loadOption);
 
-			const url = `/news/widget/newsweek/1000/0`;
+			const url = wrapHost(`/news/widget/newsweek/1000/0`);
 
 			return fetch(url)
 				.then(function (response) {
