@@ -111,6 +111,44 @@ class DefaultController extends Controller
 			->with('influence');
 
 		$query->andWhere('`Nw`.`id` <> `Bn`.`id`')
+			->andWhere('`Nw`.`published` BETWEEN
+			`Bn`.`published` - INTERVAL '.News::DELTA_ASSOCIATED_NEWS.' SECOND
+			AND `Bn`.`published` + INTERVAL '.News::DELTA_ASSOCIATED_NEWS.' SECOND')
+			->orderBy(['`Nw`.`published`' => SORT_DESC]);
+
+		$headers->add('X-Pagination-Total-Count', $query->count());
+
+		if(isset($t) && is_numeric($t)){
+			$query->limit($t);
+		}
+		if(isset($s) && is_numeric($s)){
+			$query->offset($s);
+		}
+
+		$news_associated = $query->all();
+
+		return $this->asJson($news_associated);
+	}
+
+	public function actionNewsCategory($id, $t, $s){
+
+		if(!isset($id) || !is_numeric($id)) return $this->asJson([]);
+
+		$headers = Yii::$app->response->headers;
+
+		$query = NewsRest::find();
+
+		$subQuery = NewsRest::find()
+			->select(['id', 'published', 'categorynews_id'])
+			->where(['id' => $id]);
+
+		$query->select('`Nw`.*')
+			->from(['Bn' => $subQuery, 'Nw' => NewsRest::tableName()])
+			->with('categorynews')
+			->with('countryCode')
+			->with('influence');
+
+		$query->andWhere('`Nw`.`id` <> `Bn`.`id`')
 			//->andWhere('`Nw`.`categorynews_id` = `Bn`.`categorynews_id`')
 			->andWhere('`Nw`.`published` <= `Bn`.`published`')
 			->orderBy(['`Nw`.`published`' => SORT_DESC]);

@@ -85,6 +85,7 @@ $config = [
 	            '/news/widget/newsweek/<t:\d+>/<s:\d+>' => '/news/default/news-week',
 	            '/news/widget/list' => '/news/default/news-list',
 	            '/news/widget/associated/<id:\d+>/<t:\d+>/<s:\d+>' => '/news/default/news-associated',
+	            '/news/widget/category/<id:\d+>/<t:\d+>/<s:\d+>' => '/news/default/news-category',
 	            '/news/widget/news/<id:\d+>' => '/news/news/view',
 
 
@@ -109,7 +110,7 @@ $config = [
 				'allow' => true,
 				'actions' => [
 					'login', 'periods',
-					'news-week', 'news-associated', 'news-list',
+					'news-week', 'news-associated', 'news-category', 'news-list',
 					'fin-tool-groups', 'news-data-json', 'actual-json'
 				],
 				'roles' => ['?']
