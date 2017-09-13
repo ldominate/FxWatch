@@ -26,7 +26,7 @@ export default function (getParams){
 			const esc = encodeURIComponent;
 			const query = Object.keys(params)
 				.map(k => {
-					if(params[k].length <= 0) return "";
+					if(params[k] === "" || params[k] === null || params[k] === undefined) return "";
 					return `${esc(k)}=${esc(params[k])}`;
 				})
 				.join("&");
