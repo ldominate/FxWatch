@@ -97,7 +97,7 @@ class NewsDataFintoolBox extends Component{
 		}
 	}
 	render(){
-		return (<div className="news-data-fintool-box" />);
+		return <div className="news-data-fintool-box" />;
 	}
 }
 

@@ -137,7 +137,7 @@ class NewsAssociatedBox extends Component{
 	}
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
 	nid: state.getIn(["news", "id"])
 });
 

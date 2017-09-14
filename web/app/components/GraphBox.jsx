@@ -8,8 +8,8 @@ class GraphBox extends Component{
 	render(){
 		return (
 		<div className="graph-box">
-			<GraphNewsBox/>
-			<NewsAssociatedBox/>
+			<GraphNewsBox index={this.props.index} />
+			<NewsAssociatedBox index={this.props.index} />
 		</div>);
 	}
 }

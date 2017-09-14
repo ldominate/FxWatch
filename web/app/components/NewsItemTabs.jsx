@@ -12,9 +12,9 @@ class NewsItemTabs extends Component{
 	render(){
 		return (<div className="news-item-tabs">
 			<div className="news-data-period-tabs">
-				<PeriodNewsDataTabs side={this.props.side}/>
+				<PeriodNewsDataTabs index={this.props.index} side={this.props.side}/>
 			</div>
-			<NewsDataFintoolBox side={this.props.side}/>
+			<NewsDataFintoolBox index={this.props.index} side={this.props.side}/>
 		</div>);
 	}
 }

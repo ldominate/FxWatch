@@ -21,7 +21,7 @@ class NewsInfoBox extends Component{
 	}
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
 	news: state.get("news").toJSON()
 });
 

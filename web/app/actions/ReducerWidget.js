@@ -21,7 +21,6 @@ import {
 	SELECTED_FIRST_NEWS
 } from "./ActionsWidget";
 
-
 export function initSate(){
 	"use strict";
 	return {
@@ -35,6 +34,26 @@ export function initSate(){
 			isLoadPeriod: false,
 			selectFirst: false
 		},
+		news: {
+			id: 0,
+			currency: "",
+			published: null,
+			categorynews: ""
+		},
+		leftCandle: {
+			period: 1,
+			fintool: 0,
+		},
+		rightCandle: {
+			period: 1,
+			fintool: 0
+		},
+		graphs: []
+	}
+}
+
+export function createGraphBox(){
+	return {
 		news: {
 			id: 0,
 			currency: "",

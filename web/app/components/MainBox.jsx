@@ -26,7 +26,7 @@ class MainBox extends Component{
 	}
 	render(){
 		return (<div className="graph-scroll-box">
-			<GraphBox />
+			<GraphBox index={0} />
 		</div>);
 	}
 }

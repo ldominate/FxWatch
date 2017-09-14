@@ -11,8 +11,8 @@ class GraphNewsBox extends Component{
 
 	render(){
 		return (<div className="graph-news-box">
-			<NewsInfoBox/>
-			<GraphParentBox/>
+			<NewsInfoBox index={this.props.index}/>
+			<GraphParentBox index={this.props.index}/>
 		</div>);
 	}
 }
