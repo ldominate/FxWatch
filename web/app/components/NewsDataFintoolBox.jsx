@@ -46,7 +46,7 @@ class NewsDataFintoolBox extends Component{
 			onValueChanged: e => {
 				//console.log(e);
 				if(Array.isArray(e.value)){
-					this.props.selectFintool({id: e.value[0], side: this.props.side});
+					this.props.selectFintool({id: e.value[0], side: this.props.side, index: this.props.index});
 				}
 			}
 		});
@@ -102,7 +102,7 @@ class NewsDataFintoolBox extends Component{
 }
 
 const mapStateToProps = (state, ownProps) => ({
-	value: state.getIn([ownProps.side, "fintool"])
+	value: state.getIn(["graphs", ownProps.index, ownProps.side, "fintool"])
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,7 +1,7 @@
 /**
  * Created by johny on 03.09.2017.
  */
-import { fromJS } from "immutable";
+import { fromJS, List } from "immutable";
 
 import {
 	REQUEST_NEWS_WEEK,
@@ -80,12 +80,36 @@ export default (state, action) => {
 				if(m.getIn(["newsList", "unselectAll"])) {
 					m.setIn(["newsList", "unselectAll"], false);
 				}
-				m.setIn(["news", "id"], action.id);
-				m.setIn(["news", "published"], action.published);
-				m.setIn(["news", "categorynews"], action.categorynews);
-				m.setIn(["news", "currency"], action.currency_code);
-				m.setIn(["leftCandle", "fintool"], action.sides.left);
-				m.setIn(["rightCandle", "fintool"], action.sides.right);
+				// m.updateIn(["graphs", 0], g => {
+				// 	g.setIn(["news", "id"], action.id);
+				// 	g.setIn(["news", "published"], action.published);
+				// 	g.setIn(["news", "categorynews"], action.categorynews);
+				// 	g.setIn(["news", "currency"], action.currency_code);
+				// 	g.setIn(["leftCandle", "fintool"], action.sides.left);
+				// 	g.setIn(["rightCandle", "fintool"], action.sides.right);
+				// });
+				m.set("graphs", fromJS([{
+					news: {
+						id: action.id,
+						currency: action.currency_code,
+						published: action.published,
+						categorynews: action.categorynews
+					},
+					leftCandle: {
+						period: 1,
+						fintool: action.sides.left,
+					},
+					rightCandle: {
+						period: 1,
+						fintool: action.sides.right
+					}
+				}]));
+				// m.setIn(["news", "id"], action.id);
+				// m.setIn(["news", "published"], action.published);
+				// m.setIn(["news", "categorynews"], action.categorynews);
+				// m.setIn(["news", "currency"], action.currency_code);
+				// m.setIn(["leftCandle", "fintool"], action.sides.left);
+				// m.setIn(["rightCandle", "fintool"], action.sides.right);
 			});
 		}
 		case SELECT_NEWS_ASSOCIATED:{
@@ -103,12 +127,12 @@ export default (state, action) => {
 		}
 		case SELECT_PERIOD:{
 			return state.withMutations(m => {
-				m.setIn([action.side, "period"], action.id);
+				m.setIn(["graphs", action.index, action.side, "period"], action.id);
 			});
 		}
 		case SELECT_FINTOOL:{
 			return state.withMutations(m => {
-				m.setIn([action.side, "fintool"], action.id);
+				m.setIn(["graphs", action.index, action.side, "fintool"], action.id);
 			});
 		}
 		case SELECT_NEWS_SOURCE:{

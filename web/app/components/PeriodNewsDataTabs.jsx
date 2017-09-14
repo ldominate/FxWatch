@@ -30,7 +30,7 @@ class PeriodNewsDataTabs extends Component{
 			width: 200,
 			onSelectionChanged: e => {
 				//console.log(e);
-				return this.props.selectPeriod({...e.addedItems[0], ...{side: this.props.side}});
+				return this.props.selectPeriod({...e.addedItems[0], side: this.props.side, index: this.props.index});
 			}
 		});
 	}
@@ -40,7 +40,7 @@ class PeriodNewsDataTabs extends Component{
 }
 
 const mapStateToProps = (state, ownProps) => ({
-	value: state.getIn([ownProps.side, "period"])
+	value: state.getIn(["graphs", ownProps.index, ownProps.side, "period"])
 });
 
 const mapDispatchToProps = (dispatch) => ({

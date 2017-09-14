@@ -230,10 +230,10 @@ class CandleStick extends Component{
 }
 
 const mapStateToProps = (state, ownProps) => ({
-	nid: state.getIn(["news", "id"]),
-	fid: state.getIn([ownProps.side, "fintool"]),
-	pid: state.getIn([ownProps.side, "period"]),
-	published: state.getIn(["news", "published"])
+	nid: state.getIn(["graphs", ownProps.index, "news", "id"]),
+	fid: state.getIn(["graphs", ownProps.index, ownProps.side, "fintool"]),
+	pid: state.getIn(["graphs", ownProps.index, ownProps.side, "period"]),
+	published: state.getIn(["graphs", ownProps.index, "news", "published"])
 });
 
 const mapDispatchToProps = (dispatch) => ({});

@@ -12,12 +12,20 @@ class MainBox extends Component{
 		super(props);
 		this.scrollView = null;
 	}
+	shouldComponentUpdate(nextProps, nextState) {
+		if(!nextProps.newsList.selectFirst){
+			this.scrollView.dxScrollView("instance").release();
+		}
+		return true;
+	}
 	componentDidMount() {
+		//console.log(this.props.graphKeys);
 		this.scrollView = $(ReactDOM.findDOMNode(this));
 		this.scrollView.dxScrollView({
 			scrollByThumb: true,
 			direction: 'vertical',
 			reachBottomText: "Загрузка...",
+			//useNative: true,
 			onReachBottom: (args, eventName) => {
 				console.log(args);
 				args.component.release();
@@ -26,12 +34,21 @@ class MainBox extends Component{
 	}
 	render(){
 		return (<div className="graph-scroll-box">
-			<GraphBox index={0} />
+			<div>
+			{this.props.graphKeys.map((n, k) => {
+				// console.log(n);
+				// console.log(k);
+				return <GraphBox key={k} index={k} />;
+			})}
+			</div>
 		</div>);
 	}
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+	graphKeys: state.get("graphs"),
+	newsList: state.get("newsList").toJSON()
+});
 
 const mapDispatchToProps = (dispatch) => ({});
 
