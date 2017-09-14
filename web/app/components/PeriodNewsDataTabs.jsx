@@ -6,7 +6,7 @@ import dxTabs from "devextreme/ui/tabs";
 
 import CatalogPeriodsSource from "../sources/CatalogPeriodsSource";
 
-import { selectPeriod, loadedPeriod } from "../actions/ActionsWidget";
+import { selectPeriod } from "../actions/ActionsWidget";
 
 class PeriodNewsDataTabs extends Component{
 	constructor(props){
@@ -23,7 +23,6 @@ class PeriodNewsDataTabs extends Component{
 		return false;
 	}
 	componentDidMount(){
-		CatalogPeriodsSource.setLoadedFunc(this.props.loadedPeriod);
 		this.tabs = $(ReactDOM.findDOMNode(this));
 		this.tabs.dxTabs({
 			dataSource: CatalogPeriodsSource.getStore(),
@@ -45,8 +44,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	selectPeriod: (periodSide) => dispatch(selectPeriod(periodSide)),
-	loadedPeriod: (result) => dispatch(loadedPeriod())
+	selectPeriod: (periodSide) => dispatch(selectPeriod(periodSide))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PeriodNewsDataTabs);
