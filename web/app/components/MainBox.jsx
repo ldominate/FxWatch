@@ -7,15 +7,18 @@ import dxScrollView from "devextreme/ui/scroll_view";
 
 import GraphBox from "./GraphBox";
 
+import { reachNewsCategory } from "../actions/ActionsWidget";
+
 class MainBox extends Component{
 	constructor(props){
 		super(props);
 		this.scrollView = null;
 	}
 	shouldComponentUpdate(nextProps, nextState) {
-		if(!nextProps.newsList.selectFirst){
-			this.scrollView.dxScrollView("instance").release();
-		}
+		// if(!nextProps.newsList.selectFirst){
+		this.scrollView.dxScrollView("instance").release();
+		// }
+		console.log(nextProps.graphKeys);
 		return true;
 	}
 	componentDidMount() {
@@ -28,28 +31,34 @@ class MainBox extends Component{
 			//useNative: true,
 			onReachBottom: (args, eventName) => {
 				console.log(args);
-				args.component.release();
+				this.props.reachNewsCategory();
+				//args.component.release();
 			}
 		}).dxScrollView("instance");
 	}
 	render(){
-		return (<div className="graph-scroll-box">
+		return <div className="graph-scroll-box">
 			<div>
 			{this.props.graphKeys.map((n, k) => {
-				// console.log(n);
-				// console.log(k);
+				console.log(n);
+				console.log(k);
 				return <GraphBox key={k} index={k} />;
 			})}
 			</div>
-		</div>);
+		</div>;
 	}
 }
 
-const mapStateToProps = (state) => ({
-	graphKeys: state.get("graphs"),
-	newsList: state.get("newsList").toJSON()
-});
+const mapStateToProps = (state) => {
+	console.log(state.toJSON());
+	return {
+		graphKeys: state.get("graphs"),
+		newsList: state.get("newsList").toJSON()
+	}
+};
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+	reachNewsCategory: () => dispatch(reachNewsCategory())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainBox);

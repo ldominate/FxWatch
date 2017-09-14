@@ -1,5 +1,6 @@
 import CatalogFintoolGroupSource from "../sources/CatalogFintoolGroupSource";
 import { getSidesFintool } from "./CurrencyMapFintool";
+import {wrapHost} from "../sources/UrlHostPath";
 
 export const REQUEST_NEWS_WEEK = "REQUEST_NEWS_WEEK";
 export function requestNewsWeek(){
@@ -50,7 +51,7 @@ export function selectPeriod(periodSide){
 export const SELECT_FINTOOL = "SELECT_FINTOOL";
 export function selectFintool(fintoolSide){
 	"use strict";
-	return {...{type: SELECT_FINTOOL}, ...fintoolSide};
+	return {type: SELECT_FINTOOL, ...fintoolSide};
 }
 
 export const NEWS_SOURCE_WEEK = "NEWS_SOURCE_WEEK";
@@ -60,19 +61,18 @@ export const NEWS_SOURCE_SEARCH = "NEWS_SOURCE_SEARCH";
 export const SELECT_NEWS_SOURCE = "SELECT_NEWS_SOURCE";
 export function selectNewsSource(item){
 	"use strict";
-
-	return {...{type: SELECT_NEWS_SOURCE}, ...item};
+	return {type: SELECT_NEWS_SOURCE, ...item};
 }
 
 export const SELECT_COUNTRY_NEWS = "SELECT_COUNTRY_NEWS";
 export function selectCountry(code){
 	"use strict";
-	return {...{type: SELECT_COUNTRY_NEWS}, ...{code:code}};
+	return {type: SELECT_COUNTRY_NEWS, code:code};
 }
 
 export const SEARCH_NEWS = "SEARCH_NEWS";
 export function searchNews(search){
-	return {...{type: SEARCH_NEWS}, ...{search: search}};
+	return {type: SEARCH_NEWS, search: search};
 }
 
 export const LOADED_FINTOOL = "LOADED_FINTOOL";
@@ -88,4 +88,48 @@ export function loadedPeriod(){
 export const SELECTED_FIRST_NEWS = "SELECTED_FIRST_NEWS";
 export function selectedFirst(){
 	return {type: SELECTED_FIRST_NEWS};
+}
+
+export const REQUEST_NEWS_CATEGORY = "REQUEST_NEWS_CATEGORY";
+export function requestNewsCategory(skip){
+	return {type: REQUEST_NEWS_CATEGORY, skip};
+}
+
+export const RECEIVE_NEWS_CATEGORY = "RECEIVE_NEWS_CATEGORY";
+export function receiveNewsCategory(news){
+	return {type: RECEIVE_NEWS_CATEGORY, ...news, ...makeFintoolSide(news)};
+}
+
+export function reachNewsCategory(){
+
+	return function (dispatch, getState){
+
+		const state = getState();
+
+		const nid = state.getIn(["graphs", 0, "news", "id"]);
+		let skip = state.get("skip");
+		console.log(nid);
+		skip++;
+
+		const url = wrapHost(`/news/widget/category/${nid}/1/${skip}`);
+		let totalCount = 0;
+
+		dispatch(requestNewsCategory(skip));
+
+		return fetch(url)
+			.then(response => {
+				totalCount = response.headers.get("X-Pagination-Total-Count");
+				return response.json();
+			})
+			.then(json => {
+				console.log(json);
+				dispatch(receiveNewsCategory(json.map(nd => {
+					nd.published = new Date(nd.published.replace(" ", "T"));
+					return nd;
+				})[0]));
+			})
+			.catch(function (ex) {
+				console.log('parsing failed', ex);
+			});
+	}
 }

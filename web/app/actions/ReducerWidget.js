@@ -18,7 +18,9 @@ import {
 	SEARCH_NEWS,
 	LOADED_FINTOOL,
 	LOADED_PERIOD,
-	SELECTED_FIRST_NEWS
+	SELECTED_FIRST_NEWS,
+	REQUEST_NEWS_CATEGORY,
+	RECEIVE_NEWS_CATEGORY
 } from "./ActionsWidget";
 
 export function initSate(){
@@ -48,6 +50,7 @@ export function initSate(){
 			period: 1,
 			fintool: 0
 		},
+		skip: 0,
 		graphs: []
 	}
 }
@@ -164,6 +167,31 @@ export default (state, action) => {
 		}
 		case SELECTED_FIRST_NEWS: {
 			return state.setIn(["newsList", "selectFirst"], false);
+		}
+		case REQUEST_NEWS_CATEGORY: {
+			return state.set("skip", action.skip);
+		}
+		case RECEIVE_NEWS_CATEGORY: {
+			return state.update("graphs", gl => {
+				const item = fromJS({
+					news: {
+						id: action.id,
+						currency: action.currency_code,
+						published: action.published,
+						categorynews: action.categorynews
+					},
+					leftCandle: {
+						period: 1,
+						fintool: action.sides.left,
+					},
+					rightCandle: {
+						period: 1,
+						fintool: action.sides.right
+					}
+				});
+				console.log(item);
+				return gl.push(item);
+			});
 		}
 		default:
 			return state;
