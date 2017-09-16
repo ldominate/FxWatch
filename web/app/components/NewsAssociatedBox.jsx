@@ -116,7 +116,7 @@ class NewsAssociatedBox extends Component{
 			// 	showPageSizeSelector: true,
 			// 	allowedPageSizes: [7, 14, 30]
 			// },
-			height: 160,
+			height: 169,
 			loadPanel: {
 				enabled: true,
 				text: "Загрузка...",

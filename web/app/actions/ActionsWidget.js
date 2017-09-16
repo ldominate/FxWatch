@@ -100,6 +100,11 @@ export function receiveNewsCategory(news){
 	return {type: RECEIVE_NEWS_CATEGORY, ...news, ...makeFintoolSide(news)};
 }
 
+export const RECEIVE_EMPTY_NEWS_CATEGORY = "RECEIVE_EMPTY_NEWS_CATEGORY";
+export function receiveEmptyNewsCategory(){
+	return {type: RECEIVE_EMPTY_NEWS_CATEGORY};
+}
+
 export function reachNewsCategory(){
 
 	return function (dispatch, getState){
@@ -123,12 +128,17 @@ export function reachNewsCategory(){
 			})
 			.then(json => {
 				console.log(json);
-				dispatch(receiveNewsCategory(json.map(nd => {
-					nd.published = new Date(nd.published.replace(" ", "T"));
-					return nd;
-				})[0]));
+				if(!Array.isArray(json)) throw "Receive not array";
+				if(json.length <= 0) {
+					dispatch(receiveEmptyNewsCategory());
+				}else{
+					dispatch(receiveNewsCategory(json.map(nd => {
+						nd.published = new Date(nd.published.replace(" ", "T"));
+						return nd;
+					})[0]));
+				}
 			})
-			.catch(function (ex) {
+			.catch(ex => {
 				console.log('parsing failed', ex);
 			});
 	}

@@ -20,7 +20,8 @@ import {
 	LOADED_PERIOD,
 	SELECTED_FIRST_NEWS,
 	REQUEST_NEWS_CATEGORY,
-	RECEIVE_NEWS_CATEGORY
+	RECEIVE_NEWS_CATEGORY,
+	RECEIVE_EMPTY_NEWS_CATEGORY
 } from "./ActionsWidget";
 
 export function initSate(){
@@ -51,6 +52,7 @@ export function initSate(){
 			fintool: 0
 		},
 		skip: 0,
+		endCategory: false,
 		graphs: []
 	}
 }
@@ -107,6 +109,8 @@ export default (state, action) => {
 						fintool: action.sides.right
 					}
 				}]));
+				m.set("skip", 0);
+				m.set("endCategory", false);
 				// m.setIn(["news", "id"], action.id);
 				// m.setIn(["news", "published"], action.published);
 				// m.setIn(["news", "categorynews"], action.categorynews);
@@ -189,9 +193,12 @@ export default (state, action) => {
 						fintool: action.sides.right
 					}
 				});
-				console.log(item);
+				//console.log(item);
 				return gl.push(item);
 			});
+		}
+		case RECEIVE_EMPTY_NEWS_CATEGORY: {
+			return state.set("endCategory", true);
 		}
 		default:
 			return state;
