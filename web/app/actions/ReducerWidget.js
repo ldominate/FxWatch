@@ -120,17 +120,17 @@ export default (state, action) => {
 			});
 		}
 		case SELECT_NEWS_ASSOCIATED:{
-			return state.withMutations(m => {
-				if(!m.getIn(["newsList", "unselectAll"])){
-					m.setIn(["newsList", "unselectAll"], true);
-				}
+			return state.updateIn(["graphs", action.index], nl => nl.withMutations(m => {
+				// if(!m.getIn(["newsList", "unselectAll"])){
+				// 	m.setIn(["newsList", "unselectAll"], true);
+				// }
 				m.setIn(["news", "id"], action.id);
 				m.setIn(["news", "published"], action.published);
 				m.setIn(["news", "categorynews"], action.categorynews);
 				m.setIn(["news", "currency"], action.currency_code);
 				m.setIn(["leftCandle", "fintool"], action.sides.left);
 				m.setIn(["rightCandle", "fintool"], action.sides.right);
-			});
+			}));
 		}
 		case SELECT_PERIOD:{
 			return state.withMutations(m => {

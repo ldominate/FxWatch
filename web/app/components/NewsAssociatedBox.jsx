@@ -129,7 +129,12 @@ class NewsAssociatedBox extends Component{
 			sorting: {
 				mode: "none"
 			},
-			onSelectionChanged: this.props.selectNews
+			onSelectionChanged: selectedItems => {
+				//console.log(selectedItems);
+				if(Array.isArray(selectedItems.selectedRowsData) && selectedItems.selectedRowsData.length >= 1) {
+					this.props.selectNews({...selectedItems.selectedRowsData[0], index: this.props.index});
+				}
+			}
 		}).dxDataGrid("instance");
 	}
 	render(){
@@ -137,14 +142,16 @@ class NewsAssociatedBox extends Component{
 	}
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state, ownProps) => {
+	//console.log(state.toJSON());
+	return {
 	nid: state.getIn(["graphs", ownProps.index, "news", "id"])
-});
+}};
 
 const mapDispatchToProps = (dispatch) => ({
-	selectNews: (selectedItems) => {
-		//console.log(selectedItems);
-		return dispatch(selectAssociatedNews(selectedItems.selectedRowsData[0]))
+	selectNews: (news) => {
+		//console.log(news);
+		return dispatch(selectAssociatedNews(news))
 	}
 });
 
