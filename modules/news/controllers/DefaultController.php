@@ -192,7 +192,7 @@ class DefaultController extends Controller
 			->with('influence');
 
 		$query->andWhere('`Nw`.`id` <> `Bn`.`id`')
-			//->andWhere('`Nw`.`categorynews_id` = `Bn`.`categorynews_id`')
+			->andWhere('`Nw`.`categorynews_id` = `Bn`.`categorynews_id`')
 			->andWhere('`Nw`.`published` <= `Bn`.`published`')
 			->orderBy(['`Nw`.`published`' => SORT_DESC]);
 

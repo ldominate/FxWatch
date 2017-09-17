@@ -124,7 +124,7 @@ class NewsAssociatedBox extends Component{
 				text: "Загрузка...",
 				showPane: false
 			},
-			noDataText: "Нет данных",
+			noDataText: "Нет сопутствующих новостей",
 			scrolling: {
 			 	//mode: "virtual"
 				mode: "standard"
