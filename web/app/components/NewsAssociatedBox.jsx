@@ -35,19 +35,19 @@ class NewsAssociatedBox extends Component{
 				store: NewsAssociatedSource(this.paramF)
 			},
 			columns: [{
-					dataField: "published",
-					caption: "Дата и время",
-					dataType: "date",
-					width: 120,
-					calculateCellValue: rowData => {
-						return rowData.published.toLocaleString("ru-RU", {
-							month: "2-digit",
-							day: "2-digit",
-							year: "numeric",
-							hour:"numeric",
-							minute: "2-digit",
-							formatMatcher: "basic"});
-					}
+				dataField: "published",
+				caption: "Дата и время",
+				dataType: "date",
+				width: 120,
+				calculateCellValue: rowData => {
+					return rowData.published.toLocaleString("ru-RU", {
+						month: "2-digit",
+						day: "2-digit",
+						year: "numeric",
+						hour:"numeric",
+						minute: "2-digit",
+						formatMatcher: "basic"});
+				}
 				},{
 					dataField: "currency_code",
 					caption: "Валюта",
@@ -98,16 +98,17 @@ class NewsAssociatedBox extends Component{
 					width: 70,
 					calculateCellValue: rowData => {
 						return (rowData.percent_value) ? `${rowData.previous}%` : rowData.previous;
-					}
+				}
 			}],
 			remoteOperations: {
 				paging: true
 			},
 			paging: {
-				pageSize: 6
+				pageSize: 4
 			},
 			//rowAlternationEnabled: true,
 			showRowLines: true,
+			//showColumnHeaders: false,
 			hoverStateEnabled: true,
 			selection: {
 				mode: "single"
@@ -116,7 +117,8 @@ class NewsAssociatedBox extends Component{
 			// 	showPageSizeSelector: true,
 			// 	allowedPageSizes: [7, 14, 30]
 			// },
-			height: 169,
+			//height: 169,
+			//height: 156,
 			loadPanel: {
 				enabled: true,
 				text: "Загрузка...",
@@ -124,7 +126,8 @@ class NewsAssociatedBox extends Component{
 			},
 			noDataText: "Нет данных",
 			scrolling: {
-			 	mode: "virtual"
+			 	//mode: "virtual"
+				mode: "standard"
 			},
 			sorting: {
 				mode: "none"

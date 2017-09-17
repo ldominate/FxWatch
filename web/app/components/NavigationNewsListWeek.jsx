@@ -37,7 +37,7 @@ class NavigationNewsListWeek extends Component{
 		this.list.dxList({
 			dataSource: this.dataSource,
 			grouped: true,
-			height: 356,
+			height: 369,
 			selectionMode: "single",
 			showSelectionControls: false,
 			groupTemplate: function(data) {
