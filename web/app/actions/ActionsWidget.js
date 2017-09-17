@@ -127,7 +127,7 @@ export function reachNewsCategory(){
 				return response.json();
 			})
 			.then(json => {
-				console.log(json);
+				//console.log(json);
 				if(!Array.isArray(json)) throw "Receive not array";
 				if(json.length <= 0) {
 					dispatch(receiveEmptyNewsCategory());

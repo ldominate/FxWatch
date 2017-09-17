@@ -8,7 +8,7 @@ module.exports = {
 	},
 	output:{
 		path: path.resolve(__dirname, "web/js"),
-		publicPath: "http://fxwatch/js/",
+		publicPath: "http://fx-chart.foshan.tours/js/",
 		filename: "[name].js"
 	},
 	watchOptions: {
@@ -125,11 +125,11 @@ module.exports = {
 			},
 			{
 				test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-				loader: "file?name=/fonts/[name].[ext]"
+				loader: "file?name=fonts/[name].[ext]"
 			},
 			{
 				test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-				loader: "file?name=/fonts/[name].[ext]"
+				loader: "file?name=fonts/[name].[ext]"
 			}
 		]
 	}

@@ -31,7 +31,7 @@ class MainBox extends Component{
 			this.scrollView.dxScrollView("instance").option("onReachBottom", null);
 			this.endCategory = nextProps.endCategory;
 		}else if(this.endCategory !== nextProps.endCategory){
-			console.log("set reach");
+			//console.log("set reach");
 			//this.scrollView.dxScrollView("instance").release(true);
 			//this.scrollView.dxScrollView("instance").scrollTop();
 			this.scrollView.dxScrollView("instance").option("onReachBottom", this.reachBottom.bind(this));
@@ -40,7 +40,7 @@ class MainBox extends Component{
 			this.endCategory = nextProps.endCategory;
 		}
 		if(this.newsId !== newsId){
-			console.log("set news id");
+			//console.log("set news id");
 			//this.scrollView.dxScrollView("instance").scrollTop();
 			this.scrollView.dxScrollView("instance").scrollTo(0);
 			//this.scrollView.dxScrollView("instance").update();
@@ -100,7 +100,7 @@ class MainBox extends Component{
 		}).dxScrollView("instance");
 	}
 	reachBottom(args, eventName){
-		console.log("reach bottom");
+		//console.log("reach bottom");
 		//console.log(args);
 		this.props.reachNewsCategory();
 	}
