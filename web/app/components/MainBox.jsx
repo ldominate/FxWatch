@@ -27,7 +27,7 @@ class MainBox extends Component{
 
 
 		if(nextProps.endCategory && this.endCategory !== nextProps.endCategory){
-			console.log("set null");
+			//console.log("set null");
 			this.scrollView.dxScrollView("instance").option("onReachBottom", null);
 			this.endCategory = nextProps.endCategory;
 		}else if(this.endCategory !== nextProps.endCategory){

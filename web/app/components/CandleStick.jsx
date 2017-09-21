@@ -75,9 +75,11 @@ class CandleStick extends Component{
 					highValueField: "max",
 					lowValueField: "min",
 					closeValueField: "close",
-					// reduction: {
-					// 	color: "red"
-					// }
+					reduction: {
+						color: "#000",
+						//level: null
+					},
+					color: "#000"
 				}
 			],
 			valueAxis: {
@@ -134,7 +136,7 @@ class CandleStick extends Component{
 				//}
 				let val = null;
 				if (vis && pointInfo.closeValue < pointInfo.openValue) {
-					val = (pointInfo.lowValue - pointInfo.openValue);
+					val = (pointInfo.lowValue - pointInfo.openValue) * 10000.0;
 					//console.log(val);
 					//alert(this.highValue);
 					// return {
@@ -144,7 +146,7 @@ class CandleStick extends Component{
 					// 	}
 					// };
 				}else if( vis && pointInfo.closeValue > pointInfo.openValue){
-					val = (pointInfo.highValue - pointInfo.openValue);
+					val = (pointInfo.highValue - pointInfo.openValue) * 10000.0;
 					//console.log(val);
 					// return {
 					// 	position: "outside",
@@ -179,14 +181,15 @@ class CandleStick extends Component{
 					},
 					font: {
 						size: 10,
-						//color: "#449d44"
+						//color: (val > 0) ? "#449d44": "#c9302c"
 					},
-					// border: {
+					//border: {
 					// 	color: "#449d44",
-					// 	visible: true,
+					// 	visible: false,
 					// 	width: 1
-					// },
+					//},
 					backgroundColor: (val > 0) ? "#449d44": "#c9302c",
+					//backgroundColor: "rgba(0, 0, 0, 0)",
 					//verticalOffset: 1,
 					// argumentFormat: {
 					// 	type: "fixedPoint",
@@ -195,7 +198,7 @@ class CandleStick extends Component{
 					customizeText: function() {
 						if(val !== null){
 							return val.toLocaleString("en-US", {
-								maximumFractionDigits: 15
+								maximumFractionDigits: 2
 							});
 						}
 						//console.log("Open");

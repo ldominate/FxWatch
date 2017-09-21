@@ -153,7 +153,7 @@ class DefaultController extends Controller
 			->with('countryCode')
 			->with('influence');
 
-		$query->andWhere('`Nw`.`id` <> `Bn`.`id`')
+		$query//->andWhere('`Nw`.`id` <> `Bn`.`id`')
 			->andWhere('`Nw`.`published` BETWEEN
 			`Bn`.`published` - INTERVAL '.News::DELTA_ASSOCIATED_NEWS.' SECOND
 			AND `Bn`.`published` + INTERVAL '.News::DELTA_ASSOCIATED_NEWS.' SECOND')
