@@ -69,10 +69,10 @@ class CandleStick extends Component{
 				//itemTextPosition: 'left',
 				visible: false
 			},
-			// crosshair:{
-			// 	enabled: true,
-			// 	dashStyle: "dash"
-			// },
+			crosshair:{
+				enabled: true,
+				dashStyle: "dash"
+			},
 			series: {
 				//name: "DELL",
 				openValueField: "open",
@@ -125,8 +125,13 @@ class CandleStick extends Component{
 				enabled: true,
 				location: "edge",
 				customizeTooltip: function (arg) {
+					console.log(arg);
 					return {
-						text: `Откр.: ${arg.openValue}<br/>Мин.: ${arg.lowValue}<br/>Макс.: ${arg.highValue}<br/>Закр.: ${arg.closeValue}`
+						text: `Откр.: ${arg.openValue}<br/>Мин.: ${arg.lowValue}<br/>Макс.: ${arg.highValue}<br/>Закр.: ${arg.closeValue}<br/>Время: ${arg.originalArgument.toLocaleTimeString("ru-RU", {
+							hour:"numeric",
+							minute: "2-digit",
+							formatMatcher: "basic"
+						})}`
 					};
 				}
 			},

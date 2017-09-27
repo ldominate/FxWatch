@@ -6,7 +6,21 @@ class m170921_105836_change_fintool_data extends Migration
 {
     public function safeUp()
     {
-		$this->delete('fintool', 'id IN(5,6,9,10,12,14,15,16,17,18,19,20,21,22,24,25,28,29,30)');
+		$this->delete('fintool', 'name IN(
+		"Золото",
+		"Нефть (Brend)",
+		"Серебро",
+		"AUDCAD",
+		"AUDCHF",
+		"AUDNZD",
+		"CADCHF",
+		"CADJPY",
+		"CHFJPY",
+		"EURAUD",
+		"EURCAD",
+		"EURNZD",
+		"GBPAUD",
+		"GBPCAD")');
 
 	    $this->delete('fintoolgroup', 'id = 3');
     }
@@ -19,22 +33,17 @@ class m170921_105836_change_fintool_data extends Migration
 		    ]);
 	    $this->batchInsert('fintool', ['name'],
 		    [
-				['AUDUSD'],
-				['NZDUSD'],
-				['GBPJPY'],
-				['GBPCHF'],
-				['USDCAD'],
-				['AUDNZD'],
 				['AUDCAD'],
+				['AUDCHF'],
+				['AUDNZD'],
+				['CADCHF'],
+				['CADJPY'],
 				['CHFJPY'],
 				['EURAUD'],
 				['EURCAD'],
-				['CADJPY'],
 				['EURNZD'],
 				['GBPAUD'],
 				['GBPCAD'],
-				['AUDCHF'],
-				['CADCHF'],
 			    ['Золото'],
 				['Серебро'],
                 ['Нефть (Brend)'],

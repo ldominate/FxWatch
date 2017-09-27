@@ -114,10 +114,10 @@ export function reachNewsCategory(){
 		const nid = state.getIn(["graphs", 0, "news", "id"]);
 		let skip = state.get("skip");
 		//console.log(nid);
-		skip++;
 
 		const url = wrapHost(`/news/widget/category/${nid}/1/${skip}`);
 		let totalCount = 0;
+		skip++;
 
 		dispatch(requestNewsCategory(skip));
 
