@@ -119,6 +119,7 @@ class NewsAssociatedBox extends Component{
 			// },
 			//height: 169,
 			//height: 156,
+			width: 710,
 			loadPanel: {
 				enabled: true,
 				text: "Загрузка...",

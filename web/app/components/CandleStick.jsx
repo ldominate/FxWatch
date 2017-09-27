@@ -57,32 +57,38 @@ class CandleStick extends Component{
 				argumentField: "datetime",
 				type: "candlestick",
 				label: {
-					visible: true
-				}
+					visible: true,
+					backgroundColor: "rgba(0, 0, 0, 0)"
+				},
+				reduction: {
+					color: "black",
+					//level: "high"
+				},
 			},
 			legend: {
-				itemTextPosition: 'left',
+				//itemTextPosition: 'left',
 				visible: false
 			},
 			// crosshair:{
 			// 	enabled: true,
 			// 	dashStyle: "dash"
 			// },
-			series: [
-				{
-					name: "DELL",
-					openValueField: "open",
-					highValueField: "max",
-					lowValueField: "min",
-					closeValueField: "close",
-					reduction: {
-						color: "#000",
-						//level: null
-					},
-					color: "#000"
-				}
-			],
+			series: {
+				//name: "DELL",
+				openValueField: "open",
+				highValueField: "max",
+				lowValueField: "min",
+				closeValueField: "close",
+				// reduction: {
+				// 	color: "#000",
+				// 	//level: null
+				// },
+				color: "#000",
+				showInLegend: false
+			},
 			valueAxis: {
+				valueType: "numeric",
+				type: "continuous",
 				//tickInterval: 0.0001,
 				// title: {
 				// 	text: ""
@@ -97,13 +103,20 @@ class CandleStick extends Component{
 				// min: 1.139,
 			},
 			argumentAxis: {
+				argumentType: "datetime",
 				label: {
 					format: d => d.toLocaleTimeString("ru-RU", {
 						hour:"numeric",
 						minute: "2-digit",
 						formatMatcher: "basic"
 					})
-				}
+				},
+				type: "discrete",
+				valueMarginsEnabled: true,
+				maxValueMargin: 0,
+				minValueMargin: 0
+				// max: new Date("2017-07-12T00:00:00"),
+				// min: new Date("2017-07-12T04:05:00")
 			},
 			"export": {
 				enabled: false
