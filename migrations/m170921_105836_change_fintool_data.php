@@ -20,7 +20,9 @@ class m170921_105836_change_fintool_data extends Migration
 		"EURCAD",
 		"EURNZD",
 		"GBPAUD",
-		"GBPCAD")');
+		"GBPCAD",
+		"EURRUB",
+		"USDRUB")');
 
 	    $this->delete('fintoolgroup', 'id = 3');
     }
@@ -44,6 +46,8 @@ class m170921_105836_change_fintool_data extends Migration
 				['EURNZD'],
 				['GBPAUD'],
 				['GBPCAD'],
+			    ['EURRUB'],
+			    ['USDRUB'],
 			    ['Золото'],
 				['Серебро'],
                 ['Нефть (Brend)'],

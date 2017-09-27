@@ -37,7 +37,7 @@ class NewsDataFintoolBox extends Component{
 			deferRendering: false,
 			dropDownOptions: {
 				width: 200,
-				height: 300,
+				height: 250,
 			},
 			//dataSource: fingroups,
 			//opened: true,
