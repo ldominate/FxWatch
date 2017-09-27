@@ -210,9 +210,9 @@ class CandleStick extends Component{
 					// },
 					customizeText: function() {
 						if(val !== null){
-							return val.toLocaleString("en-US", {
+							return `${val >= 0 ? "+" : ""}${val.toLocaleString("en-US", {
 								maximumFractionDigits: 2
-							});
+							})}`;
 						}
 						//console.log("Open");
 						//return "O";
