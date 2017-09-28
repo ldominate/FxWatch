@@ -87,8 +87,12 @@ class NewsAssociatedBox extends Component{
 					dataType: "string",
 					cssClass: "columns num-value",
 					width: 70,
+					encodeHtml: false,
 					calculateCellValue: rowData => {
-						return (rowData.percent_value) ? `${rowData.deviation}%` : rowData.deviation;
+						const deviation = (rowData.percent_value) ? `${rowData.deviation}%` : rowData.deviation;
+						return rowData.deviation > 0
+							? `<span class="dev-positive">${deviation}</span>`
+							: `<span class="dev-negative">${deviation}</span>`;
 					}
 				},{
 					dataField: "previous",

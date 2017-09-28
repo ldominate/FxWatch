@@ -35,7 +35,8 @@ class DefaultController extends Controller
 			// '*',                        // star allows all domains
 			'http://fxwatch',
 			'http://fx-chart.foshan.tours',
-			'http://vladbat.ru'
+			'http://vladbat.ru',
+			'http://widget.fxwatch.ru'
 		];
 	}
 

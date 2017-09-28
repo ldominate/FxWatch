@@ -125,13 +125,13 @@ class CandleStick extends Component{
 				enabled: true,
 				location: "edge",
 				customizeTooltip: function (arg) {
-					console.log(arg);
+					//console.log(arg);
 					return {
-						text: `Откр.: ${arg.openValue}<br/>Мин.: ${arg.lowValue}<br/>Макс.: ${arg.highValue}<br/>Закр.: ${arg.closeValue}<br/>Время: ${arg.originalArgument.toLocaleTimeString("ru-RU", {
+						text: `Время: ${arg.originalArgument.toLocaleTimeString("ru-RU", {
 							hour:"numeric",
 							minute: "2-digit",
 							formatMatcher: "basic"
-						})}`
+						})}<br />Откр.: ${arg.openValue}<br/>Мин.: ${arg.lowValue}<br/>Макс.: ${arg.highValue}<br/>Закр.: ${arg.closeValue}`
 					};
 				}
 			},
