@@ -40,6 +40,7 @@ class NavigationNewsListWeek extends Component{
 			height: 369,
 			selectionMode: "single",
 			showSelectionControls: false,
+			noDataText: "На неделе новостей нет",
 			groupTemplate: function(data) {
 				return $(`<b>${data.key.toLocaleDateString("ru-RU", {
 					weekday: "short",

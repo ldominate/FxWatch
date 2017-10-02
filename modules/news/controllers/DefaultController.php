@@ -107,11 +107,11 @@ class DefaultController extends Controller
 		$headers = Yii::$app->response->headers;
 
 		$query = NewsRest::find()
-//			->andWhere([
-//				'between',
-//				'published',
-//				Yii::$app->formatter->asDatetime(strtotime('Monday this week T00:00:00'), News::DATETIME_FORMAT_DB),
-//				Yii::$app->formatter->asDatetime(strtotime('Sunday this week T23:59:59'), News::DATETIME_FORMAT_DB)])
+			->andWhere([
+				'between',
+				'published',
+				Yii::$app->formatter->asDatetime(strtotime('Monday this week T00:00:00'), News::DATETIME_FORMAT_DB),
+				Yii::$app->formatter->asDatetime(strtotime('Sunday this week T23:59:59'), News::DATETIME_FORMAT_DB)])
 			;
 
 		$headers->add('X-Pagination-Total-Count', $query->count());
