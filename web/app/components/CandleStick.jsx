@@ -93,12 +93,15 @@ class CandleStick extends Component{
 				// title: {
 				// 	text: ""
 				// },
-				// label: {
+				label: {
+					customizeText: axisValue => {
+						return axisValue.value.toFixed(4);
+					}
 				// 	format: {
 				// 		type: "fixedPoint",
 				// 		precision: 4
 				// 	}
-				// },
+				},
 				// max: 1.141,
 				// min: 1.139,
 			},
@@ -127,11 +130,15 @@ class CandleStick extends Component{
 				customizeTooltip: function (arg) {
 					//console.log(arg);
 					return {
-						text: `Время: ${arg.originalArgument.toLocaleTimeString("ru-RU", {
-							hour:"numeric",
-							minute: "2-digit",
-							formatMatcher: "basic"
-						})}<br />Откр.: ${arg.openValue}<br/>Мин.: ${arg.lowValue}<br/>Макс.: ${arg.highValue}<br/>Закр.: ${arg.closeValue}`
+						html: `<table class="tipTab">
+<tbody>
+<tr><td>Время:</td><td>${arg.originalArgument.toLocaleTimeString("ru-RU", {hour:"numeric",minute: "2-digit",formatMatcher: "basic"})}</td></tr>
+<tr><td>Откр.:</td><td>${arg.openValue}</td></tr>
+<tr><td>Мин.:</td><td>${arg.lowValue}</td></tr>
+<tr><td>Макс.:</td><td>${arg.highValue}</td></tr>
+<tr><td>Закр.:</td><td>${arg.closeValue}</td></tr>
+</tbody>
+</table>`
 					};
 				}
 			},

@@ -3,6 +3,7 @@ if (!window.Promise) window.Promise = Promise;
 
 import "whatwg-fetch";
 
+import $ from "jquery";
 import CustomStore from "devextreme/data/custom_store";
 import groupArray from "group-array";
 import {wrapHost} from "./UrlHostPath";
