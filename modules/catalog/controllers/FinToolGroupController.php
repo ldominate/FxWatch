@@ -22,7 +22,8 @@ class FinToolGroupController extends Controller
 			'http://fxwatch',
 			'http://fx-chart.foshan.tours',
 			'http://vladbat.ru',
-			'http://widget.fxwatch.ru'
+			'http://widget.fxwatch.ru',
+			'http://fxwatch.ru'
 		];
 	}
 

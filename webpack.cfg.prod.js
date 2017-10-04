@@ -8,7 +8,7 @@ module.exports = {
 	},
 	output:{
 		path: path.resolve(__dirname, "web/js"),
-		publicPath: "http://fx-chart.foshan.tours/js/",
+		publicPath: "http://widget.fxwatch.ru/js/",
 		filename: "[name].js"
 	},
 	watchOptions: {
