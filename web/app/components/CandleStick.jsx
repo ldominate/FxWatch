@@ -133,10 +133,10 @@ class CandleStick extends Component{
 						html: `<table class="tipTab">
 <tbody>
 <tr><td>Время:</td><td>${arg.originalArgument.toLocaleTimeString("ru-RU", {hour:"numeric",minute: "2-digit",formatMatcher: "basic"})}</td></tr>
-<tr><td>Откр.:</td><td>${arg.openValue}</td></tr>
-<tr><td>Мин.:</td><td>${arg.lowValue}</td></tr>
-<tr><td>Макс.:</td><td>${arg.highValue}</td></tr>
-<tr><td>Закр.:</td><td>${arg.closeValue}</td></tr>
+<tr><td>Откр.:</td><td>${arg.openValue.toFixed(4)}</td></tr>
+<tr><td>Мин.:</td><td>${arg.lowValue.toFixed(4)}</td></tr>
+<tr><td>Макс.:</td><td>${arg.highValue.toFixed(4)}</td></tr>
+<tr><td>Закр.:</td><td>${arg.closeValue.toFixed(4)}</td></tr>
 </tbody>
 </table>`
 					};

@@ -62,13 +62,13 @@ class NewsAssociatedBox extends Component{
 					dataField: "influence",
 					caption: "Влияние",
 					dataType: "string",
-					width: 75
+					width: 80
 				},{
 					dataField: "fact",
 					caption: "Факт",
 					dataType: "string",
 					cssClass: "columns num-value",
-					width: 70,
+					width: 75,
 					calculateCellValue: rowData => {
 						return (rowData.percent_value) ? `${rowData.fact}%` : rowData.fact;
 					}
@@ -77,7 +77,7 @@ class NewsAssociatedBox extends Component{
 					caption: "Прогноз",
 					dataType: "string",
 					cssClass: "columns num-value",
-					width: 70,
+					width: 75,
 					calculateCellValue: rowData => {
 						return (rowData.percent_value) ? `${rowData.forecast}%` : rowData.forecast;
 					}
@@ -86,7 +86,7 @@ class NewsAssociatedBox extends Component{
 					caption: "Отклонение",
 					dataType: "string",
 					cssClass: "columns num-value",
-					width: 70,
+					width: 75,
 					encodeHtml: false,
 					calculateCellValue: rowData => {
 						const deviation = (rowData.percent_value) ? `${rowData.deviation}%` : rowData.deviation;
@@ -99,7 +99,7 @@ class NewsAssociatedBox extends Component{
 					caption: "Предыдущее",
 					dataType: "string",
 					cssClass: "columns num-value",
-					width: 70,
+					width: 75,
 					calculateCellValue: rowData => {
 						return (rowData.percent_value) ? `${rowData.previous}%` : rowData.previous;
 				}
@@ -123,7 +123,7 @@ class NewsAssociatedBox extends Component{
 			// },
 			//height: 169,
 			//height: 156,
-			width: 710,
+			width: 791,
 			loadPanel: {
 				enabled: true,
 				text: "Загрузка...",

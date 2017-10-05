@@ -1,5 +1,5 @@
 #widget_box.widget{
-  width: 1024px;
+  width: 1140px;
   height: 400px;
 
   display: flex;
@@ -68,15 +68,19 @@
       min-width: 0px;
       outline: 0;
       //border: 1px solid black;
+      &:not(:first-child){
+        margin-top: 5px;
+      }
       .graph-news-box {
 
         .news-info-title {
-          text-align: center;
+          text-align: left;
           color: #333;
           font-weight: 500;
           font-size: 13px;
           font-family: 'Helvetica Neue', 'Segoe UI', Helvetica, Verdana, sans-serif;
           line-height: 1.83334;
+          padding-left: 7px;
         }
         .graph-parent {
           width: 100%;
