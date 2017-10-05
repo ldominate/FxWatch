@@ -221,7 +221,15 @@ class DefaultController extends Controller
 	 */
 	public function actionNewsList($t, $s){
 
+		$c = Yii::$app->request->get('c', '');
+		$sch = Yii::$app->request->get('sch', '');
+
 		$headers = Yii::$app->response->headers;
+
+		if(strlen($c) <= 0 && strlen($sch) <= 0){
+			$headers->add('X-Pagination-Total-Count', 0);
+			return $this->asJson([]);
+		}
 
 		$query = NewsRest::find();
 
@@ -229,12 +237,10 @@ class DefaultController extends Controller
 			->with('countryCode')
 			->with('influence');
 
-		$c = Yii::$app->request->get('c', '');
 		if(strlen($c) == 2){
 			$query->andWhere(['=', 'country_code', $c]);
 		}
 
-		$sch = Yii::$app->request->get('sch', '');
 		if(strlen($sch) > 0){
 			$query->join('LEFT JOIN', 'categorynews', 'categorynews.id = news.categorynews_id');
 			$query->join('LEFT JOIN', 'country', 'country.code = news.country_code');

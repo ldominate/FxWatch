@@ -39,7 +39,7 @@ class NavigationNewsListSearch extends Component{
 		this.list = $(ReactDOM.findDOMNode(this.refs.listSearch));
 		this.list.dxList({
 			dataSource: this.dataSource,
-			height: 332,
+			height: 441,
 			selectionMode: "single",
 			showSelectionControls: false,
 			itemTemplate: function(data, index) {
@@ -59,7 +59,8 @@ class NavigationNewsListSearch extends Component{
 				return result;
 			},
 			nextButtonText: "Загрузить ещё...",
-			noDataText: "Новостей нет",
+			//noDataText: "Новостей нет",
+			noDataText: "",
 			pageLoadMode: "scrollBottom",
 			pageLoadingText: "Загрузка...",
 			onSelectionChanged: this.props.selectNews

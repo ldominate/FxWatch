@@ -38,7 +38,7 @@ class NavigationNewsListRegion extends Component{
 				paginate: true,
 				pageSize: 10
 			}),
-			height: 332,
+			height: 441,
 			selectionMode: "single",
 			showSelectionControls: false,
 			itemTemplate: function(data, index) {
@@ -58,7 +58,8 @@ class NavigationNewsListRegion extends Component{
 				return result;
 			},
 			nextButtonText: "Загрузить ещё...",
-			noDataText: "Новостей нет",
+			//noDataText: "Новостей нет",
+			noDataText: "",
 			pageLoadMode: "scrollBottom",
 			pageLoadingText: "Загрузка...",
 			onSelectionChanged: this.props.selectNews
