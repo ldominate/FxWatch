@@ -42,7 +42,9 @@ export default function (getParams){
 				}).then(function(json) {
 				//console.log(groupNews);
 				const result = json.map(nd => {
-					nd.published = new Date(nd.published.replace(" ", "T"));
+					if(nd.published !== null) {
+						nd.published = new Date(nd.published.replace(" ", "T"));
+					}
 					return nd;
 				});
 				//console.log(totalCount);

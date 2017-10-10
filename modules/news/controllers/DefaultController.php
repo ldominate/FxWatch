@@ -11,6 +11,7 @@ use Yii;
 use app\modules\news\models\News;
 use app\modules\news\models\NewsSearch;
 use yii\data\ActiveDataProvider;
+use yii\db\Query;
 use yii\filters\Cors;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -198,6 +199,10 @@ class DefaultController extends Controller
 			->andWhere('`Nw`.`published` <= `Bn`.`published`')
 			->orderBy(['`Nw`.`published`' => SORT_DESC]);
 
+		$c = Yii::$app->request->get('c', '');
+		if(strlen($c) == 2){
+			$query->andWhere(['=', 'country_code', $c]);
+		}
 		$headers->add('X-Pagination-Total-Count', $query->count());
 
 		if(isset($t) && is_numeric($t)){
@@ -233,31 +238,69 @@ class DefaultController extends Controller
 
 		$query = NewsRest::find();
 
-		$query->with('categorynews')
-			->with('countryCode')
-			->with('influence');
+		$subQueryId = (new Query())
+			->from(['n' => NewsRest::tableName()])
+			->select(['n.id'])
+			->where('`n`.`categorynews_id` = `news`.`categorynews_id`')
+			->orderBy(['n.published' => SORT_DESC])
+			->limit(1);
+		if(strlen($c) == 2){
+			$subQueryId->andWhere(['n.country_code' => $c]);
+		}
+
+		$subQueryCC = (new Query())
+			->from(['n' => NewsRest::tableName()])
+			->select(['n.currency_code'])
+			->where('`n`.`categorynews_id` = `news`.`categorynews_id`')
+			->orderBy(['n.published' => SORT_DESC])
+			->limit(1);
+		if(strlen($c) == 2){
+			$subQueryCC->andWhere(['n.country_code' => $c]);
+		}
+
+		$subQueryPub = (new Query())
+			->from(['n' => NewsRest::tableName()])
+			->select(['n.published'])
+			->where('`n`.`categorynews_id` = `news`.`categorynews_id`')
+			->orderBy(['n.published' => SORT_DESC])
+			->limit(1);
+		if(strlen($c) == 2){
+			$subQueryPub->andWhere(['n.country_code' => $c]);
+		}
+
+		$query->join('INNER JOIN','categorynews', 'news.categorynews_id = categorynews.id')
+//			->with('countryCode')
+//			->with('influence')
+			->select(['`categorynews`.`name`', '`news`.`categorynews_id`',
+				'id' => $subQueryId,
+				'currency_code' => $subQueryCC,
+				'published' => $subQueryPub
+			])
+			//->distinct();
+			->groupBy(['categorynews_id', 'categorynews.name']);
 
 		if(strlen($c) == 2){
 			$query->andWhere(['=', 'country_code', $c]);
 		}
 
 		if(strlen($sch) > 0){
-			$query->join('LEFT JOIN', 'categorynews', 'categorynews.id = news.categorynews_id');
-			$query->join('LEFT JOIN', 'country', 'country.code = news.country_code');
-			$query->join('LEFT JOIN', 'currency', 'currency.code = news.currency_code');
+//			$query->join('LEFT JOIN', 'categorynews', 'categorynews.id = news.categorynews_id');
+//			$query->join('LEFT JOIN', 'country', 'country.code = news.country_code');
+//			$query->join('LEFT JOIN', 'currency', 'currency.code = news.currency_code');
 			$query->andWhere(['like', 'categorynews.name', $sch]);
-			$query->orWhere(['or like', 'country.name', $sch]);
-			$query->orWhere(['or like', 'country_code', $sch]);
-			$query->orWhere(['or like', 'currency_code', $sch]);
-			$query->orWhere(['or like', 'currency.name', $sch]);
-			$query->orWhere(['or like', 'release', $sch]);
-			$query->orWhere(['or like', 'fact', $sch]);
-			$query->orWhere(['or like', 'forecast', $sch]);
-			$query->orWhere(['or like', 'deviation', $sch]);
-			$query->orWhere(['or like', 'previous', $sch]);
+//			$query->orWhere(['or like', 'country.name', $sch]);
+//			$query->orWhere(['or like', 'country_code', $sch]);
+//			$query->orWhere(['or like', 'currency_code', $sch]);
+//			$query->orWhere(['or like', 'currency.name', $sch]);
+//			$query->orWhere(['or like', 'release', $sch]);
+//			$query->orWhere(['or like', 'fact', $sch]);
+//			$query->orWhere(['or like', 'forecast', $sch]);
+//			$query->orWhere(['or like', 'deviation', $sch]);
+//			$query->orWhere(['or like', 'previous', $sch]);
 		}
 
 		$headers->add('X-Pagination-Total-Count', $query->count());
+		//$headers->add('X-Pagination-Total-Count', $query->select(['COUNT(*) AS cnt'])->all());
 
 		if(isset($t) && is_numeric($t)){
 			$query->limit($t);
@@ -265,7 +308,7 @@ class DefaultController extends Controller
 		if(isset($s) && is_numeric($s)){
 			$query->offset($s);
 		}
-		$query->orderBy(['published' => SORT_DESC]);
+		$query->orderBy(['categorynews.name' => SORT_ASC]);
 
 		$newsList = $query->all();
 

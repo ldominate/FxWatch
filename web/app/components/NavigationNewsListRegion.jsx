@@ -44,15 +44,15 @@ class NavigationNewsListRegion extends Component{
 			itemTemplate: function(data, index) {
 				const result = $("<div>").addClass("item-news");
 
-				$("<div>").addClass("time-news").text(data.published.toLocaleTimeString("ru-RU", {
-					month: "2-digit",
-					day: "2-digit",
-					year: "numeric",
-					hour:"numeric",
-					minute: "2-digit"})
-				).appendTo(result);
-				$("<div>").html(`<span class="flag-icon flag-icon-${data.country_code.toLowerCase()}"></span>${data.countryCode}`)
-					.appendTo(result);
+				// $("<div>").addClass("time-news").text(data.published.toLocaleTimeString("ru-RU", {
+				// 	month: "2-digit",
+				// 	day: "2-digit",
+				// 	year: "numeric",
+				// 	hour:"numeric",
+				// 	minute: "2-digit"})
+				// ).appendTo(result);
+				// $("<div>").html(`<span class="flag-icon flag-icon-${data.country_code.toLowerCase()}"></span>${data.countryCode}`)
+				// 	.appendTo(result);
 				$("<div>").html(data.categorynews)
 					.appendTo(result);
 				return result;
@@ -83,7 +83,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 	selectNews: (params) => {
 		if(Array.isArray(params.addedItems) && params.addedItems.length){
-			return dispatch(selectNews(params.addedItems[0]))
+			return dispatch(selectNews({...params.addedItems[0], selectRegion: true}))
 		}
 	}
 });

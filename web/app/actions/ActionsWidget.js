@@ -115,7 +115,10 @@ export function reachNewsCategory(){
 		let skip = state.get("skip");
 		//console.log(nid);
 
-		const url = wrapHost(`/news/widget/category/${nid}/1/${skip}`);
+		let url = wrapHost(`/news/widget/category/${nid}/1/${skip}`);
+		if(state.getIn(["newsList", "selectRegion"])){
+			url = `${url}?c=${state.getIn(["newsList", "country"])}`;
+		}
 		let totalCount = 0;
 		skip++;
 

@@ -35,7 +35,8 @@ export function initSate(){
 			search: "",
 			isLoadFintool: false,
 			isLoadPeriod: false,
-			selectFirst: false
+			selectFirst: false,
+			selectRegion: false
 		},
 		news: {
 			id: 0,
@@ -111,6 +112,11 @@ export default (state, action) => {
 				}]));
 				m.set("skip", 0);
 				m.set("endCategory", false);
+				if(action.hasOwnProperty("selectRegion") && action.selectRegion){
+					m.setIn(["newsList", "selectRegion"], true);
+				}else{
+					m.setIn(["newsList", "selectRegion"], false);
+				}
 				// m.setIn(["news", "id"], action.id);
 				// m.setIn(["news", "published"], action.published);
 				// m.setIn(["news", "categorynews"], action.categorynews);
