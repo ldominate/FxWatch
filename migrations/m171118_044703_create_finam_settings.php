@@ -28,10 +28,19 @@ class m171118_044703_create_finam_settings extends Migration
 			'fsp' => $this->integer(1)->defaultValue(0)->comment('Заполнять периоды без сделок')
 		], 'CHARACTER SET utf8 DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB');
 
+//		$this->batchInsert(
+//			'finamsettings',
+//			['market', 'em', 'sourcecode', 'apply', 'from', 'to', 'p', 'f', 'e', 'dtf', 'tmf', 'MSOR', 'mstimever', 'sep', 'sep2', 'datf', 'at', 'fsp'],
+//		[
+//			['market', 'em', 'sourcecode', 'apply', 'from', 'to', 'p', 'f', 'e', 'dtf', 'tmf', 'MSOR', 'mstimever', 'sep', 'sep2', 'datf', 'at', 'fsp'],
+//			['market', 'em', 'sourcecode', 'apply', 'from', 'to', 'p', 'f', 'e', 'dtf', 'tmf', 'MSOR', 'mstimever', 'sep', 'sep2', 'datf', 'at', 'fsp'],
+//			['market', 'em', 'sourcecode', 'apply', 'from', 'to', 'p', 'f', 'e', 'dtf', 'tmf', 'MSOR', 'mstimever', 'sep', 'sep2', 'datf', 'at', 'fsp']
+//		]);
+
 		$this->createIndex(
 			'idx-finamsettings-sourcecode_code',
-			'sourcecode',
-			'code_code'
+			'finamsettings',
+			'sourcecode_code'
 		);
 
 		$this->addForeignKey(
