@@ -17,7 +17,10 @@ $config = [
 		],
 		'news' => [
 			'class' => 'app\modules\news\NewsModule'
-		]
+		],
+		'finam' => [
+			'class' => 'app\modules\finam\FinamModule',
+		],
 	],
     'components' => [
         'request' => [

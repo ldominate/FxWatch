@@ -1,13 +1,15 @@
 <?php
 
-namespace app\modules\catalog\models;
+namespace app\modules\finam\models;
 
+use app\modules\catalog\models\SourceCode;
 use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "finamsettings".
  *
  * @property integer $id
+ * @property string url Ссылка на источник данных
  * @property integer $market Источник данных
  * @property integer $em Инструмент
  * @property string $sourcecode_code
@@ -27,7 +29,7 @@ use yii\db\ActiveRecord;
  * @property integer $at Добавить заголовок в файла: Да/Нет(1/0)
  * @property integer $fsp Заполнять периоды без сделок: Да/Нет(1/0)
  *
- * @property Sourcecode $sourcecodeCode
+ * @property Sourcecode $sourceCode
  */
 class FinamSettings extends ActiveRecord
 {
@@ -51,6 +53,8 @@ class FinamSettings extends ActiveRecord
 	/** @var integer */
 	public $yt;
 
+	/** @var  string Имя контракта */
+	public $cn;
     /**
      * @inheritdoc
      */
@@ -66,7 +70,9 @@ class FinamSettings extends ActiveRecord
     {
         return [
             [['market', 'em', 'apply', 'p', 'dtf', 'tmf', 'MSOR', 'mstimever', 'sep', 'sep2', 'datf', 'at', 'fsp'], 'integer'],
-            [['sourcecode_code'], 'required'],
+            [['sourcecode_code', 'url'], 'required'],
+	        [['url'], 'string', 'max' => 255],
+	        [['url'], 'url', 'defaultScheme' => 'http'],
             [['sourcecode_code'], 'string', 'max' => 20],
             [['from', 'to'], 'string', 'max' => 12],
             [['f'], 'string', 'max' => 30],
@@ -82,6 +88,7 @@ class FinamSettings extends ActiveRecord
     {
         return [
             'id' => 'ID',
+	        'url' => 'Ссылка на источник данных',
             'market' => 'Источник данных',
             'em' => 'Инструмент',
             'sourcecode_code' => 'Связь с справочником фин. инструментов и валютных пар. Инструмент',
@@ -113,7 +120,7 @@ class FinamSettings extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSourceCodeCode()
+    public function getSourceCode()
     {
         return $this->hasOne(SourceCode::className(), ['code' => 'sourcecode_code']);
     }
@@ -127,5 +134,16 @@ class FinamSettings extends ActiveRecord
         return new FinamSettingsQuery(get_called_class());
     }
 
+	/**
+	 * @param $date_from string
+	 * @param $date_to string
+	 * @return array
+	 */
+	public function initAttributes($date_from, $date_to = null){
+    	if(empty($date_to)) $date_to = $date_from;
 
+    	$this->code = $this->sourceCode->code;
+
+    	return $this->attributes;
+	}
 }

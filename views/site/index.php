@@ -1,6 +1,10 @@
 <?php
 
-/* @var $this yii\web\View */
+/**
+ * @var $this yii\web\View
+ * @var $settings app\modules\finam\models\FinamSettings
+ */
+use yii\helpers\Html;
 
 $this->title = 'My Yii Application';
 ?>
@@ -50,4 +54,8 @@ $this->title = 'My Yii Application';
         </div>
 
     </div>
+	<div>
+		<?= Html::tag('h2', 'FinamSettings') ?>
+		<pre class="pre-scrollable"><?php var_dump($settings) ?></pre>
+	</div>
 </div>

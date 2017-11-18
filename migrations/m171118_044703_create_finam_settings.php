@@ -8,6 +8,7 @@ class m171118_044703_create_finam_settings extends Migration
     {
 		$this->createTable('finamsettings', [
 			'id' => $this->primaryKey(),
+			'url' => $this->string(255)->notNull()->comment('Ссылка на источник данных'),
 			'market' => $this->integer(2)->unsigned()->comment('Мировые Индексы'),
 			'em' => $this->integer()->unsigned()->comment('Инструмент'),
 			'sourcecode_code' => $this->string(20)->notNull()->comment('Связь с справочником фин. инструментов и валютных пар. Инструмент'),
@@ -30,11 +31,11 @@ class m171118_044703_create_finam_settings extends Migration
 
 //		$this->batchInsert(
 //			'finamsettings',
-//			['market', 'em', 'sourcecode', 'apply', 'from', 'to', 'p', 'f', 'e', 'dtf', 'tmf', 'MSOR', 'mstimever', 'sep', 'sep2', 'datf', 'at', 'fsp'],
+//			['url', 'market', 'em', 'sourcecode', 'apply', 'from', 'to', 'p', 'f', 'e', 'dtf', 'tmf', 'MSOR', 'mstimever', 'sep', 'sep2', 'datf', 'at', 'fsp'],
 //		[
-//			['market', 'em', 'sourcecode', 'apply', 'from', 'to', 'p', 'f', 'e', 'dtf', 'tmf', 'MSOR', 'mstimever', 'sep', 'sep2', 'datf', 'at', 'fsp'],
-//			['market', 'em', 'sourcecode', 'apply', 'from', 'to', 'p', 'f', 'e', 'dtf', 'tmf', 'MSOR', 'mstimever', 'sep', 'sep2', 'datf', 'at', 'fsp'],
-//			['market', 'em', 'sourcecode', 'apply', 'from', 'to', 'p', 'f', 'e', 'dtf', 'tmf', 'MSOR', 'mstimever', 'sep', 'sep2', 'datf', 'at', 'fsp']
+//			['url', 'market', 'em', 'sourcecode', 'apply', 'from', 'to', 'p', 'f', 'e', 'dtf', 'tmf', 'MSOR', 'mstimever', 'sep', 'sep2', 'datf', 'at', 'fsp'],
+//			['url', 'market', 'em', 'sourcecode', 'apply', 'from', 'to', 'p', 'f', 'e', 'dtf', 'tmf', 'MSOR', 'mstimever', 'sep', 'sep2', 'datf', 'at', 'fsp'],
+//			['url', 'market', 'em', 'sourcecode', 'apply', 'from', 'to', 'p', 'f', 'e', 'dtf', 'tmf', 'MSOR', 'mstimever', 'sep', 'sep2', 'datf', 'at', 'fsp']
 //		]);
 
 		$this->createIndex(
@@ -61,7 +62,7 @@ class m171118_044703_create_finam_settings extends Migration
 	    );
 
     	$this->dropIndex(
-    		'idx-finamsetting-sourcecode_code',
+    		'idx-finamsettings-sourcecode_code',
 		    'finamsettings'
 	    );
 

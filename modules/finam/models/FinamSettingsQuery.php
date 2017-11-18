@@ -1,13 +1,15 @@
 <?php
 
-namespace app\modules\catalog\models;
+namespace app\modules\finam\models;
+
+use yii\db\ActiveQuery;
 
 /**
  * This is the ActiveQuery class for [[FinamSettings]].
  *
  * @see FinamSettings
  */
-class FinamSettingsQuery extends \yii\db\ActiveQuery
+class FinamSettingsQuery extends ActiveQuery
 {
     /*public function active()
     {

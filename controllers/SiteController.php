@@ -2,11 +2,10 @@
 
 namespace app\controllers;
 
+use app\modules\finam\models\FinamSettings;
 use Yii;
-use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
-use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 
@@ -66,7 +65,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+    	$finamSettingsEurUsd = FinamSettings::find()->with('sourceCode')->where(['sourcecode_code' => 'EURUSD', 'market' => 5])->limit(1)->one();
+
+
+
+        return $this->render('index', [
+        	'settings' => $finamSettingsEurUsd
+        ]);
     }
 
     /**
