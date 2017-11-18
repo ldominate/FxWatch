@@ -1,5 +1,6 @@
 <?php
 
+use app\modules\catalog\models\SourceType;
 use yii\db\Migration;
 
 class m171115_115659_create_news_source_type extends Migration
@@ -14,8 +15,8 @@ class m171115_115659_create_news_source_type extends Migration
 
 		$this->batchInsert('sourcetype', ['type', 'name'],
 			[
-				[0, 'Валютные пары'],
-				[1, 'Финансовые инструменты']
+				[SourceType::CURRENCY_PAIRS, 'Валютные пары'],
+				[SourceType::FINANCIAL_INSTRUMENTS, 'Финансовые инструменты']
 			]);
     }
 
