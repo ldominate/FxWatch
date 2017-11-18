@@ -11,7 +11,7 @@ use yii\db\ActiveRecord;
  * @property integer $sourcetype_id
  * @property string $name
  *
- * @property SourceType $sourcetype
+ * @property SourceType $sourceType
  */
 class SourceCode extends ActiveRecord
 {
@@ -33,7 +33,7 @@ class SourceCode extends ActiveRecord
             [['sourcetype_id'], 'integer'],
             [['code'], 'string', 'max' => 20],
             [['name'], 'string', 'max' => 50],
-            [['sourcetype_id'], 'exist', 'skipOnError' => true, 'targetClass' => Sourcetype::className(), 'targetAttribute' => ['sourcetype_id' => 'id']],
+            [['sourcetype_id'], 'exist', 'skipOnError' => true, 'targetClass' => SourceType::className(), 'targetAttribute' => ['sourcetype_id' => 'id']],
         ];
     }
 
