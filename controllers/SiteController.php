@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\modules\finam\models\FinamSettings;
 use Yii;
+use yii\httpclient\Client;
 use yii\web\Controller;
 use yii\web\Response;
 use app\models\LoginForm;
@@ -67,10 +68,27 @@ class SiteController extends Controller
     {
     	$finamSettingsEurUsd = FinamSettings::find()->with('sourceCode')->where(['sourcecode_code' => 'EURUSD', 'market' => 5])->limit(1)->one();
 
-		$attributes = $finamSettingsEurUsd->initAttributes(date('d.m.Y'));
+		//$attributes = $finamSettingsEurUsd->initAttributes(date('d.m.Y'));
+	    $attributes = $finamSettingsEurUsd->initAttributes('17.11.2017');
+
+		$client = new Client();
+
+		/** @var $finamResponse yii\httpclient\Response */
+	    $finamResponse = $client->createRequest()
+			->setMethod('get')
+			->setUrl($finamSettingsEurUsd->url)
+			->setData($attributes)
+			->send();
+
+	    $result = [];
+	    if($finamResponse->getIsOk()){
+		    $result = str_getcsv($finamResponse->getContent(), "\n");
+	    }
 
         return $this->render('index', [
-        	'settings' => $finamSettingsEurUsd
+        	'settings' => $finamSettingsEurUsd,
+	        'finam' => $finamResponse,
+	        'result' => $result
         ]);
     }
 
