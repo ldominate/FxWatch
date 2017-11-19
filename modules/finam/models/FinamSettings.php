@@ -3,6 +3,7 @@
 namespace app\modules\finam\models;
 
 use app\modules\catalog\models\SourceCode;
+use Yii;
 use yii\db\ActiveRecord;
 
 /**
@@ -117,7 +118,7 @@ class FinamSettings extends ActiveRecord
         ];
     }
 
-    /**
+	/**
      * @return \yii\db\ActiveQuery
      */
     public function getSourceCode()
@@ -143,7 +144,31 @@ class FinamSettings extends ActiveRecord
     	if(empty($date_to)) $date_to = $date_from;
 
     	$this->code = $this->sourceCode->code;
+    	$this->cn = $this->sourceCode->code;
 
-    	return $this->attributes;
+    	$this->from = Yii::$app->formatter->asDate($date_from, 'dd.MM.yyyy');
+    	$this->df = Yii::$app->formatter->asDate($date_from, 'dd');
+    	$this->mf = Yii::$app->formatter->asDate($date_from, 'MM') - 1;
+    	$this->yf = Yii::$app->formatter->asDate($date_from, 'yyyy');
+
+		$this->to = Yii::$app->formatter->asDate($date_to, 'dd.MM.yyyy');
+		$this->dt = Yii::$app->formatter->asDate($date_to, 'dd');
+		$this->mt = Yii::$app->formatter->asDate($date_to, 'MM') - 1;
+		$this->yt = Yii::$app->formatter->asDate($date_to, 'yyyy');
+
+		$this->f = $this->sourceCode->code.'_'.Yii::$app->formatter->asDate($date_from, 'ddMMyyyy');
+
+		$this->url = $this->url.$this->f.$this->e;
+
+    	return array_merge($this->attributes, [
+    		'code' => $this->code,
+		    'cn' => $this->cn,
+		    'df' => $this->df,
+		    'mf' => $this->mf,
+		    'yf' => $this->yf,
+		    'dt' => $this->dt,
+		    'mt' => $this->mt,
+		    'yt' => $this->yt
+	    ]);
 	}
 }

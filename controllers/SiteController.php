@@ -67,7 +67,7 @@ class SiteController extends Controller
     {
     	$finamSettingsEurUsd = FinamSettings::find()->with('sourceCode')->where(['sourcecode_code' => 'EURUSD', 'market' => 5])->limit(1)->one();
 
-
+		$attributes = $finamSettingsEurUsd->initAttributes(date('d.m.Y'));
 
         return $this->render('index', [
         	'settings' => $finamSettingsEurUsd
