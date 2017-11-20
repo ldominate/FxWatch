@@ -3,7 +3,6 @@
 /**
  * @var $this yii\web\View
  * @var $settings app\modules\finam\models\FinamSettings
- * @var $finam yii\httpclient\Response
  */
 use yii\helpers\Html;
 
@@ -60,9 +59,6 @@ $this->title = 'My Yii Application';
 		<pre class="pre-scrollable"><?php var_dump($settings) ?></pre>
 	</div>
 	<div>
-		<?= Html::tag('h2', 'Response') ?>
-		<pre class="pre-scrollable"><?= $finam->toString() ?></pre>
-
 		<?= Html::tag('h2', 'Result') ?>
 		<pre class="pre-scrollable"><?= var_dump($result) ?></pre>
 

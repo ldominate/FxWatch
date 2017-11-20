@@ -3,6 +3,7 @@
 namespace app\modules\finam\models;
 
 use app\modules\catalog\models\SourceCode;
+use app\modules\news\models\News;
 use yii\db\ActiveRecord;
 
 /**
@@ -21,6 +22,9 @@ use yii\db\ActiveRecord;
  */
 class FinData extends ActiveRecord
 {
+	const DATETIME_FORMAT = 'yyyyMMdd HHmmss',
+		DATETIME_FORMAT_DB = 'yyyy-MM-dd HH:mm:ss';
+
     /**
      * @inheritdoc
      */
@@ -36,7 +40,10 @@ class FinData extends ActiveRecord
     {
         return [
             [['sourcecode_code', 'datetime'], 'required'],
-            [['datetime'], 'safe'],
+
+	        [['datetime'], 'trim'],
+	        [['datetime'], 'datetime', 'format' => FinData::DATETIME_FORMAT, 'timestampAttribute' => 'datetime', 'timestampAttributeFormat' => FinData::DATETIME_FORMAT_DB],
+
             [['open', 'max', 'min', 'close', 'vol'], 'number'],
             [['sourcecode_code'], 'string', 'max' => 20],
             [['sourcecode_code'], 'exist', 'skipOnError' => true, 'targetClass' => SourceCode::className(), 'targetAttribute' => ['sourcecode_code' => 'code']],
@@ -75,5 +82,42 @@ class FinData extends ActiveRecord
     public static function find()
     {
         return new FinDataQuery(get_called_class());
+    }
+
+	/**
+	 * @param $dataString string
+	 * @return FinData
+	 */
+    public static function createFinamData($dataString){
+
+    	$finData = new FinData();
+
+		if(empty($dataString)){
+			$finData->addError('id', 'Входные данные пустые');
+			return $finData;
+		}
+		$data = str_getcsv($dataString);
+
+		if(!is_array($data)){
+			$finData->addError('sourcecode_code', 'Не удалось распознать входные данные');
+			return $finData;
+		}
+
+		if(count($data) <= 4){
+			$finData->addError('sourcecode_code', 'Входных данные не достаточно для полной инициализации');
+			return $finData;
+		}
+
+		$finData->sourcecode_code = $data[0];
+	    $finData->datetime = $data[2].' '.$data[3];
+	    $finData->open = $data[4];
+	    $finData->max = $data[5];
+	    $finData->min = $data[6];
+	    $finData->close = $data[7];
+	    $finData->vol = $data[8];
+
+	    $finData->validate();
+
+    	return $finData;
     }
 }
