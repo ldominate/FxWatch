@@ -67,12 +67,22 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-    	$finamSettingsEurUsd = FinamSettings::find()->with('sourceCode')->where(['sourcecode_code' => 'EURUSD', 'market' => 5])->limit(1)->one();
+    	$finamSettingsEurUsd = FinamSettings::find()->with('sourceCode')->where(['sourcecode_code' => 'USDRUB', 'market' => 5])->limit(1)->one();
 
     	$provider = new FinamProvider($finamSettingsEurUsd);
 
-	    $result = $provider->requestSource();
+    	$result = [];
 
+	    if($provider->requestSource('17.11.2017 7:00:00', '17.11.2017 23:00:00')) {
+
+	    	$provider->saveNewFinData();
+
+	    } else {
+	    	//$result[$finamSettingsEurUsd->sourcecode_code] = $provider->getLogs();
+	    }
+	    $result[$finamSettingsEurUsd->sourcecode_code] = $provider->getLogs();
+	    $result['min'] = $provider->getMinDateTimeFinData()->getAttributes();
+	    $result['max'] = $provider->getMaxDateTimeFinData()->getAttributes();
 		//$attributes = $finamSettingsEurUsd->initAttributes(date('d.m.Y'));
 //	    $attributes = $finamSettingsEurUsd->initAttributes('17.11.2017');
 //

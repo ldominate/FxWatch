@@ -3,7 +3,6 @@
 namespace app\modules\finam\models;
 
 use app\modules\catalog\models\SourceCode;
-use app\modules\news\models\News;
 use yii\db\ActiveRecord;
 
 /**
@@ -116,7 +115,7 @@ class FinData extends ActiveRecord
 	    $finData->close = $data[7];
 	    $finData->vol = $data[8];
 
-	    $finData->validate();
+	    $finData->validate(['datetime', 'open', 'max', 'min', 'close', 'vol']);
 
     	return $finData;
     }
