@@ -2,6 +2,9 @@
 
 namespace app\tasks;
 
+use app\modules\catalog\models\SourceCode;
+use app\modules\finam\components\FinamProvider;
+use app\modules\finam\models\FinamSettings;
 use webtoolsnz\scheduler\Task;
 
 /**
@@ -26,6 +29,32 @@ class FinamTask extends Task
 	 */
 	public function run()
 	{
-		echo 'Data';
+		$sources = SourceCode::find()->select('code')->column();
+
+		$finamSettings = FinamSettings::find()->where(['in', 'sourcecode_code', $sources])->indexBy('sourcecode_code')->all();
+
+		shuffle($finamSettings);
+
+		$result = [];
+
+		$dateGet = date('d.m.Y');
+
+		foreach ($finamSettings as $finamSetting){
+
+			$provider = new FinamProvider($finamSetting);
+
+			if($provider->requestSource($dateGet)) {
+
+				$provider->saveNewFinData();
+
+			} else {
+				//$result[$finamSettingsEurUsd->sourcecode_code] = $provider->getLogs();
+			}
+			$result[$finamSetting->sourcecode_code] = $provider->getLogs();
+
+			sleep(rand(10, 30));
+		}
+
+		var_dump($result);
 	}
 }
