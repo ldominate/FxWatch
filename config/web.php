@@ -9,9 +9,10 @@ $config = [
     'basePath' => dirname(__DIR__),
 	'language' => 'ru-RU',
 	'layout' => 'sba2',
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'scheduler'],
 	'defaultRoute' => '/news',
 	'modules' => [
+		'scheduler' => ['class' => 'webtoolsnz\scheduler\Module'],
 		'catalog' => [
 			'class' => 'app\modules\catalog\CatalogModule',
 		],

@@ -3,20 +3,48 @@
 $params = require(__DIR__ . '/params.php');
 $db = require(__DIR__ . '/db.php');
 
+\yii\base\Event::on(
+	\webtoolsnz\scheduler\console\SchedulerController::className(),
+	\webtoolsnz\scheduler\events\SchedulerEvent::EVENT_AFTER_RUN,
+	function ($event) {
+		if (!$event->success) {
+			foreach($event->exceptions as $exception) {
+				throw $exception;
+			}
+		}
+	}
+);
+
 $config = [
     'id' => 'basic-console',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'scheduler'],
+	'modules' => [
+		'scheduler' => ['class' => 'webtoolsnz\scheduler\Module']
+	],
     'controllerNamespace' => 'app\commands',
     'components' => [
+    	'errorHandler' => [
+    		'class' => 'webtoolsnz\scheduler\ErrorHandler'
+	    ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
         'log' => [
+        	'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
-                    'class' => 'yii\log\FileTarget',
+                    'class' => 'yii\log\EmailTarget',
+	                'mailer' => 'mailer',
                     'levels' => ['error', 'warning'],
+	                'message' => [
+	                	'to' => ['lokidoma@gmail.com'],
+		                'from' => [$params['adminEmail']],
+		                'subject' => 'Scheduler Error - ####SERVERNAME####'
+	                ],
+	                'except' => [
+
+	                ]
                 ],
             ],
         ],

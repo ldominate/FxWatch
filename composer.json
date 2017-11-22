@@ -14,7 +14,7 @@
     },
     "minimum-stability": "stable",
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=7.1.0",
         "yiisoft/yii2": "~2.0.5",
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0",
@@ -22,7 +22,8 @@
         "hiqdev/yii2-asset-flag-icon-css": "^2.0",
         "nkovacs/yii2-datetimepicker": "*",
         "kartik-v/yii2-date-range": "dev-master",
-        "yiisoft/yii2-httpclient": "^2.0"
+        "yiisoft/yii2-httpclient": "^2.0",
+        "webtoolsnz/yii2-scheduler": "^0.1.3"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
