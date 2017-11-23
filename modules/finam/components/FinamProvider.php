@@ -90,12 +90,12 @@ class FinamProvider extends Object
 				$finData = FinData::createFinamData($dataRow);
 
 				if($finData->hasErrors()){
-					$this->_logs[$finData->datetime] = $finData->getErrors();
+					$this->_logs['errors'] = $finData->getErrors();
 				} else {
 
 					$timeFinData = strtotime($finData->datetime);
 					if(array_key_exists($timeFinData, $this->_finDatas)){
-						$this->_logs[$finData->datetime] = 'С данной меткой времени данные уже были добавлены. Ветка: '.$finData->datetime;
+						$this->_logs['errors'] = 'С данной меткой времени данные уже были добавлены. Ветка: '.$finData->datetime;
 					}else{
 						$this->_finDatas[$timeFinData] = $finData;
 					}

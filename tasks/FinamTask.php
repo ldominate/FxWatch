@@ -55,6 +55,32 @@ class FinamTask extends Task
 			sleep(rand(10, 30));
 		}
 
-		var_dump($result);
+		echo 'Отчёт получения данных планировщиком'."\n";
+		foreach ($result as $code => $message){
+			echo $code.':*********************'."\n";
+
+			if(key_exists('result', $message)) {
+				echo 'Результат:' . $message['result']."\n";
+			}
+			if(key_exists('input', $message)){
+				echo 'Вход:'.$message['input']."\n";
+			}
+			if(key_exists('errors', $message)) {
+				if(is_array($message['errors'])){
+					echo 'Ошибки:'."\n";
+					foreach ($message['errors'] as $errors) {
+						foreach ($errors as $error) {
+							echo $error."\n";
+						}
+					}
+
+				}else{
+					echo 'Ошибки:'.$message['errors']."\n";
+				}
+			}
+			if(key_exists('add', $message)){
+				echo 'Добавлено:'.$message['add']."\n";
+			}
+		}
 	}
 }
