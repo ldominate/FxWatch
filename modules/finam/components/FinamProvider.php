@@ -123,8 +123,11 @@ class FinamProvider extends Object
 			->andWhere([
 				'between',
 				'datetime',
-				Yii::$app->formatter->asDatetime($minFinData->datetime, FinData::DATETIME_FORMAT_DB),
-				Yii::$app->formatter->asDatetime($maxFinData->datetime, FinData::DATETIME_FORMAT_DB)])
+				$minFinData->datetime,
+				$maxFinData->datetime
+				//Yii::$app->formatter->asDatetime($minFinData->datetime, FinData::DATETIME_FORMAT_DB),
+				//Yii::$app->formatter->asDatetime($maxFinData->datetime, FinData::DATETIME_FORMAT_DB)
+				])
 			->with('sourceCode')
 			->orderBy(['datetime' => SORT_ASC])
 			->all();
@@ -137,7 +140,7 @@ class FinamProvider extends Object
 
 		$addFinDatas = [];
 		foreach ($this->_finDatas as $t => $finData){
-			if(in_array($t, $finDateTimeDb)) continue;
+			if(in_array($t, $finDateTimeDb) || array_key_exists($t, $addFinDatas)) continue;
 			$addFinDatas[$t] = $finData;
 		}
 

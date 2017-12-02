@@ -69,7 +69,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-	    $sources = SourceCode::find()->select('code')->column();
+	    //$sources = SourceCode::find()->select('code')->column();
+	    $sources = ['USDRUB'];
 
 	    $finamSettings = FinamSettings::find()->where(['in', 'sourcecode_code', $sources])->indexBy('sourcecode_code')->all();
 
@@ -79,52 +80,21 @@ class SiteController extends Controller
 
 	    $dateGet = date('d.m.Y');
 
-//	    foreach ($finamSettings as $finamSetting){
-//
-//		    $provider = new FinamProvider($finamSetting);
-//
-//		    if($provider->requestSource($dateGet)) {
-//
-//			    $provider->saveNewFinData();
-//
-//		    } else {
-//			    //$result[$finamSettingsEurUsd->sourcecode_code] = $provider->getLogs();
-//		    }
-//		    $result[$finamSetting->sourcecode_code] = $provider->getLogs();
-//
-//	    	sleep(rand(10, 30));
-//	    }
+	    foreach ($finamSettings as $finamSetting){
 
-//    	$finamSettingsEurUsd = FinamSettings::find()->with('sourceCode')->where(['sourcecode_code' => 'USDRUB', 'market' => 5])->limit(1)->one();
-//
-//    	$provider = new FinamProvider($finamSettingsEurUsd);
-//
-//	    if($provider->requestSource('17.11.2017 7:00:00', '17.11.2017 23:00:00')) {
-//
-//	    	$provider->saveNewFinData();
-//
-//	    } else {
-//	    	//$result[$finamSettingsEurUsd->sourcecode_code] = $provider->getLogs();
-//	    }
-//	    $result[$finamSettingsEurUsd->sourcecode_code] = $provider->getLogs();
-	    //$result['min'] = $provider->getMinDateTimeFinData()->getAttributes();
-	    //$result['max'] = $provider->getMaxDateTimeFinData()->getAttributes();
-		//$attributes = $finamSettingsEurUsd->initAttributes(date('d.m.Y'));
-//	    $attributes = $finamSettingsEurUsd->initAttributes('17.11.2017');
-//
-//		$client = new Client();
-//
-//		/** @var $finamResponse yii\httpclient\Response */
-//	    $finamResponse = $client->createRequest()
-//			->setMethod('get')
-//			->setUrl($finamSettingsEurUsd->url)
-//			->setData($attributes)
-//			->send();
-//
-//	    $result = [];
-//	    if($finamResponse->getIsOk()){
-//		    $result = str_getcsv($finamResponse->getContent(), "\n");
-//	    }
+		    $provider = new FinamProvider($finamSetting);
+
+		    if($provider->requestSource($dateGet)) {
+
+			    $provider->saveNewFinData();
+
+		    } else {
+			    //$result[$finamSettingsEurUsd->sourcecode_code] = $provider->getLogs();
+		    }
+		    $result[$finamSetting->sourcecode_code] = $provider->getLogs();
+
+		    sleep(rand(1, 3));
+	    }
 
         return $this->render('index', [
 	        'result' => $result

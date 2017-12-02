@@ -44,7 +44,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'close',
             'vol',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+            	'class' => 'yii\grid\ActionColumn',
+	            'header' => 'Действия',
+            ],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
