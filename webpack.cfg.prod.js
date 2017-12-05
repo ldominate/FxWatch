@@ -2,13 +2,17 @@ const webpack = require("webpack");
 const path = require("path");
 //const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
+const env = process.env.NODE_ENV;
+const __DEV__ = env === 'development';
+const __PRODUCTION__ = env === 'production';
+
 module.exports = {
 	entry: {
 		widget: "./web/app/main"
 	},
 	output:{
 		path: path.resolve(__dirname, "web/js"),
-		publicPath: "http://widget.fxwatch.ru/js/",
+		publicPath: "http://fxwatch/js/",
 		filename: "[name].js"
 	},
 	watchOptions: {
@@ -18,7 +22,7 @@ module.exports = {
 	plugins:[
 		new webpack.NoEmitOnErrorsPlugin(),
 		// new webpack.DefinePlugin({
-		//
+		// 	'process.env.NODE_ENV': JSON.stringify(env)
 		// }),
 		new webpack.ProvidePlugin({
 			React: "react",

@@ -9,12 +9,12 @@
 
 $this->title = 'Виджет';
 
-$this->registerJsFile('/js/vendor.js',['position' => yii\web\View::POS_END]);
-$this->registerJsFile('/js/widget.js?v='.rand(),['position' => yii\web\View::POS_END]);
-//$this->registerJsFile('/js/widget.js?v=0.9',['position' => yii\web\View::POS_END]);
+//$this->registerJsFile('/js/vendor.js',['position' => yii\web\View::POS_END]);
+//$this->registerJsFile('/js/widget.js?v='.rand(),['position' => yii\web\View::POS_END]);
+$this->registerJsFile('/js/widget.js?v=1.0.1',['position' => yii\web\View::POS_END]);
 
-$this->registerCssFile('/js/vendor.css');
-$this->registerCssFile('/js/widget.css');
+//$this->registerCssFile('/js/vendor.css');
+//$this->registerCssFile('/js/widget.css');
 
 ?>
 
