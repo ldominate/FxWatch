@@ -20,7 +20,7 @@
         "yiisoft/yii2-swiftmailer": "~2.0.0",
         "mimicreative/yii2-metismenu": "~1.0",
         "hiqdev/yii2-asset-flag-icon-css": "^2.0",
-        "nkovacs/yii2-datetimepicker": "*",
+        "nkovacs/yii2-datetimepicker": "^3.1.0",
         "kartik-v/yii2-date-range": "dev-master",
         "yiisoft/yii2-httpclient": "^2.0",
         "webtoolsnz/yii2-scheduler": "^0.1.3"

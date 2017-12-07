@@ -23,7 +23,7 @@ class NavigationNewsListRegion extends Component{
 			this.list.dxList("instance").unselectAll();
 			console.log("unselected");
 		}
-		console.log(nextProps);
+		//console.log(nextProps);
 		if(this.country !== nextProps.newsList.country){
 			this.country = nextProps.newsList.country;
 			this.list.dxList("instance").reload();

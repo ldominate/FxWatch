@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 
 import $ from "jquery";
-import dxTabs from "devextreme/ui/tabs";
+import "devextreme/ui/tabs";
 
 import {NEWS_SOURCE_WEEK, NEWS_SOURCE_REGION, NEWS_SOURCE_SEARCH,
 	selectNewsSource } from "../actions/ActionsWidget";
@@ -15,6 +15,10 @@ class NavigationNewsTabs extends Component{
 	}
 	componentDidMount(){
 		this.tabs = $(ReactDOM.findDOMNode(this));
+		//console.log(this.tabs);
+		//console.log(dxTabs);
+		//console.log(this.tabs.dxTabs);
+		//console.log(this.tabs.width);
 		this.tabs.dxTabs({
 			dataSource: [
 				{id: NEWS_SOURCE_WEEK, text: "Неделя"},

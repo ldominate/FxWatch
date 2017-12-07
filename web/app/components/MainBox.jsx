@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 
 import $ from "jquery";
-import dxScrollView from "devextreme/ui/scroll_view";
+import "devextreme/ui/scroll_view";
 
 import GraphBox from "./GraphBox";
 
@@ -17,11 +17,12 @@ class MainBox extends Component{
 		this.newsId = null;
 		this.newNews = false;
 		this.skip = null;
+		this.inReach = false;
 	}
 	shouldComponentUpdate(nextProps, nextState) {
+		//console.log("nextProps");
 		// if(!nextProps.newsList.selectFirst){
-		//console.log(nextProps.endCategory);
-		//console.log(this.endCategory);
+		console.log("endCategory", this.endCategory, nextProps.endCategory);
 		const newsId = nextProps.graphKeys.getIn([0, "news", "id"]);
 		//this.scrollView.dxScrollView("instance").update();
 
@@ -57,15 +58,28 @@ class MainBox extends Component{
 		return true;
 	}
 	componentDidUpdate(prevProps, prevState){
+		//console.log("prevProps");
 		this.scrollView.dxScrollView("instance").update()
 			.done(() => {
+				//console.log("done");
 				//console.log(this.scrollView.dxScrollView("instance").scrollHeight());
 				this.scrollView.dxScrollView("instance").release();
 				const scrollHeight = this.scrollView.dxScrollView("instance").scrollHeight();
-				//console.log(scrollHeight);
+				const clientHeight = this.scrollView.dxScrollView("instance").clientHeight();
+				console.log("scrollHeight:", scrollHeight, "clientHeight:", clientHeight);
 				const newsId = this.props.graphKeys.getIn([0, "news", "id"]);
 				//console.log(newsId);
+				if(!this.inReach && this.newsId > 0 && !this.props.endCategory && scrollHeight <= clientHeight){
+					console.log("reach bottom force");
+					this.props.reachNewsCategory();
+					this.inReach = true;
+				}
+				if(this.endCategory){
+					this.inReach = false;
+				}
+				console.log("inReach", this.inReach);
 				if(scrollHeight < 400 && newsId > 0){
+					//console.log("done release");
 					this.scrollView.dxScrollView("instance").release()
 						.done(() => {
 							if(this.skip !== this.props.skip || this.newNews){
@@ -86,22 +100,32 @@ class MainBox extends Component{
 		// }
 	}
 	componentDidMount() {
+		//console.log("did");
 		this.endCategory = this.props.endCategory;
 		this.newsId = this.props.graphKeys.getIn([0, "news", "id"]);
 		this.skip = this.props.skip;
 		//console.log(this.props.graphKeys);
 		this.scrollView = $(ReactDOM.findDOMNode(this));
 		this.scrollView.dxScrollView({
+			scrollByContent: true,
 			scrollByThumb: true,
 			direction: 'vertical',
 			reachBottomText: "Загрузка...",
-			//useNative: true,
+			//bounceEnabled: true,
+			useNative: false,
+			height: 510,
+			//onReachBottom: e => console.log(e)
 			onReachBottom: this.reachBottom.bind(this)
 		}).dxScrollView("instance");
+		if(this.props.graphKeys.size <= 0){
+			//console.log("did release");
+			this.scrollView.dxScrollView("instance").release(true);
+		}
 	}
 	reachBottom(args, eventName){
-		//console.log("reach bottom");
+		console.log("reach bottom");
 		//console.log(args);
+		args.component.release();
 		this.props.reachNewsCategory();
 	}
 	render(){
