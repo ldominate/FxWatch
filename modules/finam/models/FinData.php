@@ -22,7 +22,8 @@ use yii\db\ActiveRecord;
 class FinData extends ActiveRecord
 {
 	const DATETIME_FORMAT = 'yyyyMMdd HHmmss',
-		DATETIME_FORMAT_DB = 'yyyy-MM-dd HH:mm:ss';
+		DATETIME_FORMAT_DB = 'yyyy-MM-dd HH:mm:ss',
+		DATE_FORMAT_DB = 'yyyy-MM-dd';
 
     /**
      * @inheritdoc

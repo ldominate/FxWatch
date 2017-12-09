@@ -17,5 +17,5 @@ $this->title = 'Графики Финам';
 
 <div>
 	<?= Html::tag('h2', 'Result') ?>
-	<pre class="pre-scrollable"><?= var_dump($result) ?></pre>
+	<pre class="pre-scrollable"><? var_dump($result) ?></pre>
 </div>
