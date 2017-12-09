@@ -50,6 +50,7 @@ class MainBox extends Component{
 			// this.scrollView.dxScrollView("instance").release(false);
 			this.newsId = newsId;
 			this.newNews = true;
+			this.inReach = false;
 		}else{
 			this.newNews = false;
 		}
@@ -76,6 +77,9 @@ class MainBox extends Component{
 				}
 				if(this.endCategory){
 					this.inReach = false;
+				}
+				if(!this.endCategory && scrollHeight > clientHeight){
+					this.scrollView.dxScrollView("instance").option("onReachBottom", this.reachBottom.bind(this));
 				}
 				console.log("inReach", this.inReach);
 				if(scrollHeight < 400 && newsId > 0){
