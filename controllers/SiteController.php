@@ -70,31 +70,31 @@ class SiteController extends Controller
     public function actionIndex()
     {
 	    //$sources = SourceCode::find()->select('code')->column();
-	    $sources = ['USDRUB'];
-
-	    $finamSettings = FinamSettings::find()->where(['in', 'sourcecode_code', $sources])->indexBy('sourcecode_code')->all();
-
-	    shuffle($finamSettings);
-
+//	    $sources = ['USDRUB'];
+//
+//	    $finamSettings = FinamSettings::find()->where(['in', 'sourcecode_code', $sources])->indexBy('sourcecode_code')->all();
+//
+//	    shuffle($finamSettings);
+//
 	    $result = [];
-
-	    $dateGet = date('d.m.Y');
-
-	    foreach ($finamSettings as $finamSetting){
-
-		    $provider = new FinamProvider($finamSetting);
-
-		    if($provider->requestSource($dateGet)) {
-
-			    $provider->saveNewFinData();
-
-		    } else {
-			    //$result[$finamSettingsEurUsd->sourcecode_code] = $provider->getLogs();
-		    }
-		    $result[$finamSetting->sourcecode_code] = $provider->getLogs();
-
-		    sleep(rand(1, 3));
-	    }
+//
+//	    $dateGet = date('d.m.Y');
+//
+//	    foreach ($finamSettings as $finamSetting){
+//
+//		    $provider = new FinamProvider($finamSetting);
+//
+//		    if($provider->requestSource($dateGet)) {
+//
+//			    $provider->saveNewFinData();
+//
+//		    } else {
+//			    //$result[$finamSettingsEurUsd->sourcecode_code] = $provider->getLogs();
+//		    }
+//		    $result[$finamSetting->sourcecode_code] = $provider->getLogs();
+//
+//		    sleep(rand(1, 3));
+//	    }
 
         return $this->render('index', [
 	        'result' => $result

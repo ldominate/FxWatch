@@ -100,6 +100,9 @@ $config = [
 	            '/news/data/delall/<news_id:\d+>/<fintool_id:\d+>/<period_id:\d+>' => '/news/default/newsdatadelall',
 	            '/news/<action:(view|update)>/<id:\d+>' => '/news/default/<action>',
 
+	            '/finam/widget' => '/finam/default/widget',
+	            '/finam/<action:(view|update)>/<id:\d+>' => '/news/default/<action>',
+
 	            '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
 	            '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
 	            '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',

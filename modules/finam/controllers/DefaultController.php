@@ -17,4 +17,15 @@ class DefaultController extends Controller
     {
         return $this->render('index');
     }
+
+    public function actionWidget()
+    {
+	    $result = [];
+
+
+
+    	return $this->render('widget', [
+		    'result' => $result
+	    ]);
+	}
 }
