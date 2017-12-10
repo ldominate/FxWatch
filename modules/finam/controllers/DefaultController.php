@@ -31,29 +31,38 @@ class DefaultController extends Controller
     	$current_start_date = $current_str_date.' 00:00:00';
 		$current_end_date = $current_str_date.' 23:59:59';
 
-    	//$query = SourceCode::find();
-
-    	$finDataMinDay = FinData::find()
-		    ->select('MIN(datetime)')
-		    ->andWhere(['between', 'datetime',
-			    $current_start_date, $current_end_date])
-		    ->andWhere('sourcecode_code = `sourcecode`.`code`');
-
-	    $finDataMaxDay = FinData::find()
-		    ->select('MAX(datetime)')
-		    ->andWhere(['between', 'datetime',
-			    $current_start_date, $current_end_date])
-		    ->andWhere('sourcecode_code = `sourcecode`.`code`');
+	    $subGroup = (new Query())
+		    ->select([
+		    	'sourcecode.code',
+			    'MIN(`findata`.`datetime`) AS minFin',
+			    'MAX(`findata`.`datetime`) AS maxFin'
+		    ])
+		    ->from(SourceCode::tableName())
+		    ->leftJoin('findata', '`findata`.`sourcecode_code` = `sourcecode`.`code`')
+		    ->andWhere(['between', '`findata`.`datetime`', $current_start_date, $current_end_date])
+		    ->groupBy('`sourcecode`.code');
 
     	$query = (new Query())
-		    ->select('sourcecode.*, findata.*, UNIX_TIMESTAMP(findata.datetime) AS stamp')
+		    ->select([
+			        'sourcetype.type',
+		    	    'sourcecode.code',
+			        'sourcecode.name',
+				    'findata.id',
+				    'DATE_FORMAT(findata.datetime, \'%Y-%m-%dT%TZ\') AS datetime',
+				    'findata.open',
+				    'findata.max',
+				    'findata.min',
+				    'findata.close',
+				    'findata.vol',
+			        'UNIX_TIMESTAMP(findata.datetime) AS stamp'])
 		    ->from(SourceCode::tableName())
-		    //->with('sourceType')
 		    ->innerJoin('sourcetype', '`sourcetype`.`id` = `sourcecode`.`sourcetype_id`')
-		    ->leftJoin('findata', '`findata`.`sourcecode_code` = `sourcecode`.`code`')
-		    ->andWhere(['=', '`findata`.`datetime`', $finDataMinDay])
-		    ->orWhere(['=', '`findata`.`datetime`', $finDataMaxDay]);
-	        //->limit(10);
+		    ->leftJoin('findata', '`findata`.`sourcecode_code` = `sourcecode`.`code` AND `findata`.`datetime` between \''.$current_start_date.'\' AND \''.$current_end_date.'\'')
+		    ->leftJoin(['gFin' => $subGroup], '`gFin`.`code` = `sourcecode`.`code`')
+		    ->andWhere('`gFin`.`minFin` = `findata`.`datetime`')
+		    ->orWhere('`gFin`.`maxFin` = `findata`.`datetime`')
+		    ->orWhere(['and', 'ISNULL(`gFin`.`maxFin`)', 'ISNULL(`gFin`.`minFin`)'])
+	        ->orderBy(['`sourcecode`.`code`' => SORT_ASC, 'stamp' => SORT_ASC]);
 
     	$datas = $query->all();
 
