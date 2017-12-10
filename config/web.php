@@ -101,6 +101,8 @@ $config = [
 	            '/news/<action:(view|update)>/<id:\d+>' => '/news/default/<action>',
 
 	            '/finam/widget' => '/finam/default/widget',
+	            '/finam/tools/<t:\d+>/<s:\d+>' => '/finam/fin-data/tools',
+	            '/finam/data/<c:\w+>/<s:\d+>' => '/finam/fin-data/data',
 	            '/finam/<action:(view|update)>/<id:\d+>' => '/news/default/<action>',
 
 	            '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

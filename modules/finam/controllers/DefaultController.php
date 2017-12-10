@@ -3,7 +3,6 @@
 namespace app\modules\finam\controllers;
 
 use app\modules\catalog\models\SourceCode;
-use app\modules\catalog\models\SourceType;
 use app\modules\finam\models\FinData;
 use Yii;
 use yii\db\Query;
@@ -64,14 +63,37 @@ class DefaultController extends Controller
 		    ->orWhere(['and', 'ISNULL(`gFin`.`maxFin`)', 'ISNULL(`gFin`.`minFin`)'])
 	        ->orderBy(['`sourcecode`.`code`' => SORT_ASC, 'stamp' => SORT_ASC]);
 
-    	$datas = $query->all();
+    	$finDataDb = $query->all();
+
+    	$codes = [];
+
+    	foreach ($finDataDb as $finData){
+    		if(array_key_exists($finData['code'], $codes)){
+			    $code = $codes[$finData['code']];
+
+			    $codes[$finData['code']]['datetime'] = $finData['datetime'];
+			    $codes[$finData['code']]['change'] = $finData['max'] - $code['change'];
+			    $codes[$finData['code']]['percent'] = ($code['percent'] == 0.0 ? $finData['max'] : ($finData['max'] - $code['percent']) / $code['percent']) * 100.0;
+			    $codes[$finData['code']]['stamp'] = $finData['stamp'];
+		    }else{
+			    $codes[$finData['code']] = [
+				    'code' => $finData['code'],
+				    'name' => $finData['name'],
+				    'datetime' => $finData['datetime'],
+				    'change' => $finData['open'],
+				    'percent' => $finData['open'],
+				    'stamp' => $finData['stamp']
+			    ];
+		    }
+	    }
 
 	    $result = [];
 
 		$result['strtotime'] = $current_date;
 		$result['date'] = date('c', $current_date);
 	    $result['current_start_date'] = $current_start_date;
-		$result['datas'] = $datas;
+	    //$result['finDataDb'] = $finDataDb;
+		$result['codes'] = $codes;
 
     	return $this->render('widget', [
 		    'result' => $result
