@@ -7,14 +7,25 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const extractCss = new ExtractTextPlugin({filename: "[name].css", allChunks: true});
 
+const env = process.env.NODE_ENV;
+const __DEV__ = env === "development";
+const __PRODUCTION__ = env === "production";
+
+const paths = {
+	src: path.resolve(__dirname, 'web/app'),
+	dist: path.resolve(__dirname, 'web/js')
+};
+
 module.exports = {
 	entry: {
-		widget: "./web/app/main"
+		widget: paths.src + "/main",
+		finam: paths.src + "/finam"
 	},
 	output:{
-		path: path.resolve(__dirname, "web/js"),
+		path: paths.dist,
 		publicPath: "/js/",
-		filename: "[name].js"
+		filename: "[name].js",
+		chunkFilename: __PRODUCTION__ ? "[name].[chunkhash].js" : '[name].js'  //динамически загружаемые модули считаются chunk'ами
 	},
 	watchOptions: {
 		aggregateTimeout: 1000
@@ -22,9 +33,12 @@ module.exports = {
 	devtool: "chep-inline-module-source-map",
 	plugins:[
 		new webpack.NoEmitOnErrorsPlugin(),
-		// new webpack.DefinePlugin({
-		//
-		// }),
+		// отправляем значение NODE_ENV в качестве глобального параметра
+		new webpack.DefinePlugin({
+			'process.env.NODE_ENV': JSON.stringify(env)
+		}),
+		//ускорение выполнения кода в браузере
+		new webpack.optimize.ModuleConcatenationPlugin(),
 		new webpack.ProvidePlugin({
 			React: "react",
 			ReactDOM: "react-dom"
@@ -44,7 +58,7 @@ module.exports = {
 			path.resolve('./'),
 			path.resolve('./node_modules')
 		],
-		extensions: [".js", ".jsx", ".less", ".css"],
+		extensions: [".ts", ".tsx", ".js", ".jsx", ".less", ".css"],
 		alias: {
 			dxCommonCss: path.join(__dirname, "/node_modules/devextreme/dist/css/dx.common.css"),
 			dxLightCss: path.join(__dirname, "/node_modules/devextreme/dist/css/dx.light.compact.css")
@@ -81,6 +95,10 @@ module.exports = {
 				],
 				exclude: [/node_modules/]
 			},
+			{
+				test: /\.tsx?$/,
+				loader: 'awesome-typescript-loader'
+			}, // загрузчик для обработки файлов с расширением .ts
 			{
 				test: /\.css$/,
 				loader: extractCss.extract({fallback: "postcss-loader", use: [{loader: "css-loader"}]}),

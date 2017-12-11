@@ -11,6 +11,12 @@ use yii\helpers\Html;
 
 $this->title = 'Графики Финам';
 
+$this->registerJsFile('/js/vendor.js',['position' => yii\web\View::POS_END]);
+$this->registerJsFile('/js/finam.js?v='.rand(),['position' => yii\web\View::POS_END]);
+
+$this->registerCssFile('/js/vendor.css');
+$this->registerCssFile('/js/finam.css');
+
 ?>
 
 <div id="widget"></div>
