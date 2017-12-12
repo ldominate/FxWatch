@@ -1,4 +1,10 @@
+import sourceCode, { SourceCodeParam } from "./sources/SourceCodeSource";
+
 var el = document.getElementById("widget");
+
+const sCodeSource = sourceCode(new SourceCodeParam(0));
+
+sCodeSource.load().then(result => console.log(result));
 
 class User{
 	name : string;

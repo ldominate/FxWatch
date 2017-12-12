@@ -141,7 +141,7 @@ class FinDataController extends Controller
 			    'sourcecode.code',
 			    'sourcecode.name',
 			    'findata.id',
-			    'DATE_FORMAT(findata.datetime, \'%Y-%m-%dT%TZ\') AS datetime',
+			    'DATE_FORMAT(findata.datetime, \'%Y-%m-%dT%T\') AS datetime',
 			    'findata.open',
 			    'findata.max',
 			    'findata.min',
@@ -184,7 +184,7 @@ class FinDataController extends Controller
 			    ];
 		    }
 	    }
-	    return $this->asJson($codes);
+	    return $this->asJson(array_values($codes));
     }
 
 	/**
