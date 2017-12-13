@@ -1,6 +1,7 @@
 import CustomStore from "devextreme/data/custom_store";
 
-import * as $ from "jquery";
+import {wrapHost} from "./UrlHostPath";
+import {fetchUrl} from "./SourceLib";
 
 export class SourceCodeParam {
 
@@ -12,41 +13,29 @@ export class SourceCodeParam {
     sourceType: number;
 
     timeStamp: number;
+
+    sourceCode: string;
 }
 
 export default (scParam: SourceCodeParam) : CustomStore => {
     return new CustomStore({
-        load: loadOption => {
+        load: () => {
 
-            const url: string = `/finam/tools/${scParam.sourceType}/${scParam.timeStamp}`;
+            const url: string = wrapHost(`/finam/tools/${scParam.sourceType}/${scParam.timeStamp}`);
 
-            return fetch(url, { method: 'get', credentials: "include" })
-                .then(response => {
-                    //console.log(response);
-                    return response.json();
-                }).then(json => {
-                    const result = json.map(d => {
-                        if(d.datetime !== null) {
-                            d.datetime = new Date(d.datetime);
-                        }
-                        return d;
-                    });
-                    //console.log(result);
-                    return result;
-                }).catch(ex => {
-                    console.log("parsing failed", ex);
-                    return 0;
-                })
+            return fetchUrl(url);
 
         },
         byKey: key => {
-            const promise = new Promise((resolve, reject) => {
-                resolve();
-            });
+
             console.log(key);
-            return promise;
+
+            const url: string = wrapHost(`/finam/tools/${scParam.sourceType}/${scParam.timeStamp}/${scParam.sourceCode}`);
+
+            return fetchUrl(url, true);
         },
         loadMode: "raw",
         cacheRawData: true
     });
 }
+

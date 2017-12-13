@@ -112,9 +112,10 @@ class FinDataController extends Controller
 	/**
 	 * @param $s integer Time stamp
 	 * @param $t integer Source type
+	 * @param $c string Source code
 	 * @return \yii\web\Response
 	 */
-    public function actionTools($s, $t){
+    public function actionTools($s, $t, $c = null){
 
     	if(!isset($s) || !is_numeric($s)){
 		    $s = time();
@@ -161,6 +162,10 @@ class FinDataController extends Controller
 	    	$query->andWhere(['=', 'sourcetype.type', $t]);
 	    }
 
+	    if(isset($c) && !empty($c) && strlen($c) < 15){
+	    	$query->andWhere(['=', 'sourcecode.code', $c]);
+	    }
+
 	    $finDataDb = $query->all();
 
 	    $codes = [];
@@ -198,7 +203,7 @@ class FinDataController extends Controller
 		    $s = time();
 	    }
 
-	    if(!isset($c) || strlen($c) <= 0){
+	    if(!isset($c) || strlen($c) <= 0 || strlen($c) > 15){
 		    return $this->asJson(null);
 	    }
 
@@ -207,7 +212,7 @@ class FinDataController extends Controller
 	    $current_end_date = $current_str_date.' 23:59:59';
 
 	    $query = FinData::find()
-		    ->select(['findata.*', 'DATE_FORMAT(findata.datetime, \'%Y-%m-%dT%TZ\') AS datetime'])
+		    ->select(['findata.*', 'DATE_FORMAT(findata.datetime, \'%Y-%m-%dT%T\') AS datetime'])
 		    ->where(['=', 'sourcecode_code', $c])
 		    ->andWhere(['between', 'datetime', $current_start_date, $current_end_date])
 		    ->orderBy(['sourcecode_code' => SORT_ASC, 'datetime' => SORT_ASC])
