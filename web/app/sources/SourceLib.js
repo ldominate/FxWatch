@@ -3,7 +3,12 @@ import "core-js/fn/promise";
 
 import "whatwg-fetch";
 
-export function fetchUrl(url: string, getFirst: boolean = false): Promise<Response>{
+export const SourceType = {
+    CURRENCY_PAIRS: 0,
+    FINANCIAL_INSTRUMENTS: 1
+};
+
+export function fetchUrl(url, getFirst = false) {
 
     return fetch(url, { method: 'get', credentials: "include" })
         .then(response => {

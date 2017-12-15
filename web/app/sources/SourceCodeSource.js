@@ -5,23 +5,18 @@ import {fetchUrl} from "./SourceLib";
 
 export class SourceCodeParam {
 
-    constructor(sType: number){
+    constructor(sType){
         this.sourceType = sType;
         this.timeStamp = Math.round(Date.now() / 1000);
+        this.sourceCode = "";
     }
-
-    sourceType: number;
-
-    timeStamp: number;
-
-    sourceCode: string;
 }
 
-export default (scParam: SourceCodeParam) : CustomStore => {
+export default scParam => {
     return new CustomStore({
         load: () => {
 
-            const url: string = wrapHost(`/finam/tools/${scParam.sourceType}/${scParam.timeStamp}`);
+            const url = wrapHost(`/finam/tools/${scParam.sourceType}/${scParam.timeStamp}`);
 
             return fetchUrl(url);
 
@@ -30,7 +25,7 @@ export default (scParam: SourceCodeParam) : CustomStore => {
 
             console.log(key);
 
-            const url: string = wrapHost(`/finam/tools/${scParam.sourceType}/${scParam.timeStamp}/${scParam.sourceCode}`);
+            const url = wrapHost(`/finam/tools/${scParam.sourceType}/${scParam.timeStamp}/${scParam.sourceCode}`);
 
             return fetchUrl(url, true);
         },

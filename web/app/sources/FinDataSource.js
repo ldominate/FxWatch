@@ -3,23 +3,18 @@ import CustomStore from "devextreme/data/custom_store";
 import {wrapHost} from "./UrlHostPath";
 import {fetchUrl} from "./SourceLib";
 
-export interface IFinDataSourceParam {
-    sourceCode: string;
-    timeStamp: number;
-}
-
-export const finDataSourceParam: IFinDataSourceParam = {
+export const finDataSourceParam = {
     sourceCode: "",
     timeStamp: Math.round(Date.now() / 1000)
 };
 
-export default (getParam: () => IFinDataSourceParam) => {
+export default getParam => {
     return new CustomStore({
         load: () => {
 
             const param = getParam();
 
-            const url: string = wrapHost(`/finam/data/${param.sourceCode}/${param.timeStamp}`);
+            const url = wrapHost(`/finam/data/${param.sourceCode}/${param.timeStamp}`);
 
             return fetchUrl(url);
         },

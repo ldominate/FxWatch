@@ -87,7 +87,7 @@ class DefaultController extends Controller
 //		    }
 //	    }
 //
-	    $result = [];
+//	    $result = [];
 //
 //		$result['strtotime'] = $current_date;
 //		$result['date'] = date('c', $current_date);
@@ -96,7 +96,7 @@ class DefaultController extends Controller
 //		$result['codes'] = $codes;
 
     	return $this->render('widget', [
-		    'result' => $result
+//		    'result' => $result
 	    ]);
 	}
 }
