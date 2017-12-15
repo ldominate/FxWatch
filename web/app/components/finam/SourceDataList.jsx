@@ -24,7 +24,11 @@ class SourceDataList extends Component {
 	        showSelectionControls: false,
 	        itemTemplate: function(data, index) {
 		        const result = $("<div>").addClass("item-code");
-
+				if(data.change > 0){
+					result.addClass("positive");
+				}else{
+					result.addClass("negative");
+				}
 		        // $("<div>").addClass("time-news").text(data.published.toLocaleTimeString("ru-RU", {
 		        // 	month: "2-digit",
 		        // 	day: "2-digit",
@@ -34,14 +38,25 @@ class SourceDataList extends Component {
 		        // ).appendTo(result);
 		        // $("<div>").html(`<span class="flag-icon flag-icon-${data.country_code.toLowerCase()}"></span>${data.countryCode}`)
 		        // 	.appendTo(result);
-		        $("<div>").html(data.name)
-			        .appendTo(result);
+		        const row1 = $("<div>").addClass("item-ttl");
+		        $("<div>").addClass("code-name").html(data.name)
+			        .appendTo(row1);
+		        $("<div>").addClass("fin-time").html(data.datetime.toLocaleTimeString("ru-RU", { hour:"numeric", minute: "2-digit"}))
+			        .appendTo(row1);
+		        row1.appendTo(result);
+		        const row2 = $("<div>").addClass("item-data");
+		        $("<div>").addClass("fin-change").html(data.change.toFixed(4))
+			        .appendTo(row2);
+		        $("<div>").addClass("fin-percent").html(`${data.percent.toFixed(2)}%`)
+			        .appendTo(row2);
+		        row2.appendTo(result);
 		        return result;
 	        },
 	        nextButtonText: "Загрузить ещё...",
 	        noDataText: "Новостей нет",
 	        pageLoadMode: "scrollBottom",
-	        pageLoadingText: "Загрузка...",
+	        //pageLoadingText: "Загрузка...",
+	        pageLoadingText: "",
         });
     }
     render(){
