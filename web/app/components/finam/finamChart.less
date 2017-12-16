@@ -1,3 +1,6 @@
+@positive: #5cb85c;
+@negative: #d9534f;
+
 #finam-box{
   .finam-chart{
     width: 436px;
@@ -34,10 +37,10 @@
                 padding: 3px 5px;
                 line-height: 1.0715;
                 &.positive {
-                  background-color: #5cb85c;
+                  background-color: @positive;
                 }
                 &.negative {
-                  background-color: #d9534f;
+                  background-color: @negative;
                 }
                 .item-ttl {
                   display: flex;
@@ -80,6 +83,33 @@
     }
     .chart-box{
       flex: 1 1 70%;
+      padding: 5px 2px 2px 7px;
+
+      .fin-info-box{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: stretch;
+        margin-bottom: 3px;
+
+        .info-name{
+          flex: 1 1 auto;
+          text-align: left;
+        }
+        .info-value{
+          flex: 0 1 auto;
+          padding-right: 3px;
+        }
+        .info-change{
+          flex: 0 1 auto;
+          &.positive {
+            background-color: @positive;
+          }
+          &.negative {
+            background-color: @negative;
+          }
+        }
+      }
     }
   }
 }

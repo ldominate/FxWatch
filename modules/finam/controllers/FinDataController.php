@@ -178,11 +178,13 @@ class FinDataController extends Controller
 			    $codes[$finData['code']]['change'] = $finData['max'] - $code['change'];
 			    $codes[$finData['code']]['percent'] = ($code['percent'] == 0.0 ? $finData['max'] : ($finData['max'] - $code['percent']) / $code['percent']) * 100.0;
 			    $codes[$finData['code']]['stamp'] = $finData['stamp'];
+			    $codes[$finData['code']]['max'] = floatval($finData['max']);
 		    }else{
 			    $codes[$finData['code']] = [
 				    'code' => $finData['code'],
 				    'name' => $finData['name'],
 				    'datetime' => $finData['datetime'],
+				    'max' => $finData['max'],
 				    'change' => $finData['open'],
 				    'percent' => $finData['open'],
 				    'stamp' => $finData['stamp']

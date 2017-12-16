@@ -22,7 +22,7 @@ class SourceDataList extends React.Component {
         };
     }
     loaded(){
-    	console.log("loaded", this.state.isLoaded);
+    	//console.log("loaded", this.state.isLoaded);
 	    if(!this.state.isLoaded) {
 		    this.setState({isLoaded: true});
 	    }
@@ -44,7 +44,7 @@ class SourceDataList extends React.Component {
 	        showSelectionControls: false,
 	        itemTemplate: function(data, index) {
 		        const result = $("<div>").addClass("item-code");
-				if(data.change > 0){
+				if(data.change >= 0){
 					result.addClass("positive");
 				}else{
 					result.addClass("negative");
@@ -69,7 +69,7 @@ class SourceDataList extends React.Component {
 
 		        if(data.change !== null) {
 			        const row2 = $("<div>").addClass("item-data");
-			        $("<div>").addClass("fin-change").html(data.change.toFixed(4))
+			        $("<div>").addClass("fin-change").html(data.max.toFixed(4))
 				        .appendTo(row2);
 			        $("<div>").addClass("fin-percent").html(`${data.percent.toFixed(2)}%`)
 				        .appendTo(row2);
@@ -83,13 +83,13 @@ class SourceDataList extends React.Component {
 	        //pageLoadingText: "Загрузка...",
 	        pageLoadingText: "",
 	        onSelectionChanged: e => {
-	        	console.log(e);
+	        	//console.log("selectionChanged", e);
 	        	if(Array.isArray(e.addedItems) && e.addedItems.length){
 	        		this.props.handleChangeTool(e.addedItems[0]);
 		        }
 	        },
 	        onContentReady: e => {
-	        	console.log("content ready", e);
+	        	//console.log("content ready", e);
 		        if(this.state.isLoaded)
 			        this.list.dxList("instance").selectItem(0);
 	        }

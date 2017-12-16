@@ -3,12 +3,16 @@ import PropsTypes from "prop-types";
 
 import { SourceType } from "../../sources/SourceLib";
 import SourceDataList from "./SourceDataList";
-
-
+import FinInfo from "./FinInfo";
 
 class Finam extends React.Component{
     state = {
-        tool: null
+        tool: {
+	        name: "",
+	        change: .0,
+	        percent: 0.,
+	        max: .0
+        }
     };
     changeTool(tool){
     	console.log("changeTool");
@@ -23,7 +27,9 @@ class Finam extends React.Component{
                     handleChangeTool={this.changeTool.bind(this)}
                 />
             </div>
-            <div className="chart-box">Cart Box</div>
+            <div className="chart-box">
+	            <FinInfo {...this.state.tool}/>
+            </div>
         </div>;
     }
 }
