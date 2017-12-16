@@ -49,15 +49,6 @@ class SourceDataList extends React.Component {
 				}else{
 					result.addClass("negative");
 				}
-		        // $("<div>").addClass("time-news").text(data.published.toLocaleTimeString("ru-RU", {
-		        // 	month: "2-digit",
-		        // 	day: "2-digit",
-		        // 	year: "numeric",
-		        // 	hour:"numeric",
-		        // 	minute: "2-digit"})
-		        // ).appendTo(result);
-		        // $("<div>").html(`<span class="flag-icon flag-icon-${data.country_code.toLowerCase()}"></span>${data.countryCode}`)
-		        // 	.appendTo(result);
 		        const row1 = $("<div>").addClass("item-ttl");
 		        $("<div>").addClass("code-name").html(data.name)
 			        .appendTo(row1);

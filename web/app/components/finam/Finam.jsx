@@ -4,13 +4,15 @@ import PropsTypes from "prop-types";
 import { SourceType } from "../../sources/SourceLib";
 import SourceDataList from "./SourceDataList";
 import FinInfo from "./FinInfo";
+import FinChart from "./FinChart";
 
 class Finam extends React.Component{
     state = {
         tool: {
+        	code: "",
 	        name: "",
 	        change: .0,
-	        percent: 0.,
+	        percent: .0,
 	        max: .0
         }
     };
@@ -29,6 +31,10 @@ class Finam extends React.Component{
             </div>
             <div className="chart-box">
 	            <FinInfo {...this.state.tool}/>
+	            {this.state.tool.code.length > 0
+		            ? <FinChart sourceCode={this.state.tool.code} sourceStamp={this.props.sourceStamp}/>
+		            : null
+	            }
             </div>
         </div>;
     }

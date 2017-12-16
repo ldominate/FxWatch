@@ -22,7 +22,7 @@ export function fetchUrl(url, getFirst = false) {
                 }
                 return d;
             });
-            console.log(result);
+            //console.log(result);
             return getFirst ? result[0] : result;
         }).catch(ex => {
             console.log("parsing failed", ex);
