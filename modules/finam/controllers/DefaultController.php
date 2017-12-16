@@ -24,7 +24,8 @@ class DefaultController extends Controller
 
     public function actionWidget()
     {
-//    	$current_date = strtotime('06.12.2017 11:23:34');
+    	//$current_date = strtotime('06.12.2017 11:23:34');
+//	    $current_date = time();
 //
 //    	$current_str_date = Yii::$app->formatter->asDate($current_date, FinData::DATE_FORMAT_DB);
 //    	$current_start_date = $current_str_date.' 00:00:00';
@@ -86,17 +87,17 @@ class DefaultController extends Controller
 //			    ];
 //		    }
 //	    }
-//
-//	    $result = [];
-//
+
+	    $result = [];
+
 //		$result['strtotime'] = $current_date;
 //		$result['date'] = date('c', $current_date);
 //	    $result['current_start_date'] = $current_start_date;
-//	    //$result['finDataDb'] = $finDataDb;
+	    //$result['finDataDb'] = $finDataDb;
 //		$result['codes'] = $codes;
 
     	return $this->render('widget', [
-//		    'result' => $result
+		    'result' => $result
 	    ]);
 	}
 }

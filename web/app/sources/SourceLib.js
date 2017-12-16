@@ -5,7 +5,8 @@ import "whatwg-fetch";
 
 export const SourceType = {
     CURRENCY_PAIRS: 0,
-    FINANCIAL_INSTRUMENTS: 1
+    FINANCIAL_INSTRUMENTS: 1,
+    getTypes: () => [0, 1]
 };
 
 export function fetchUrl(url, getFirst = false) {
@@ -21,7 +22,7 @@ export function fetchUrl(url, getFirst = false) {
                 }
                 return d;
             });
-            //console.log(result);
+            console.log(result);
             return getFirst ? result[0] : result;
         }).catch(ex => {
             console.log("parsing failed", ex);

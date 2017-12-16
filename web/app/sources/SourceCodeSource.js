@@ -5,9 +5,9 @@ import {fetchUrl} from "./SourceLib";
 
 export class SourceCodeParam {
 
-    constructor(sType){
+    constructor(sType, stamp = null){
         this.sourceType = sType;
-        this.timeStamp = Math.round(Date.now() / 1000);
+        this.timeStamp = stamp === null ? Math.round(Date.now() / 1000) : stamp;
         this.sourceCode = "";
     }
 }

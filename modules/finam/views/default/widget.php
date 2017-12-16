@@ -21,7 +21,7 @@ $this->registerCssFile('/js/finam.css');
 
 <div id="widget"></div>
 
-<!--<div>-->
-<!--	--><?//= Html::tag('h2', 'Result') ?>
-<!--	<pre class="pre-scrollable">--><?// var_dump($result) ?><!--</pre>-->
-<!--</div>-->
+<div>
+	<?= Html::tag('h2', 'Result') ?>
+	<pre class="pre-scrollable"><? var_dump($result) ?></pre>
+</div>
