@@ -9,6 +9,7 @@ export class SourceCodeParam {
         this.sourceType = sType;
         this.timeStamp = stamp === null ? Math.round(Date.now() / 1000) : stamp;
         this.sourceCode = "";
+        this.loaded = null;
     }
 }
 
@@ -28,6 +29,9 @@ export default scParam => {
             const url = wrapHost(`/finam/tools/${scParam.sourceType}/${scParam.timeStamp}/${scParam.sourceCode}`);
 
             return fetchUrl(url, true);
+        },
+        onLoaded: result => {
+            if(typeof scParam.loaded === "function") scParam.loaded();
         },
         loadMode: "raw",
         cacheRawData: true

@@ -45,7 +45,7 @@ import "./components/finam/finamChart.less";
 
 const FinamBox = () => <div id="finam-box">
 	<Finam sourceType={SourceType.CURRENCY_PAIRS} sourceStamp={((new Date("2017-12-15T13:37:18+10:00")).getTime() / 1000)} />
-	<Finam sourceType={SourceType.FINANCIAL_INSTRUMENTS} />
+	{/*<Finam sourceType={SourceType.FINANCIAL_INSTRUMENTS} />*/}
 </div>;
 
 ReactDOM.render(

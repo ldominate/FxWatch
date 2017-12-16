@@ -1,4 +1,4 @@
-import { Component } from "react";
+import * as React from "react";
 import PropsTypes from "prop-types";
 import ReactDOM from "react-dom";
 import $ from "jquery";
@@ -7,13 +7,31 @@ import dxList from "devextreme/ui/list";
 import { SourceType } from "../../sources/SourceLib";
 import sourceCode, { SourceCodeParam } from "../../sources/SourceCodeSource";
 
-class SourceDataList extends Component {
-
+class SourceDataList extends React.Component {
     constructor(props){
         super(props);
 	    //console.log(this.props);
 	    this.list = null;
-        this.dataSource = sourceCode(new SourceCodeParam(this.props.sourceType, this.props.sourceStamp));
+
+	    const param = new SourceCodeParam(this.props.sourceType, this.props.sourceStamp);
+	    param.loaded = this.loaded.bind(this);
+
+        this.dataSource = sourceCode(param);
+        this.state = {
+        	isLoaded: false
+        };
+    }
+    loaded(){
+    	console.log("loaded", this.state.isLoaded);
+	    if(!this.state.isLoaded) {
+		    this.setState({isLoaded: true});
+	    }
+    }
+    shouldComponentUpdate(nextProps, nextState){
+	    //this.list.dxList("instance").unselectAll();
+	    //console.log(nextState);
+
+	    return false;
     }
     componentDidMount(){
         this.list = $(ReactDOM.findDOMNode(this));
@@ -61,11 +79,21 @@ class SourceDataList extends Component {
 	        },
 	        nextButtonText: "Загрузить ещё...",
 	        noDataText: "Данных нет",
-	        pageLoadMode: "scrollBottom",
+	        //pageLoadMode: "scrollBottom",
 	        //pageLoadingText: "Загрузка...",
 	        pageLoadingText: "",
-	        onContentReady: e => console.log("ready", e)
-        });
+	        onSelectionChanged: e => {
+	        	console.log(e);
+	        	if(Array.isArray(e.addedItems) && e.addedItems.length){
+	        		this.props.handleChangeTool(e.addedItems[0]);
+		        }
+	        },
+	        onContentReady: e => {
+	        	console.log("content ready", e);
+		        if(this.state.isLoaded)
+			        this.list.dxList("instance").selectItem(0);
+	        }
+        }).dxList("instance");
     }
     render(){
         return <div className="list-source" />;
@@ -74,7 +102,8 @@ class SourceDataList extends Component {
 
 SourceDataList.propTypes = {
 	sourceType: PropsTypes.oneOf(SourceType.getTypes()).isRequired,
-	sourceStamp: PropsTypes.number
+	sourceStamp: PropsTypes.number,
+	handleChangeTool: PropsTypes.func.isRequired
 };
 
 export default SourceDataList;
