@@ -103,7 +103,7 @@ $config = [
 	            '/finam/widget' => '/finam/default/widget',
 	            '/finam/tools/<t:\d+>/<s:\d+>' => '/finam/fin-data/tools',
 	            '/finam/tools/<t:\d+>/<s:\d+>/<c:\w*>' => '/finam/fin-data/tools',
-	            '/finam/data/<c:\w+>/<s:\d+>' => '/finam/fin-data/data',
+	            '/finam/data/<c:.+>/<s:\d+>' => '/finam/fin-data/data',
 	            '/finam/<action:(view|update)>/<id:\d+>' => '/news/default/<action>',
 
 	            '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

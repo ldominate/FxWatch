@@ -42,10 +42,21 @@ import "./components/finam/finamChart.less";
 // el.innerHTML = `Имя: ${tom.name} возраст: ${tom.age}`;
 
 //console.log((new Date("2017-12-15T13:37:18+10:00")));
+//console.log(Date.now());
 
 const FinamBox = () => <div id="finam-box">
-	<Finam sourceType={SourceType.CURRENCY_PAIRS} sourceStamp={((new Date("2017-12-15T13:37:18+10:00")).getTime() / 1000)} />
-	{/*<Finam sourceType={SourceType.FINANCIAL_INSTRUMENTS} />*/}
+	<Finam
+		sourceType={SourceType.CURRENCY_PAIRS}
+		defaultCode="EURUSD"
+//		sourceStamp={((new Date("2017-12-15T13:37:18+10:00")).getTime() / 1000)}
+		sourceStamp={Math.round(Date.now() / 1000)}
+	/>
+	<Finam
+		sourceType={SourceType.FINANCIAL_INSTRUMENTS}
+		defaultCode="SANDP-500"
+//		sourceStamp={((new Date("2017-12-15T13:37:18+10:00")).getTime() / 1000)}
+		sourceStamp={Math.round(Date.now() / 1000)}
+	/>
 </div>;
 
 ReactDOM.render(

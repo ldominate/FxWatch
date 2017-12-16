@@ -6,13 +6,19 @@ const env = process.env.NODE_ENV;
 const __DEV__ = env === 'development';
 const __PRODUCTION__ = env === 'production';
 
+const paths = {
+	src: path.resolve(__dirname, 'web/app'),
+	dist: path.resolve(__dirname, 'web/js')
+};
+
 module.exports = {
 	entry: {
-		widget: "./web/app/main"
+		widget: paths.src + "/main",
+		finam: paths.src + "/finam"
 	},
 	output:{
-		path: path.resolve(__dirname, "web/js"),
-		publicPath: "http://fxwatch/js/",
+		path: paths.dist,
+		publicPath: "/js/",//"http://fxwatch/js/",
 		filename: "[name].js"
 	},
 	watchOptions: {
@@ -21,9 +27,10 @@ module.exports = {
 	//devtool: "chep-inline-module-source-map",
 	plugins:[
 		new webpack.NoEmitOnErrorsPlugin(),
-		// new webpack.DefinePlugin({
-		// 	'process.env.NODE_ENV': JSON.stringify(env)
-		// }),
+		new webpack.DefinePlugin({
+			'process.env.NODE_ENV': JSON.stringify(env)
+		}),
+		new webpack.optimize.ModuleConcatenationPlugin(),
 		new webpack.ProvidePlugin({
 			React: "react",
 			ReactDOM: "react-dom"
@@ -44,7 +51,8 @@ module.exports = {
 		extensions: [".js", ".jsx", ".less", ".css"],
 		alias: {
 			dxCommonCss: path.join(__dirname, "/node_modules/devextreme/dist/css/dx.common.css"),
-			dxLightCss: path.join(__dirname, "/node_modules/devextreme/dist/css/dx.light.compact.css")
+			dxLightCss: path.join(__dirname, "/node_modules/devextreme/dist/css/dx.light.compact.css"),
+			dxDarkVioletCss: path.join(__dirname, "/node_modules/devextreme/dist/css/dx.darkviolet.css")
 		}
 	},
 	resolveLoader: {

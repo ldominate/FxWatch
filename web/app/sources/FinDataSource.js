@@ -14,7 +14,7 @@ export default getParam => {
 
             const param = getParam();
 
-            const url = wrapHost(`/finam/data/${param.sourceCode}/${param.timeStamp}`);
+            const url = wrapHost(`/finam/data/${encodeURIComponent(param.sourceCode)}/${param.timeStamp}`);
 
             return fetchUrl(url);
         },
@@ -24,6 +24,8 @@ export default getParam => {
             });
             console.log(key);
             return promise;
-        }
+        },
+	    loadMode: "raw",
+	    cacheRawData: true
     });
 }

@@ -1,6 +1,7 @@
 import * as React from "react";
 import PropsTypes from "prop-types";
 import ReactDOM from "react-dom";
+import "core-js/es6/array";
 import $ from "jquery";
 import dxList from "devextreme/ui/list";
 
@@ -65,6 +66,11 @@ class SourceDataList extends React.Component {
 			        $("<div>").addClass("fin-percent").html(`${data.percent.toFixed(2)}%`)
 				        .appendTo(row2);
 			        row2.appendTo(result);
+		        }else{
+			        const row2 = $("<div>").addClass("item-data");
+			        $("<div>").addClass("fin-change").html("&nbsp;")
+				        .appendTo(row2);
+			        row2.appendTo(result);
 		        }
 		        return result;
 	        },
@@ -81,8 +87,16 @@ class SourceDataList extends React.Component {
 	        },
 	        onContentReady: e => {
 	        	//console.log("content ready", e);
-		        if(this.state.isLoaded)
-			        this.list.dxList("instance").selectItem(0);
+		        if(this.state.isLoaded) {
+			        const instance = this.list.dxList("instance");
+			        //console.log("items", instance.option("items"));
+			        const items = instance.option("items");
+			        if(Array.isArray(items) && items.length > 0){
+			        	const index = items.findIndex((v, i) => v.code === this.props.defaultCode);
+			        	//console.log(index);
+			        	if(index > 0) instance.selectItem(index);
+			        }
+		        }
 	        }
         }).dxList("instance");
     }
@@ -94,7 +108,8 @@ class SourceDataList extends React.Component {
 SourceDataList.propTypes = {
 	sourceType: PropsTypes.oneOf(SourceType.getTypes()).isRequired,
 	sourceStamp: PropsTypes.number,
-	handleChangeTool: PropsTypes.func.isRequired
+	handleChangeTool: PropsTypes.func.isRequired,
+	defaultCode: PropsTypes.string.isRequired
 };
 
 export default SourceDataList;

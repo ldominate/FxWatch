@@ -17,7 +17,7 @@ class Finam extends React.Component{
         }
     };
     changeTool(tool){
-    	console.log("changeTool");
+    	//console.log("changeTool");
         this.setState({...this.state, tool: tool});
     }
     render(){
@@ -27,6 +27,7 @@ class Finam extends React.Component{
                     sourceType={this.props.sourceType}
                     sourceStamp={this.props.sourceStamp}
                     handleChangeTool={this.changeTool.bind(this)}
+                    defaultCode={this.props.defaultCode}
                 />
             </div>
             <div className="chart-box">
@@ -42,7 +43,8 @@ class Finam extends React.Component{
 
 Finam.propsTypes = {
 	sourceType: PropsTypes.oneOf(SourceType.getTypes()).isRequired,
-	sourceStamp: PropsTypes.number
+	sourceStamp: PropsTypes.number,
+	defaultCode: PropsTypes.string.isRequired
 };
 
 export default Finam;
