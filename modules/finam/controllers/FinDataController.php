@@ -184,7 +184,7 @@ class FinDataController extends Controller
 				    'code' => $finData['code'],
 				    'name' => $finData['name'],
 				    'datetime' => $finData['datetime'],
-				    'max' => $finData['max'],
+				    'max' => floatval($finData['max']),
 				    'change' => $finData['open'],
 				    'percent' => $finData['open'],
 				    'stamp' => $finData['stamp']

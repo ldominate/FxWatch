@@ -12,14 +12,13 @@ class FinChart extends React.Component {
 		this.chart = null;
 
 		this.param = finDataSourceParam;
-		this.dataSource = finData;//(this.putParam.bind(this));
+		this.dataSource = finData;
 		this.setMin = false;
 	}
 	putParam(){
 		return this.param;
 	}
 	shouldComponentUpdate(nextProps, nextState){
-		//this.list.dxList("instance").unselectAll();
 		//console.log("update", nextProps);
 		finDataSourceParam.sourceCode = nextProps.sourceCode;
 		finDataSourceParam.timeStamp = nextProps.sourceStamp;
@@ -27,12 +26,14 @@ class FinChart extends React.Component {
 
 		const instance = this.chart.dxChart("instance");
 
-		instance.beginUpdate();
-		instance.option({
-			dataSource: this.dataSource(this.putParam.bind(this))
+		const source = instance.getDataSource();
+		instance.showLoadingIndicator();
+		source.reload().done(result => {
+			console.log(result);
+			this.setMin = false;
+			instance.option({valueAxis: { min: .0 }});
 		});
-		instance.endUpdate();
-		this.setMin = false;
+
 		return false;
 	}
 	componentDidMount(){
@@ -62,7 +63,6 @@ class FinChart extends React.Component {
 				}
 			},
 			legend: {
-				//itemTextPosition: 'left',
 				visible: false
 			},
 			crosshair:{
@@ -70,32 +70,14 @@ class FinChart extends React.Component {
 				dashStyle: "dash"
 			},
 			series:[ {
-				//name: "DELL",
-				valueField: "max",
-				hoverMode: "none",
-				// openValueField: "open",
-				// highValueField: "max",
-				// lowValueField: "min",
-				// closeValueField: "close",
-				// reduction: {
-				// 	color: "#000",
-				// 	//level: null
-				// },
-				color: "#22BFB8",
-				showInLegend: false
-			},
-				{
-					//name: "DELL",
 					valueField: "max",
 					hoverMode: "none",
-					// openValueField: "open",
-					// highValueField: "max",
-					// lowValueField: "min",
-					// closeValueField: "close",
-					// reduction: {
-					// 	color: "#000",
-					// 	//level: null
-					// },
+					color: "#22BFB8",
+					showInLegend: false
+				},
+				{
+					valueField: "max",
+					hoverMode: "none",
 					color: "#22BFB8",
 					showInLegend: false,
 					type: 'area'
@@ -104,27 +86,12 @@ class FinChart extends React.Component {
 			valueAxis: {
 				valueType: "numeric",
 				type: "continuous",
-				//tickInterval: 0.0001,
-				// title: {
-				// 	text: ""
-				// },
-				//min: 58.7,
 				label: {
-					// customizeText: axisValue => {
-					// 	return axisValue.value.toFixed(4);
-					// },
-					//alignment: "right"
-					// 	format: {
-					// 		type: "fixedPoint",
-					// 		precision: 4
-					// 	}
 				},
 				grid: {
 					visible: true
 				},
 				position: "right"
-				// max: 1.141,
-				// min: 1.139,
 			},
 			argumentAxis: {
 				argumentType: "datetime",
@@ -138,12 +105,6 @@ class FinChart extends React.Component {
 				grid: {
 					visible: true
 				}
-				//type: "discrete",
-				//valueMarginsEnabled: true,
-				//maxValueMargin: 0,
-				//minValueMargin: 0
-				// max: new Date("2017-07-12T00:00:00"),
-				// min: new Date("2017-07-12T04:05:00")
 			},
 			panes: {
 				border: {

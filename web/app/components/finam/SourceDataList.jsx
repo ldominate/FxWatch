@@ -29,9 +29,7 @@ class SourceDataList extends React.Component {
 	    }
     }
     shouldComponentUpdate(nextProps, nextState){
-	    //this.list.dxList("instance").unselectAll();
 	    //console.log(nextState);
-
 	    return false;
     }
     componentDidMount(){
@@ -61,10 +59,13 @@ class SourceDataList extends React.Component {
 
 		        if(data.change !== null) {
 			        const row2 = $("<div>").addClass("item-data");
-			        $("<div>").addClass("fin-change").html(data.max.toFixed(4))
-				        .appendTo(row2);
-			        $("<div>").addClass("fin-percent").html(`${data.percent.toFixed(2)}%`)
-				        .appendTo(row2);
+
+			        //console.log(data.max);
+			        if(data.max !== null) $("<div>").addClass("fin-change").html((data.max * 1.0).toFixed(4)).appendTo(row2);
+
+			        //console.log(data.percent);
+			        if(data.percent !== null) $("<div>").addClass("fin-percent").html(`${(data.percent * 1.0).toFixed(2)}%`).appendTo(row2);
+
 			        row2.appendTo(result);
 		        }else{
 			        const row2 = $("<div>").addClass("item-data");

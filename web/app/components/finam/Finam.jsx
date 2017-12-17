@@ -18,7 +18,14 @@ class Finam extends React.Component{
     };
     changeTool(tool){
     	//console.log("changeTool");
-        this.setState({...this.state, tool: tool});
+
+        this.setState({...this.state, tool: {
+        	code: tool.code,
+	        name: tool.name,
+	        change: tool.change * 1.0,
+	        percent: tool.percent * 1.0,
+	        max: tool.max * 1.0
+        }});
     }
     render(){
         return <div className="finam-chart">
