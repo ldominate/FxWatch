@@ -18,7 +18,7 @@ module.exports = {
 	},
 	output:{
 		path: paths.dist,
-		publicPath: "/js/",//"http://fxwatch/js/",
+		publicPath: "http://widget.fxwatch.ru/js/",
 		filename: "[name].js"
 	},
 	watchOptions: {

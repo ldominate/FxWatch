@@ -8,6 +8,7 @@ use Yii;
 use app\modules\finam\models\FinData;
 use app\modules\finam\models\FinDataSearch;
 use yii\db\Query;
+use yii\filters\Cors;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -17,6 +18,7 @@ use yii\filters\VerbFilter;
  */
 class FinDataController extends Controller
 {
+
     /**
      * @inheritdoc
      */
@@ -29,6 +31,32 @@ class FinDataController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+	        'access' => [
+		        'class' => yii\filters\AccessControl::className(),
+		        'only' => ['tools', 'data'],
+		        'rules' => [
+			        [
+				        'allow' => true,
+				        'actions' => ['tools', 'data'],
+				        'roles' => ['?'],
+			        ],
+			        [
+				        'allow' => true,
+				        'actions' => ['tools', 'data'],
+				        'roles' => ['@'],
+			        ],
+		        ],
+	        ],
+	        'corsFilter'  => [
+		        'class' => Cors::className(),
+		        'cors'  => [
+			        // restrict access to domains:
+			        'Origin'                           => \app\modules\news\controllers\DefaultController::allowedDomains(),
+			        'Access-Control-Request-Method'    => ['GET'],
+			        'Access-Control-Allow-Credentials' => true,
+			        'Access-Control-Max-Age'           => 3600,                 // Cache (seconds)
+		        ],
+	        ]
         ];
     }
 
