@@ -170,7 +170,7 @@ class FinDataController extends Controller
 			    'sourcecode.code',
 			    'sourcecode.name',
 			    'findata.id',
-			    'DATE_FORMAT(findata.datetime, \'%Y-%m-%dT%T\') AS datetime',
+			    'DATE_FORMAT(findata.datetime, \'%Y-%m-%dT%T+00:00\') AS datetime',
 			    'findata.open',
 			    'findata.max',
 			    'findata.min',
@@ -242,7 +242,10 @@ class FinDataController extends Controller
 	    $current_end_date = $current_str_date.' 23:59:59';
 
 	    $query = FinData::find()
-		    ->select(['findata.*', 'DATE_FORMAT(findata.datetime, \'%Y-%m-%dT%T\') AS datetime'])
+		    ->select([
+		    	'findata.*',
+			    'DATE_FORMAT(findata.datetime, \'%Y-%m-%dT%T+00:00\') AS datetime'
+		    ])
 		    ->where(['=', 'sourcecode_code', $c])
 		    ->andWhere(['between', 'datetime', $current_start_date, $current_end_date])
 		    ->orderBy(['sourcecode_code' => SORT_ASC, 'datetime' => SORT_ASC])

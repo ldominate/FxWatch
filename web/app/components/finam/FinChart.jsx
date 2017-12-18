@@ -29,7 +29,7 @@ class FinChart extends React.Component {
 		const source = instance.getDataSource();
 		instance.showLoadingIndicator();
 		source.reload().done(result => {
-			console.log(result);
+			//console.log(result);
 			this.setMin = false;
 			instance.option({valueAxis: { min: .0 }});
 		});

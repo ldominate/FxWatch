@@ -42,7 +42,12 @@ class FinData extends ActiveRecord
             [['sourcecode_code', 'datetime'], 'required'],
 
 	        [['datetime'], 'trim'],
-	        [['datetime'], 'datetime', 'format' => FinData::DATETIME_FORMAT, 'timestampAttribute' => 'datetime', 'timestampAttributeFormat' => FinData::DATETIME_FORMAT_DB],
+	        [['datetime'], 'datetime',
+		        'format' => FinData::DATETIME_FORMAT,
+		        'timestampAttribute' => 'datetime',
+		        'timestampAttributeFormat' => FinData::DATETIME_FORMAT_DB,
+		        'timeZone' => 'Europe/Moscow'
+	        ],
 
             [['open', 'max', 'min', 'close', 'vol'], 'number'],
             [['sourcecode_code'], 'string', 'max' => 20],

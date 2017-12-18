@@ -70,7 +70,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
 	    //$sources = SourceCode::find()->select('code')->column();
-//	    $sources = ['USDRUB'];
+//	    $sources = ['N225JAP'];
 //
 //	    $finamSettings = FinamSettings::find()->where(['in', 'sourcecode_code', $sources])->indexBy('sourcecode_code')->all();
 //
@@ -86,12 +86,13 @@ class SiteController extends Controller
 //
 //		    if($provider->requestSource($dateGet)) {
 //
-//			    $provider->saveNewFinData();
+//			    //$provider->saveNewFinData();
 //
 //		    } else {
 //			    //$result[$finamSettingsEurUsd->sourcecode_code] = $provider->getLogs();
 //		    }
 //		    $result[$finamSetting->sourcecode_code] = $provider->getLogs();
+//		    $result[$finamSetting->sourcecode_code]['data'] = $provider->getFinDatas();
 //
 //		    sleep(rand(1, 3));
 //	    }

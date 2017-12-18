@@ -18,6 +18,7 @@ export function fetchUrl(url, getFirst = false) {
         }).then(json => {
             const result = json.map(d => {
                 if(d.datetime !== null) {
+                    //console.log(parseInt(d.datetime, 10));
                     d.datetime = new Date(d.datetime);
                 }
                 return d;

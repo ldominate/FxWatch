@@ -168,7 +168,8 @@ class FinamSettings extends ActiveRecord
 		    'yf' => $this->yf,
 		    'dt' => $this->dt,
 		    'mt' => $this->mt,
-		    'yt' => $this->yt
+		    'yt' => $this->yt,
+		    'mstime' => $this->mstimever ? 'on' : ''
 	    ]);
 	}
 }
