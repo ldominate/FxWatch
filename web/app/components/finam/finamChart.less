@@ -1,19 +1,28 @@
-@positive: #5cb85c;
+@positive: #0FAD51;
 @negative: #d9534f;
 
 #finam-box{
   .finam-chart{
     width: 436px;
-    height: 215px;
+    height: 219px;
 
-    background-color: #17171f;
+    background-color: #343434;
 
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: stretch;
 
-    padding: 3px;
+    padding: 5px 3px;
+    border-bottom: 2px solid white;
+
+    //&:first-child{
+    //  padding-top: 3px;
+    //}
+    &:last-child{
+      //padding-bottom: 3px;
+      border: none;
+    }
 
     .navigation-box{
       flex:1 1 30%;
@@ -38,6 +47,7 @@
               .item-code {
                 padding: 3px 5px;
                 line-height: 1.0715;
+                font-weight: 500;
                 &.positive {
                   background-color: @positive;
                 }
@@ -57,6 +67,7 @@
                   .fin-time {
                     flex: 1 1 30%;
                     font-size: xx-small;
+                    font-weight: normal;
                     text-align: right;
                   }
                 }
@@ -93,6 +104,7 @@
         justify-content: flex-start;
         align-items: stretch;
         margin-bottom: 3px;
+        font-weight: bold;
 
         .info-name{
           flex: 1 1 auto;

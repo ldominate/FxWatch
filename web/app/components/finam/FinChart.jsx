@@ -47,6 +47,10 @@ class FinChart extends React.Component {
 				show: true,
 				text: "Загрузка..."
 			},
+			//commonPaneSettings: {
+			//	backgroundColor: "#0FAD51"
+			//	backgroundColor: "rgba(255, 155, 255, 0.5)"
+			//},
 			commonSeriesSettings: {
 				argumentField: "datetime",
 				type: "line",
