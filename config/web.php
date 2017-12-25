@@ -7,6 +7,7 @@ $config = [
     'id' => 'basic',
 	'name' => 'Trading Watch',
     'basePath' => dirname(__DIR__),
+	'timeZone' => 'UTC',
 	'language' => 'ru-RU',
 	'layout' => 'sba2',
     'bootstrap' => ['log', 'scheduler'],

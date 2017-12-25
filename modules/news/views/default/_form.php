@@ -18,7 +18,7 @@ $categoriesNews = CategoryNews::find()->select(['name', 'id'])->indexBy('id')->o
 $currencies = Currency::find()->active()->select(['code'])->indexBy('code')->orderBy(['code' => SORT_ASC])->column();
 $influences = Influence::find()->select(['name', 'id'])->indexBy('id')->column();
 
-$model->published = Yii::$app->formatter->asDatetime($model->published, News::DATETIME_FORMAT)
+$model->published = Yii::$app->formatter->asDatetime($model->published, News::DATETIME_FORMAT);
 
 ?>
 

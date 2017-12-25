@@ -10,6 +10,8 @@ use yii\db\ActiveRecord;
  * @property string $code
  * @property integer $sourcetype_id
  * @property string $name
+ * @property string $open
+ * @property string $close
  *
  * @property SourceType $sourceType
  */
@@ -33,6 +35,9 @@ class SourceCode extends ActiveRecord
             [['sourcetype_id'], 'integer'],
             [['code'], 'string', 'max' => 20],
             [['name'], 'string', 'max' => 50],
+	        [['open', 'close'], 'default', 'value' => null],
+	        [['open'], 'time', 'format' => 'HH:mm:ss'],
+	        [['close'], 'time', 'format' => 'HH:mm:ss'],
             [['sourcetype_id'], 'exist', 'skipOnError' => true, 'targetClass' => SourceType::className(), 'targetAttribute' => ['sourcetype_id' => 'id']],
         ];
     }
@@ -46,6 +51,8 @@ class SourceCode extends ActiveRecord
             'code' => 'Код',
             'sourcetype_id' => 'Тип',
             'name' => 'Наименование',
+	        'open' => 'Начало торгов',
+	        'close' => 'Окончание торгов'
         ];
     }
 

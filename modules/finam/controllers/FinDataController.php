@@ -247,7 +247,8 @@ class FinDataController extends Controller
 			    'DATE_FORMAT(findata.datetime, \'%Y-%m-%dT%T+00:00\') AS datetime'
 		    ])
 		    ->where(['=', 'sourcecode_code', $c])
-		    ->andWhere(['between', 'datetime', $current_start_date, $current_end_date])
+		    //->andWhere(['between', 'datetime', 'DATE_SUB("'.$current_start_date.'", INTERVAL 7 DAY)', $current_end_date])
+		    ->andWhere('datetime between DATE_SUB("'.$current_start_date.'", INTERVAL 10 DAY) AND "'.$current_end_date.'"')
 		    ->orderBy(['sourcecode_code' => SORT_ASC, 'datetime' => SORT_ASC])
 	        ->asArray();
 

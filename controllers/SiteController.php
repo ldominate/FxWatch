@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\modules\catalog\models\SourceCode;
+use app\modules\catalog\models\SourceType;
 use app\modules\finam\components\FinamProvider;
 use app\modules\finam\models\FinamSettings;
 use Yii;
@@ -96,6 +97,10 @@ class SiteController extends Controller
 //
 //		    sleep(rand(1, 3));
 //	    }
+
+//	    $source = SourceCode::find()->all();
+//
+//	    $result['source'] = $source;
 
         return $this->render('index', [
 	        'result' => $result

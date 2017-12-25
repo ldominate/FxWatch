@@ -100,15 +100,23 @@ class FinChart extends React.Component {
 			argumentAxis: {
 				argumentType: "datetime",
 				label: {
-					format: d => d.toLocaleTimeString("ru-RU", {
-						hour:"numeric",
-						minute: "2-digit",
-						formatMatcher: "basic"
-					})
+					format: d => d.toLocaleString()
+
+					// 	d.toLocaleTimeString("ru-RU", {
+					// 	hour:"numeric",
+					// 	minute: "2-digit",
+					// 	formatMatcher: "basic"
+					// })
+					, displayMode: "stagger"
 				},
 				grid: {
 					visible: true
 				}
+				, endOnTick: true
+				//, tickInterval: { minute: 10 }
+				, axisDivisionFactor: 30
+				//, discreteAxisDivisionMode: "crossLabels"
+				//, hoverMode: "allArgumentPoints"
 			},
 			panes: {
 				border: {
@@ -118,9 +126,15 @@ class FinChart extends React.Component {
 					width: 2
 				}
 			},
-			// tooltip: {
-			// 	enabled: true
-			// },
+			tooltip: {
+				enabled: true
+				, customizeTooltip: arg => {
+					return {
+						text: `Время: ${arg.originalArgument.toLocaleString()}<br />Значение: ${arg.originalValue}`
+					}
+				}
+				//, shared: true
+			},
 			export: {
 				enabled: false
 			},
