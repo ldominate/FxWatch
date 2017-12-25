@@ -24,7 +24,9 @@ class Finam extends React.Component{
 	        name: tool.name,
 	        change: tool.change * 1.0,
 	        percent: tool.percent * 1.0,
-	        max: tool.max * 1.0
+	        max: tool.max * 1.0,
+	        open: tool.open === null ? null : new Date(tool.open),
+	        close: tool.close === null ? null : new Date(tool.close)
         }});
     }
     render(){
@@ -40,7 +42,12 @@ class Finam extends React.Component{
             <div className="chart-box">
 	            <FinInfo {...this.state.tool}/>
 	            {this.state.tool.code.length > 0
-		            ? <FinChart sourceCode={this.state.tool.code} sourceStamp={this.props.sourceStamp}/>
+		            ? <FinChart
+			            sourceCode={this.state.tool.code}
+			            sourceStamp={this.props.sourceStamp}
+			            codeOpenTime={this.state.tool.open}
+			            codeCloseTime={this.state.tool.close}
+		            />
 		            : null
 	            }
             </div>

@@ -31,7 +31,13 @@ class FinChart extends React.Component {
 		source.reload().done(result => {
 			//console.log(result);
 			this.setMin = false;
-			instance.option({valueAxis: { min: .0 }});
+			instance.option({
+				argumentAxis: {
+					min: nextProps.codeOpenTime,
+					max: nextProps.codeCloseTime
+				},
+				valueAxis: { min: .0 }
+			});
 		});
 
 		return false;
@@ -99,15 +105,18 @@ class FinChart extends React.Component {
 			},
 			argumentAxis: {
 				argumentType: "datetime",
+				min: this.props.codeOpenTime,
+				max: this.props.codeCloseTime,
 				label: {
-					format: d => d.toLocaleString()
-
-					// 	d.toLocaleTimeString("ru-RU", {
-					// 	hour:"numeric",
-					// 	minute: "2-digit",
-					// 	formatMatcher: "basic"
-					// })
-					, displayMode: "stagger"
+					format:
+							d =>
+								//d.toLocaleString()
+						d.toLocaleTimeString("ru-RU", {
+						hour:"numeric",
+						minute: "2-digit",
+						formatMatcher: "basic"
+					})
+					//, displayMode: "stagger"
 				},
 				grid: {
 					visible: true
@@ -165,6 +174,8 @@ class FinChart extends React.Component {
 FinChart.propTypes = {
 	sourceCode: PropsTypes.string.isRequired,
 	sourceStamp: PropsTypes.number.isRequired,
+	codeOpenTime: PropsTypes.object,
+	codeCloseTime: PropsTypes.object
 };
 
 export default FinChart;

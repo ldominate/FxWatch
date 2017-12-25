@@ -150,8 +150,8 @@ class FinDataController extends Controller
 	    }
 
 	    $current_str_date = Yii::$app->formatter->asDate($s, FinData::DATE_FORMAT_DB);
-	    $current_start_date = $current_str_date.' 00:00:00';
-	    $current_end_date = $current_str_date.' 23:59:59';
+//	    $current_start_date = $current_str_date.' 00:00:00';
+//	    $current_end_date = $current_str_date.' 23:59:59';
 
 	    $subGroup = (new Query())
 		    ->select([
@@ -161,7 +161,7 @@ class FinDataController extends Controller
 		    ])
 		    ->from(SourceCode::tableName())
 		    ->leftJoin('findata', '`findata`.`sourcecode_code` = `sourcecode`.`code`')
-		    ->andWhere(['between', '`findata`.`datetime`', $current_start_date, $current_end_date])
+		    ->andWhere('`findata`.`datetime` between CONCAT("'.$current_str_date.'", " ", `sourcecode`.`open`) AND CONCAT("'.$current_str_date.'", " ", `sourcecode`.`close`)')
 		    ->groupBy('`sourcecode`.code');
 
 	    $query = (new Query())
@@ -169,8 +169,10 @@ class FinDataController extends Controller
 			    'sourcetype.type',
 			    'sourcecode.code',
 			    'sourcecode.name',
+			    'CONCAT(DATE_FORMAT(findata.datetime, "%Y-%m-%d"), "T", sourcecode.open, "+00:00") AS code_open',
+			    'CONCAT(DATE_FORMAT(findata.datetime, "%Y-%m-%d"), "T", sourcecode.close, "+00:00") AS code_close',
 			    'findata.id',
-			    'DATE_FORMAT(findata.datetime, \'%Y-%m-%dT%T+00:00\') AS datetime',
+			    'DATE_FORMAT(findata.datetime, "%Y-%m-%dT%T+00:00") AS datetime',
 			    'findata.open',
 			    'findata.max',
 			    'findata.min',
@@ -179,7 +181,7 @@ class FinDataController extends Controller
 			    'UNIX_TIMESTAMP(findata.datetime) AS stamp'])
 		    ->from(SourceCode::tableName())
 		    ->innerJoin('sourcetype', '`sourcetype`.`id` = `sourcecode`.`sourcetype_id`')
-		    ->leftJoin('findata', '`findata`.`sourcecode_code` = `sourcecode`.`code` AND `findata`.`datetime` between \''.$current_start_date.'\' AND \''.$current_end_date.'\'')
+		    ->leftJoin('findata', '`findata`.`sourcecode_code` = `sourcecode`.`code` AND `findata`.`datetime` between CONCAT("'.$current_str_date.'", " ", `sourcecode`.`open`) AND CONCAT("'.$current_str_date.'", " ", `sourcecode`.`close`)')
 		    ->leftJoin(['gFin' => $subGroup], '`gFin`.`code` = `sourcecode`.`code`')
 		    ->andWhere('`gFin`.`minFin` = `findata`.`datetime`')
 		    ->orWhere('`gFin`.`maxFin` = `findata`.`datetime`')
@@ -215,7 +217,9 @@ class FinDataController extends Controller
 				    'max' => floatval($finData['max']),
 				    'change' => $finData['open'],
 				    'percent' => $finData['open'],
-				    'stamp' => $finData['stamp']
+				    'stamp' => $finData['stamp'],
+				    'open' => $finData['code_open'],
+				    'close' => $finData['code_close']
 			    ];
 		    }
 	    }
@@ -246,9 +250,10 @@ class FinDataController extends Controller
 		    	'findata.*',
 			    'DATE_FORMAT(findata.datetime, \'%Y-%m-%dT%T+00:00\') AS datetime'
 		    ])
+		    ->innerJoin('sourcecode', '`sourcecode`.`code` = `findata`.`sourcecode_code`')
 		    ->where(['=', 'sourcecode_code', $c])
-		    //->andWhere(['between', 'datetime', 'DATE_SUB("'.$current_start_date.'", INTERVAL 7 DAY)', $current_end_date])
-		    ->andWhere('datetime between DATE_SUB("'.$current_start_date.'", INTERVAL 10 DAY) AND "'.$current_end_date.'"')
+		    ->andWhere('datetime between CONCAT("'.$current_str_date.'", " ", `sourcecode`.`open`) AND CONCAT("'.$current_str_date.'", " ", `sourcecode`.`close`)')
+		    //->andWhere('datetime between DATE_SUB("'.$current_start_date.'", INTERVAL 10 DAY) AND "'.$current_end_date.'"')
 		    ->orderBy(['sourcecode_code' => SORT_ASC, 'datetime' => SORT_ASC])
 	        ->asArray();
 
