@@ -242,8 +242,8 @@ class FinDataController extends Controller
 	    }
 
 	    $current_str_date = Yii::$app->formatter->asDate($s, FinData::DATE_FORMAT_DB);
-	    $current_start_date = $current_str_date.' 00:00:00';
-	    $current_end_date = $current_str_date.' 23:59:59';
+//	    $current_start_date = $current_str_date.' 00:00:00';
+//	    $current_end_date = $current_str_date.' 23:59:59';
 
 	    $query = FinData::find()
 		    ->select([

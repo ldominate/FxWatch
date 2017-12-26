@@ -135,15 +135,15 @@ class FinChart extends React.Component {
 					width: 2
 				}
 			},
-			tooltip: {
-				enabled: true
-				, customizeTooltip: arg => {
-					return {
-						text: `Время: ${arg.originalArgument.toLocaleString()}<br />Значение: ${arg.originalValue}`
-					}
-				}
-				//, shared: true
-			},
+			// tooltip: {
+			// 	enabled: true
+			// 	, customizeTooltip: arg => {
+			// 		return {
+			// 			text: `Время: ${arg.originalArgument.toLocaleString()}<br />Значение: ${arg.originalValue}`
+			// 		}
+			// 	}
+			// 	//, shared: true
+			// },
 			export: {
 				enabled: false
 			},
