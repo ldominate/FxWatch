@@ -126,17 +126,51 @@ export default (state, action) => {
 			});
 		}
 		case SELECT_NEWS_ASSOCIATED:{
-			return state.updateIn(["graphs", action.index], nl => nl.withMutations(m => {
-				// if(!m.getIn(["newsList", "unselectAll"])){
-				// 	m.setIn(["newsList", "unselectAll"], true);
-				// }
-				m.setIn(["news", "id"], action.id);
-				m.setIn(["news", "published"], action.published);
-				m.setIn(["news", "categorynews"], action.categorynews);
-				m.setIn(["news", "currency"], action.currency_code);
-				m.setIn(["leftCandle", "fintool"], action.sides.left);
-				m.setIn(["rightCandle", "fintool"], action.sides.right);
-			}));
+			// return state.updateIn(["graphs", action.index], nl => nl.withMutations(m => {
+			// 	// if(!m.getIn(["newsList", "unselectAll"])){
+			// 	// 	m.setIn(["newsList", "unselectAll"], true);
+			// 	// }
+			// 	m.setIn(["news", "id"], action.id);
+			// 	m.setIn(["news", "published"], action.published);
+			// 	m.setIn(["news", "categorynews"], action.categorynews);
+			// 	m.setIn(["news", "currency"], action.currency_code);
+			// 	m.setIn(["leftCandle", "fintool"], action.sides.left);
+			// 	m.setIn(["rightCandle", "fintool"], action.sides.right);
+			// }));
+			return state.withMutations(m => {
+
+				if(action.index > 0){
+
+					m.set("graphs", gr => gr.withMutations(grm => {
+						return grm.set(action.index, nl => nl.withMutations(m => {
+							m.setIn(["news", "id"], action.id);
+							m.setIn(["news", "published"], action.published);
+							m.setIn(["news", "categorynews"], action.categorynews);
+							m.setIn(["news", "currency"], action.currency_code);
+							m.setIn(["leftCandle", "fintool"], action.sides.left);
+							m.setIn(["rightCandle", "fintool"], action.sides.right);
+						}));
+					}));
+
+				} else {
+
+					let nlf = m.getIn(["graphs", 0]).withMutations(nlm => {
+						nlm.setIn(["news", "id"], action.id);
+						nlm.setIn(["news", "published"], action.published);
+						nlm.setIn(["news", "categorynews"], action.categorynews);
+						nlm.setIn(["news", "currency"], action.currency_code);
+						nlm.setIn(["leftCandle", "fintool"], action.sides.left);
+						nlm.setIn(["rightCandle", "fintool"], action.sides.right);
+						return nlm;
+					});
+
+					m.set("graphs", new List([nlf]));
+
+					m.set("skip", 0);
+					m.set("endCategory", false);
+				}
+				return m;
+			});
 		}
 		case SELECT_PERIOD:{
 			return state.withMutations(m => {
