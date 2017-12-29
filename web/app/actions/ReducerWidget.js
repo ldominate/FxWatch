@@ -141,18 +141,17 @@ export default (state, action) => {
 
 				if(action.index > 0){
 
-					m.set("graphs", gr => gr.withMutations(grm => {
-						return grm.set(action.index, nl => nl.withMutations(m => {
-							m.setIn(["news", "id"], action.id);
-							m.setIn(["news", "published"], action.published);
-							m.setIn(["news", "categorynews"], action.categorynews);
-							m.setIn(["news", "currency"], action.currency_code);
-							m.setIn(["leftCandle", "fintool"], action.sides.left);
-							m.setIn(["rightCandle", "fintool"], action.sides.right);
-						}));
-					}));
+					m.updateIn(["graphs", action.index], nl => nl.withMutations(nlm => {
+						nlm.setIn(["news", "id"], action.id);
+						nlm.setIn(["news", "published"], action.published);
+						nlm.setIn(["news", "categorynews"], action.categorynews);
+						nlm.setIn(["news", "currency"], action.currency_code);
+						nlm.setIn(["leftCandle", "fintool"], action.sides.left);
+						nlm.setIn(["rightCandle", "fintool"], action.sides.right);
 
-				} else {
+						return nlm;
+					}));
+				} else if(m.getIn(["graphs", 0, "news", "id"]) !== action.id) {
 
 					let nlf = m.getIn(["graphs", 0]).withMutations(nlm => {
 						nlm.setIn(["news", "id"], action.id);
