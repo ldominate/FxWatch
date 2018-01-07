@@ -149,8 +149,9 @@ class FinDataController extends Controller
 		    $s = time();
 	    }
 
-	    $current_str_date = Yii::$app->formatter->asDate($s, FinData::DATE_FORMAT_DB);
-    	$yesterday_str_date = Yii::$app->formatter->asDate(strtotime('yesterday '.$current_str_date), FinData::DATE_FORMAT_DB);
+	    //$current_str_date = Yii::$app->formatter->asDate($s, FinData::DATE_FORMAT_DB);
+	    $current_str_date = Yii::$app->formatter->asDate(time(), FinData::DATE_FORMAT_DB);
+    	$yesterday_str_date = Yii::$app->formatter->asDate(strtotime('yesterday'), FinData::DATE_FORMAT_DB);
 //	    $current_start_date = $current_str_date.' 00:00:00';
 //	    $current_end_date = $current_str_date.' 23:59:59';
 
@@ -162,7 +163,7 @@ class FinDataController extends Controller
 		    ])
 		    ->from(SourceCode::tableName())
 		    ->leftJoin('findata', '`findata`.`sourcecode_code` = `sourcecode`.`code`')
-		    ->andWhere('`findata`.`datetime` between CONCAT(IF(`sourcecode`.`open` > `sourcecode`.`close`, "'.$yesterday_str_date.'", "'.$current_str_date.'"), " ", `sourcecode`.`open`) AND CONCAT("'.$current_str_date.'", " ", `sourcecode`.`close`)')
+		    ->andWhere('`findata`.`datetime` between CONCAT(IF(`sourcecode`.`open` >= `sourcecode`.`close`, "'.$yesterday_str_date.'", "'.$current_str_date.'"), " ", `sourcecode`.`open`) AND CONCAT("'.$current_str_date.'", " ", `sourcecode`.`close`)')
 		    ->groupBy('`sourcecode`.code');
 
 	    $query = (new Query())
@@ -170,8 +171,8 @@ class FinDataController extends Controller
 			    'sourcetype.type',
 			    'sourcecode.code',
 			    'sourcecode.name',
-			    'CONCAT(DATE_FORMAT(findata.datetime, "%Y-%m-%d"), "T", sourcecode.open, "+00:00") AS code_open',
-			    'CONCAT(DATE_FORMAT(findata.datetime, "%Y-%m-%d"), "T", sourcecode.close, "+00:00") AS code_close',
+			    'CONCAT(DATE_FORMAT(IF(`sourcecode`.`open` >= `sourcecode`.`close`, "'.$yesterday_str_date.'", "'.$current_str_date.'"), "%Y-%m-%d"), "T", sourcecode.open, "+00:00") AS code_open',
+			    'CONCAT(DATE_FORMAT("'.$current_str_date.'", "%Y-%m-%d"), "T", sourcecode.close, "+00:00") AS code_close',
 			    'findata.id',
 			    'DATE_FORMAT(findata.datetime, "%Y-%m-%dT%T+00:00") AS datetime',
 			    'findata.open',
@@ -182,7 +183,7 @@ class FinDataController extends Controller
 			    'UNIX_TIMESTAMP(findata.datetime) AS stamp'])
 		    ->from(SourceCode::tableName())
 		    ->innerJoin('sourcetype', '`sourcetype`.`id` = `sourcecode`.`sourcetype_id`')
-		    ->leftJoin('findata', '`findata`.`sourcecode_code` = `sourcecode`.`code` AND `findata`.`datetime` between CONCAT(IF(`sourcecode`.`open` > `sourcecode`.`close`, "'.$yesterday_str_date.'", "'.$current_str_date.'"), " ", `sourcecode`.`open`) AND CONCAT("'.$current_str_date.'", " ", `sourcecode`.`close`)')
+		    ->leftJoin('findata', '`findata`.`sourcecode_code` = `sourcecode`.`code` AND `findata`.`datetime` between CONCAT(IF(`sourcecode`.`open` >= `sourcecode`.`close`, "'.$yesterday_str_date.'", "'.$current_str_date.'"), " ", `sourcecode`.`open`) AND CONCAT("'.$current_str_date.'", " ", `sourcecode`.`close`)')
 		    ->leftJoin(['gFin' => $subGroup], '`gFin`.`code` = `sourcecode`.`code`')
 		    ->andWhere('`gFin`.`minFin` = `findata`.`datetime`')
 		    ->orWhere('`gFin`.`maxFin` = `findata`.`datetime`')
@@ -206,17 +207,17 @@ class FinDataController extends Controller
 			    $code = $codes[$finData['code']];
 
 			    $codes[$finData['code']]['datetime'] = $finData['datetime'];
-			    $codes[$finData['code']]['change'] = $finData['max'] - $code['change'];
-			    $codes[$finData['code']]['percent'] = ($code['percent'] == 0.0 ? $finData['max'] : ($finData['max'] - $code['percent']) / $code['percent']) * 100.0;
+			    $codes[$finData['code']]['change'] = $finData['close'] - $code['change'];
+			    $codes[$finData['code']]['percent'] = ($code['percent'] == 0.0 ? $finData['close'] : ($finData['close'] - $code['percent']) / $code['percent']) * 100.0;
 			    $codes[$finData['code']]['stamp'] = $finData['stamp'];
-			    $codes[$finData['code']]['max'] = floatval($finData['max']);
+			    $codes[$finData['code']]['max'] = floatval($finData['close']);
 			    $codes[$finData['code']]['close'] = $finData['code_close'];
 		    }else{
 			    $codes[$finData['code']] = [
 				    'code' => $finData['code'],
 				    'name' => $finData['name'],
 				    'datetime' => $finData['datetime'],
-				    'max' => floatval($finData['max']),
+				    'max' => floatval($finData['close']),
 				    'change' => $finData['open'],
 				    'percent' => $finData['open'],
 				    'stamp' => $finData['stamp'],
@@ -243,8 +244,9 @@ class FinDataController extends Controller
 		    return $this->asJson(null);
 	    }
 
-	    $current_str_date = Yii::$app->formatter->asDate($s, FinData::DATE_FORMAT_DB);
-	    $yesterday_str_date = Yii::$app->formatter->asDate(strtotime('yesterday '.$current_str_date), FinData::DATE_FORMAT_DB);
+	    //$current_str_date = Yii::$app->formatter->asDate($s, FinData::DATE_FORMAT_DB);
+	    $current_str_date = Yii::$app->formatter->asDate(time(), FinData::DATE_FORMAT_DB);
+	    $yesterday_str_date = Yii::$app->formatter->asDate(strtotime('yesterday'), FinData::DATE_FORMAT_DB);
 //	    $current_start_date = $current_str_date.' 00:00:00';
 //	    $current_end_date = $current_str_date.' 23:59:59';
 
@@ -255,7 +257,7 @@ class FinDataController extends Controller
 		    ])
 		    ->innerJoin('sourcecode', '`sourcecode`.`code` = `findata`.`sourcecode_code`')
 		    ->where(['=', 'sourcecode_code', $c])
-		    ->andWhere('datetime between CONCAT(IF(`sourcecode`.`open` > `sourcecode`.`close`, "'.$yesterday_str_date.'", "'.$current_str_date.'"), " ", `sourcecode`.`open`) AND CONCAT("'.$current_str_date.'", " ", `sourcecode`.`close`)')
+		    ->andWhere('datetime between CONCAT(IF(`sourcecode`.`open` >= `sourcecode`.`close`, "'.$yesterday_str_date.'", "'.$current_str_date.'"), " ", `sourcecode`.`open`) AND CONCAT("'.$current_str_date.'", " ", `sourcecode`.`close`)')
 		    //->andWhere('datetime between DATE_SUB("'.$current_start_date.'", INTERVAL 10 DAY) AND "'.$current_end_date.'"')
 		    ->orderBy(['sourcecode_code' => SORT_ASC, 'datetime' => SORT_ASC])
 	        ->asArray();

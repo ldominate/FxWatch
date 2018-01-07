@@ -80,13 +80,13 @@ class FinChart extends React.Component {
 				dashStyle: "dash"
 			},
 			series:[ {
-					valueField: "max",
+					valueField: "close",
 					hoverMode: "none",
 					color: "#22BFB8",
 					showInLegend: false
 				},
 				{
-					valueField: "max",
+					valueField: "close",
 					hoverMode: "none",
 					color: "#22BFB8",
 					showInLegend: false,
