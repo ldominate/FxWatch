@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import $ from "jquery";
 import dxChart from "devextreme/viz/chart";
 
+import CatalogFintoolGroupSource from "../sources/CatalogFintoolGroupSource";
 import NewsDataSource from "../sources/NewsDataSource";
 
 class CandleStick extends Component{
@@ -17,12 +18,36 @@ class CandleStick extends Component{
 			pid: this.props.pid
 		};
 		this.dataSource = NewsDataSource(this.getParams.bind(this));
+		this.dataSource.on("loaded", this.loadedSeries.bind(this));
+		this.fintoolGroupSource = CatalogFintoolGroupSource.getStore();
+		this.labelCoef = 10000.0;
+		this.fintoolGroupSource.byKey(this.props.fid)
+			.done(d => {this.labelCoef = d.name.indexOf("JPY") >= 0 ? 100000.0 : 10000.0;});
+		this.publishedTime = this.props.published.getTime();
 	}
 	getParams(){
 		return this.params;
 	}
+	loadedSeries(result){
+		//console.log(result);
+		if(Array.isArray(result)){
+			let prev = null;
+			result.forEach((val, index) => {
+				const vTime = val.datetime.getTime();
+				if(vTime > this.publishedTime){
+					this.publishedTime = prev;
+				} else {
+					prev = vTime;
+				}
+			});
+		}
+	}
 	shouldComponentUpdate(nextProps, nextState) {
 		//console.log(nextProps.nid, nextProps.fid, nextProps.pid);
+		this.fintoolGroupSource.byKey(nextProps.fid)
+			.done(d => {this.labelCoef = d.name.indexOf("JPY") >= 0 ? 100000.0 : 10000.0;});
+
+		this.publishedTime = nextProps.published.getTime();;
 
 		this.params = {
 			nid: nextProps.nid,
@@ -117,13 +142,14 @@ class CandleStick extends Component{
 				}
 			},
 			customizeLabel: pointInfo => {
-				//console.log(pointInfo);
-				const vis = pointInfo.argument.getTime() === this.props.published.getTime();
+				//console.log(pointInfo, this.params);
+				//console.log("labelCoef", this.labelCoef);
+				const vis = pointInfo.argument.getTime() === this.publishedTime;
 				let val = null;
 				if (vis && pointInfo.closeValue < pointInfo.openValue) {
-					val = (pointInfo.lowValue - pointInfo.openValue) * 10000.0;
+					val = (pointInfo.lowValue - pointInfo.openValue) * this.labelCoef;
 				}else if( vis && pointInfo.closeValue > pointInfo.openValue){
-					val = (pointInfo.highValue - pointInfo.openValue) * 10000.0;
+					val = (pointInfo.highValue - pointInfo.openValue) * this.labelCoef;
 				}
 				return {
 					position: "outside",

@@ -51,6 +51,7 @@ export function selectPeriod(periodSide){
 export const SELECT_FINTOOL = "SELECT_FINTOOL";
 export function selectFintool(fintoolSide){
 	"use strict";
+	//console.log(fintoolSide);
 	return {type: SELECT_FINTOOL, ...fintoolSide};
 }
 
