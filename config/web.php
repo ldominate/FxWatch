@@ -99,7 +99,7 @@ $config = [
 	            '/news/data/<news_id:\d+>/<fintool_id:\d+>/<period_id:\d+>' => '/news/default/newsdata',
 	            '/news/data/del/<id:\d+>' => '/news/default/newsdatadel',
 	            '/news/data/delall/<news_id:\d+>/<fintool_id:\d+>/<period_id:\d+>' => '/news/default/newsdatadelall',
-	            '/news/<action:(view|update)>/<id:\d+>' => '/news/default/<action>',
+	            '/news/<action:(view|update|duplicate)>/<id:\d+>' => '/news/default/<action>',
 
 	            '/finam/widget' => '/finam/default/widget',
 	            '/finam/tools/<t:\d+>/<s:\d+>' => '/finam/fin-data/tools',

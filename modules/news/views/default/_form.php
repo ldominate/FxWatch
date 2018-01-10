@@ -6,6 +6,7 @@ use app\modules\catalog\models\Currency;
 use app\modules\catalog\models\Influence;
 use app\modules\news\models\News;
 use nkovacs\datetimepicker\DateTimePicker;
+use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -78,6 +79,18 @@ $model->published = Yii::$app->formatter->asDatetime($model->published, News::DA
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Обновить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+	    <?php if(!$model->isNewRecord) {
+	        Modal::begin([
+		        'toggleButton' => [
+			        'tag' => 'button',
+			        'class' => 'btn btn-warning',
+			        'label' => 'Создать копию',
+		        ],
+		        'footer' => '<a href="'.\yii\helpers\Url::to(['/news/duplicate/'.$model->id]).'" class="btn btn-primary">Да</a><button type="button" class="btn btn-default" data-dismiss="modal">Нет</button>'
+	        ]);
+	        echo '<h4>Вы уверены, что хотите создать дубликат?</h4>';
+	        Modal::end();
+        } ?>
     </div>
 
     <?php ActiveForm::end(); ?>

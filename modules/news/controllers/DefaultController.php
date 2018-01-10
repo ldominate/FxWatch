@@ -373,6 +373,17 @@ class DefaultController extends Controller
 	}
 
 	/**
+	 * @param $id integer
+	 * @return \yii\web\Response
+	 */
+	public function actionDuplicate($id){
+
+		$model = $this->findModel($id);
+
+		return $this->redirect(['/news/update/'.$model->id]);
+	}
+
+	/**
 	 * Deletes an existing News model.
 	 * If deletion is successful, the browser will be redirected to the 'index' page.
 	 * @param integer $id
