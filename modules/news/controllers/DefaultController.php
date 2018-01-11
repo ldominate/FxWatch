@@ -360,6 +360,8 @@ class DefaultController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
+		$success = Yii::$app->request->get('success');
+
 		$model = $this->findModel($id);
 
 		if ($model->load(Yii::$app->request->post())){
@@ -369,7 +371,8 @@ class DefaultController extends Controller
 
 		return $this->render('update', [
 			'model' => $model,
-			'associated' => $associated_news
+			'associated' => $associated_news,
+			'success' => $success
 		]);
 	}
 
@@ -408,7 +411,7 @@ class DefaultController extends Controller
 			throw $e;
 		}
 
-		return $this->redirect(['/news/update/'.$model->id]);
+		return $this->redirect(['/news/update/'.$model->id.'?success=true']);
 	}
 
 	/**

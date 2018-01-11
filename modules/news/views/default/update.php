@@ -7,9 +7,13 @@ use app\modules\news\models\NewsData;
 use yii\bootstrap\Html;
 use yii\helpers\ArrayHelper;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\news\models\News */
-/* @var $associated News[] */
+/**
+ * @var $this yii\web\View
+ * @var $model app\modules\news\models\News
+ * @var $associated News[]
+ * @var $success bool
+*/
+
 
 $this->title = 'Редактирование новости от '. Yii::$app->formatter->asDatetime($model->published, News::DATETIME_FORMAT);
 $this->params['breadcrumbs'][] = ['label' => 'Новости', 'url' => ['index']];
@@ -41,6 +45,10 @@ function formatValue($news, $field){
 }
 ?>
 <div class="news-update bottom-block">
+
+	<?php if ($success) {
+		echo \yii\bootstrap\Alert::widget(['options' => [ 'class' => 'alert-success'], 'body' => '<b>Копирование новости успешно произведено!</b><br />Вы находитесь на странице редактирования скопированной новости.']);
+	}?>
 
     <?= $this->render('_form', ['model' => $model]) ?>
 
