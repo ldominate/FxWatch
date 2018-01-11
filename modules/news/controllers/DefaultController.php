@@ -7,6 +7,7 @@ use app\modules\catalog\models\Period;
 use app\modules\news\models\form\NewsDataUpload;
 use app\modules\news\models\NewsData;
 use app\modules\news\models\NewsRest;
+use Throwable;
 use Yii;
 use app\modules\news\models\News;
 use app\modules\news\models\NewsSearch;
@@ -375,10 +376,37 @@ class DefaultController extends Controller
 	/**
 	 * @param $id integer
 	 * @return \yii\web\Response
+	 * @throws \Throwable
 	 */
 	public function actionDuplicate($id){
 
 		$model = $this->findModel($id);
+
+		$nDates = NewsData::find()->where(['news_id' => $model->id])->all();
+
+		$transaction = News::getDb()->beginTransaction();
+
+		try {
+
+			$model->setIsNewRecord(true);
+			$model->setAttribute('id', 0);
+
+			if($model->save()){
+				foreach ($nDates as $data){
+					$data->setIsNewRecord(true);
+					$data->setAttribute('id', 0);
+					$data->setAttribute('news_id', $model->id);
+				}
+				$postModel = new NewsData;
+				$rows = ArrayHelper::getColumn($nDates, 'attributes');
+				Yii::$app->db->createCommand()->batchInsert(NewsData::tableName(), $postModel->attributes(), $rows)->execute();
+			}
+			$transaction->commit();
+
+		} catch (\Throwable $e){
+			$transaction->rollBack();
+			throw $e;
+		}
 
 		return $this->redirect(['/news/update/'.$model->id]);
 	}
@@ -403,7 +431,7 @@ class DefaultController extends Controller
 	 * @return mixed
 	 * @throws NotFoundHttpException
 	 * @throws \Exception
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	public function actionNewsdata($news_id, $fintool_id, $period_id){
 
@@ -523,7 +551,7 @@ class DefaultController extends Controller
 	 * @param $period_id integer
 	 * @return NewsDataUpload
 	 * @throws \Exception
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	protected function UploadNewsData($upload, $news_id, $fintool_id, $period_id): NewsDataUpload
 	{
