@@ -51,7 +51,7 @@ class FinChart extends React.Component {
 			dataSource: this.dataSource(this.putParam.bind(this)),
 			loadingIndicator: {
 				show: true,
-				text: "Загрузка..."
+				text: "Loading..."
 			},
 			//commonPaneSettings: {
 			//	backgroundColor: "#0FAD51"
