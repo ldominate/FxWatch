@@ -84,6 +84,7 @@ $config = [
 	            '/catalog/fintoolgroups' => '/catalog/fin-tool-group/fin-tool-groups',
 	            '/catalog/fintools' => '/catalog/fin-tool/fin-tools',
 	            '/catalog/countries' => '/catalog/country/actual-json',
+	            '/catalog/categorynews/<c:\w*>' => '/catalog/category-news/category-news',
 
 	            '/news/widget/news/data/<nid:\d+>/<fid:\d+>/<pid:\d+>' => '/news/default/news-data-json',
 	            '/news/widget' => '/news/default/widget',
@@ -123,7 +124,7 @@ $config = [
 				'actions' => [
 					'login', 'periods',
 					'news-week', 'news-associated', 'news-category', 'news-list',
-					'fin-tool-groups', 'news-data-json', 'actual-json', 'fin-tools'
+					'fin-tool-groups', 'news-data-json', 'actual-json', 'fin-tools', 'category-news'
 				],
 				'roles' => ['?']
 			],

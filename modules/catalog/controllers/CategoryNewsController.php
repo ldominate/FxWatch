@@ -3,18 +3,18 @@
  * Created by PhpStorm.
  * User: johny
  * Date: 18.01.2018
- * Time: 21:42
+ * Time: 22:02
  */
 
 namespace app\modules\catalog\controllers;
 
-use app\modules\catalog\models\FinTool;
+use app\modules\catalog\models\CategoryNews;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\Cors;
 use yii\web\Controller;
 
-class FinToolController extends Controller
+class CategoryNewsController extends Controller
 {
 	/**
 	 * List of allowed domains.
@@ -30,16 +30,16 @@ class FinToolController extends Controller
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['fin-tools'],
+				'only' => ['category-news'],
 				'rules' => [
 					[
 						'allow' => true,
-						'actions' => ['fin-tools'],
+						'actions' => ['category-news'],
 						'roles' => ['?'],
 					],
 					[
 						'allow' => true,
-						'actions' => ['fin-tools'],
+						'actions' => ['category-news'],
 						'roles' => ['@'],
 					],
 				],
@@ -57,10 +57,19 @@ class FinToolController extends Controller
 		];
 	}
 
-	public function actionFinTools(){
+	public function actionCategoryNews($c){
 
-		$finTool = FinTool::find()->asArray()->all();
+		$query = CategoryNews::find();
 
-		return $this->asJson($finTool);
+		if(isset($c) && strlen($c) == 2){
+			$query = $query->innerJoin('news', '`news`.`categorynews_id` = `categorynews`.`id`')
+				->where('`news`.`country_code` = :countrycode', [':countrycode' => $c]);
+		}
+
+		$categoryNews = $query->orderBy(['name' => SORT_ASC])
+			->asArray()
+			->all();
+
+		return $this->asJson($categoryNews);
 	}
 }
