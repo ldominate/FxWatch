@@ -23,14 +23,7 @@ class CountryController extends Controller
 	 */
 	public static function allowedDomains()
 	{
-		return [
-			// '*',                        // star allows all domains
-			'http://fxwatch',
-			'http://fx-chart.foshan.tours',
-			'http://vladbat.ru',
-			'http://widget.fxwatch.ru',
-			'http://fxwatch.ru'
-		];
+		return Yii::$app->params['allowedDomains'];
 	}
 
     /**

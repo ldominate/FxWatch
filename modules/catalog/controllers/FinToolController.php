@@ -1,14 +1,20 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: johny
+ * Date: 18.01.2018
+ * Time: 21:42
+ */
 
 namespace app\modules\catalog\controllers;
 
-use app\modules\catalog\models\FinToolGroup;
+use app\modules\catalog\models\FinTool;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\Cors;
 use yii\web\Controller;
 
-class FinToolGroupController extends Controller
+class FinToolController extends Controller
 {
 	/**
 	 * List of allowed domains.
@@ -16,34 +22,24 @@ class FinToolGroupController extends Controller
 	 *
 	 * @return array List of domains, that can access to this API
 	 */
-	public static function allowedDomains()
-	{
+	public static function allowedDomains(){
 		return Yii::$app->params['allowedDomains'];
-//		[
-//			// '*',                        // star allows all domains
-//			'http://fxwatch',
-//			'http://fx-chart.foshan.tours',
-//			'http://vladbat.ru',
-//			'http://widget.fxwatch.ru',
-//			'http://fxwatch.ru'
-//		];
 	}
 
-	public function behaviors()
-	{
+	public function behaviors(){
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['fin-tool-groups'],
+				'only' => ['fin-tools'],
 				'rules' => [
 					[
 						'allow' => true,
-						'actions' => ['fin-tool-groups'],
+						'actions' => ['fin-tools'],
 						'roles' => ['?'],
 					],
 					[
 						'allow' => true,
-						'actions' => ['fin-tool-groups'],
+						'actions' => ['fin-tools'],
 						'roles' => ['@'],
 					],
 				],
@@ -61,11 +57,10 @@ class FinToolGroupController extends Controller
 		];
 	}
 
-    public function actionFinToolGroups()
-    {
-    	$finToolGroups = FinToolGroup::find()->with('fintools')->all();
+	public function actionFinTools(){
 
-        return $this->asJson($finToolGroups);
-    }
+		$finTool = FinTool::find()->all();
 
+		return $this->asJson($finTool);
+	}
 }

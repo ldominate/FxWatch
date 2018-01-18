@@ -3,6 +3,7 @@
 namespace app\modules\catalog\controllers;
 
 use app\modules\catalog\models\Period;
+use Yii;
 use yii\filters\AccessControl;
 use yii\filters\Cors;
 use yii\web\Controller;
@@ -17,14 +18,7 @@ class PeriodController extends Controller
 	 */
 	public static function allowedDomains()
 	{
-		return [
-			// '*',                        // star allows all domains
-			'http://fxwatch',
-			'http://fx-chart.foshan.tours',
-			'http://vladbat.ru',
-			'http://widget.fxwatch.ru',
-			'http://fxwatch.ru'
-		];
+		return Yii::$app->params['allowedDomains'];
 	}
 
 	/**
