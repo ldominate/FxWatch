@@ -90,6 +90,8 @@ $config = [
 
 	            '/news/statistics/fintools/<country:\w*>/<category:\d+>/<period:\d+>' => '/news/statistics/fin-tools',
 	            '/news/statistics/fintools/<country:\w*>/<category:\d+>/<period:\d+>/<interval:\d+>' => '/news/statistics/fin-tools',
+	            '/news/statistics/categories/<fintool:\d+>/<period:\d+>' => '/news/statistics/categories',
+	            '/news/statistics/categories/<fintool:\d+>/<period:\d+>/<interval:\d+>' => '/news/statistics/categories',
 	            '/news/widget/news/data/<nid:\d+>/<fid:\d+>/<pid:\d+>' => '/news/default/news-data-json',
 	            '/news/widget' => '/news/default/widget',
 	            '/news/widget/news' => '/news/news',
@@ -127,7 +129,7 @@ $config = [
 				'allow' => true,
 				'actions' => [
 					'login', 'periods',
-					'news-week', 'news-associated', 'news-category', 'news-list',
+					'news-week', 'news-associated', 'news-category', 'news-list', 'categories',
 					'fin-tool-groups', 'news-data-json', 'actual-json', 'fin-tools', 'category-news'
 				],
 				'roles' => ['?']

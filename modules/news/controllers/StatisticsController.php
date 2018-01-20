@@ -37,22 +37,22 @@ class StatisticsController extends Controller
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [
-					'delete' => ['POST'],
-					'newsdatadel' => ['POST']
+					'fin-tools' => ['GET'],
+					'categories' => ['GET']
 				],
 			],
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['fin-tools'],
+				'only' => ['fin-tools', 'categories'],
 				'rules' => [
 					[
 						'allow' => true,
-						'actions' => ['fin-tools'],
+						'actions' => ['fin-tools', 'categories'],
 						'roles' => ['?'],
 					],
 					[
 						'allow' => true,
-						'actions' => ['fin-tools'],
+						'actions' => ['fin-tools', 'categories'],
 						'roles' => ['@'],
 					],
 				],
@@ -105,4 +105,30 @@ class StatisticsController extends Controller
 		return $this->asJson($news);
 	}
 
+	/**
+	 * @param $fintool integer
+	 * @param $period integer
+	 * @param $interval integer null
+	 * @return \yii\web\Response
+	 */
+	public function actionCategories($fintool, $period, $interval = null){
+
+		$query = News::find();
+
+		if(isset($fintool) && is_numeric($fintool)){
+			;
+		}
+		if(isset($period) && is_numeric($period)){
+			;
+		}
+		if(isset($interval) && is_numeric($interval)){
+			$query = $query->andWhere('TO_DAYS(NOW()) - TO_DAYS(`news`.`published`) <= CAST(:interval AS UNSIGNED)', [':interval' => $interval]);
+		}
+
+		$news = $query->orderBy(['published' => SORT_DESC])
+			->asArray()
+			->all();
+
+		return $this->asJson($news);
+	}
 }
