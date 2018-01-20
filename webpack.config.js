@@ -19,7 +19,8 @@ const paths = {
 module.exports = {
 	entry: {
 		widget: paths.src + "/main",
-		finam: paths.src + "/finam"
+		finam: paths.src + "/finam",
+		statistics: patch.src + "/statistics"
 	},
 	output:{
 		path: paths.dist,

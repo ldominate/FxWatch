@@ -81,6 +81,7 @@ $bundle = SBAdmin2Asset::register($this);
 					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-stats').' Новости', 'url' => Url::to(['/news']),
 						'active' => $this->context->module->id == 'news'],
 					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-blackboard').' Виджет', 'url' => Url::to(['/news/widget'])],
+					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-stats').' Статистика', 'url' => Url::to(['/news/statistics/widget'])],
 					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-usd').' Финам', 'url' => Url::to(['/finam/widget'])],
 					['label' => yii\bootstrap\Html::icon('glyphicon glyphicon-time').' Планировщик', 'url' => Url::to(['/finam/scheduler']),
 						'active' => Yii::$app->controller->id == 'scheduler'

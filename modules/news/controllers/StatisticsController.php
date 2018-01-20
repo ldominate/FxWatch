@@ -72,6 +72,13 @@ class StatisticsController extends Controller
 	}
 
 	/**
+	 * @return string
+	 */
+	public function actionWidget(){
+		return $this->render('widget');
+	}
+
+	/**
 	 * @param $country string
 	 * @param $category integer
 	 * @param $period integer
