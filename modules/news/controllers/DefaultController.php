@@ -13,6 +13,7 @@ use app\modules\news\models\News;
 use app\modules\news\models\NewsSearch;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
+use yii\filters\AccessControl;
 use yii\filters\Cors;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -50,7 +51,7 @@ class DefaultController extends Controller
 				],
 			],
 			'access' => [
-				'class' => yii\filters\AccessControl::className(),
+				'class' => AccessControl::className(),
 				'only' => ['news-week'],
 				'rules' => [
 					[

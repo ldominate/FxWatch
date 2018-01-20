@@ -13,7 +13,9 @@ $config = [
     'bootstrap' => ['log', 'scheduler'],
 	'defaultRoute' => '/news',
 	'modules' => [
-		'scheduler' => ['class' => 'webtoolsnz\scheduler\Module'],
+		'scheduler' => [
+			'class' => 'webtoolsnz\scheduler\Module'
+		],
 		'catalog' => [
 			'class' => 'app\modules\catalog\CatalogModule',
 		],
@@ -22,7 +24,7 @@ $config = [
 		],
 		'finam' => [
 			'class' => 'app\modules\finam\FinamModule',
-		],
+		]
 	],
     'components' => [
         'request' => [
@@ -86,6 +88,8 @@ $config = [
 	            '/catalog/countries' => '/catalog/country/actual-json',
 	            '/catalog/categorynews/<c:\w*>' => '/catalog/category-news/category-news',
 
+	            '/news/statistics/fintools/<country:\w*>/<category:\d+>/<period:\d+>' => '/news/statistics/fin-tools',
+	            '/news/statistics/fintools/<country:\w*>/<category:\d+>/<period:\d+>/<interval:\d+>' => '/news/statistics/fin-tools',
 	            '/news/widget/news/data/<nid:\d+>/<fid:\d+>/<pid:\d+>' => '/news/default/news-data-json',
 	            '/news/widget' => '/news/default/widget',
 	            '/news/widget/news' => '/news/news',
