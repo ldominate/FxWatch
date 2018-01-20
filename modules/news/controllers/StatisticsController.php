@@ -38,21 +38,22 @@ class StatisticsController extends Controller
 				'class' => VerbFilter::className(),
 				'actions' => [
 					'fin-tools' => ['GET'],
-					'categories' => ['GET']
+					'categories' => ['GET'],
+					'statistics' => ['GET']
 				],
 			],
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['fin-tools', 'categories'],
+				'only' => ['fin-tools', 'categories', 'statistics'],
 				'rules' => [
 					[
 						'allow' => true,
-						'actions' => ['fin-tools', 'categories'],
+						'actions' => ['fin-tools', 'categories', 'statistics'],
 						'roles' => ['?'],
 					],
 					[
 						'allow' => true,
-						'actions' => ['fin-tools', 'categories'],
+						'actions' => ['fin-tools', 'categories', 'statistics'],
 						'roles' => ['@'],
 					],
 				],
@@ -68,10 +69,6 @@ class StatisticsController extends Controller
 				],
 			]
 		];
-	}
-
-	public function actionIndex(){
-		return $this->renderContent('Data');
 	}
 
 	/**
@@ -123,6 +120,41 @@ class StatisticsController extends Controller
 		}
 		if(isset($interval) && is_numeric($interval)){
 			$query = $query->andWhere('TO_DAYS(NOW()) - TO_DAYS(`news`.`published`) <= CAST(:interval AS UNSIGNED)', [':interval' => $interval]);
+		}
+
+		$news = $query->orderBy(['published' => SORT_DESC])
+			->asArray()
+			->all();
+
+		return $this->asJson($news);
+	}
+
+	/**
+	 * @param $country string
+	 * @param $category integer
+	 * @param $fintool integer
+	 * @param $period integer
+	 * @param $calc integer
+	 * @return \yii\web\Response
+	 */
+	public function actionStatistics($country, $category, $fintool, $period, $calc){
+
+		$query = News::find();
+
+		if(isset($country) && strlen($country) == 2){
+			$query = $query->where('`news`.`country_code` = :countrycode', [':countrycode' => $country]);
+		}
+		if(isset($category) && is_numeric($category)){
+			$query = $query->andWhere('`news`.`categorynews_id` = :categorynews_id', [':categorynews_id' => $category]);
+		}
+		if(isset($fintool) && is_numeric($fintool)){
+			;
+		}
+		if(isset($period) && is_numeric($period)){
+			;
+		}
+		if(isset($calc) && is_numeric($calc)){
+			;
 		}
 
 		$news = $query->orderBy(['published' => SORT_DESC])
