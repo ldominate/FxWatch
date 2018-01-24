@@ -11,7 +11,6 @@ import sourceCode, { SourceCodeParam } from "../../sources/SourceCodeSource";
 class SourceDataList extends React.Component {
     constructor(props){
         super(props);
-	    //console.log(this.props);
 	    this.list = null;
 
 	    const param = new SourceCodeParam(this.props.sourceType, this.props.sourceStamp);
@@ -23,13 +22,11 @@ class SourceDataList extends React.Component {
         };
     }
     loaded(){
-    	//console.log("loaded", this.state.isLoaded);
 	    if(!this.state.isLoaded) {
 		    this.setState({isLoaded: true});
 	    }
     }
     shouldComponentUpdate(nextProps, nextState){
-	    //console.log(nextState);
 	    return false;
     }
     componentDidMount(){
@@ -60,10 +57,8 @@ class SourceDataList extends React.Component {
 		        if(data.change !== null) {
 			        const row2 = $("<div>").addClass("item-data");
 
-			        //console.log(data.max);
 			        if(data.max !== null) $("<div>").addClass("fin-change").html((data.max * 1.0).toFixed(4)).appendTo(row2);
 
-			        //console.log(data.percent);
 			        if(data.percent !== null) $("<div>").addClass("fin-percent").html(`${(data.percent * 1.0).toFixed(2)}%`).appendTo(row2);
 
 			        row2.appendTo(result);
@@ -75,26 +70,22 @@ class SourceDataList extends React.Component {
 		        }
 		        return result;
 	        },
-	        nextButtonText: "Загрузить ещё...",
-	        noDataText: "Данных нет",
+	        nextButtonText: "Load more...",
+	        noDataText: "No data",
 	        //pageLoadMode: "scrollBottom",
-	        //pageLoadingText: "Загрузка...",
+	        //pageLoadingText: "Loading...",
 	        pageLoadingText: "",
 	        onSelectionChanged: e => {
-	        	//console.log("selectionChanged", e);
 	        	if(Array.isArray(e.addedItems) && e.addedItems.length){
 	        		this.props.handleChangeTool(e.addedItems[0]);
 		        }
 	        },
 	        onContentReady: e => {
-	        	//console.log("content ready", e);
 		        if(this.state.isLoaded) {
 			        const instance = this.list.dxList("instance");
-			        //console.log("items", instance.option("items"));
 			        const items = instance.option("items");
 			        if(Array.isArray(items) && items.length > 0){
 			        	const index = items.findIndex((v, i) => v.code === this.props.defaultCode);
-			        	//console.log(index);
 			        	if(index > 0) instance.selectItem(index);
 			        }
 		        }

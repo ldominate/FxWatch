@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "ract-dom";
+import ReactDOM from "react-dom";
 
 const StatisticsBox = () => <div id="statistics-box">
 

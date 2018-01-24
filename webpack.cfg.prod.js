@@ -15,7 +15,7 @@ module.exports = {
 	entry: {
 		widget: paths.src + "/main",
 		finam: paths.src + "/finam",
-		statistics: patch.src + "/statistics"
+		statistics: paths.src + "/statistics"
 	},
 	output:{
 		path: paths.dist,

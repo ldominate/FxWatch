@@ -19,7 +19,6 @@ class FinChart extends React.Component {
 		return this.param;
 	}
 	shouldComponentUpdate(nextProps, nextState){
-		//console.log("update", nextProps);
 		finDataSourceParam.sourceCode = nextProps.sourceCode;
 		finDataSourceParam.timeStamp = nextProps.sourceStamp;
 		this.param = finDataSourceParam;
@@ -29,7 +28,6 @@ class FinChart extends React.Component {
 		const source = instance.getDataSource();
 		instance.showLoadingIndicator();
 		source.reload().done(result => {
-			//console.log(result);
 			this.setMin = false;
 			instance.option({
 				argumentAxis: {
@@ -123,7 +121,7 @@ class FinChart extends React.Component {
 				}
 				, endOnTick: true
 				//, tickInterval: { minute: 10 }
-				, axisDivisionFactor: 30
+				, axisDivisionFactor: 10
 				//, discreteAxisDivisionMode: "crossLabels"
 				//, hoverMode: "allArgumentPoints"
 			},
@@ -148,10 +146,8 @@ class FinChart extends React.Component {
 				enabled: false
 			},
 			onDone: e => {
-				//console.log("done", e);
 				if(this.setMin) return;
 				const series = this.chart.dxChart("instance").getAllSeries();
-				//console.log(series);
 				let min = .0;
 				if(Array.isArray(series) && series.length > 1){
 					series[0].getAllPoints().forEach((p, i) => {
@@ -159,7 +155,6 @@ class FinChart extends React.Component {
 					});
 				}
 				if(min > .0){
-					//console.log("min", min);
 					this.chart.dxChart("instance").option({valueAxis: { min: min }});
 				}
 				this.setMin = true;

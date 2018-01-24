@@ -17,8 +17,6 @@ class Finam extends React.Component{
         }
     };
     changeTool(tool){
-    	//console.log("changeTool");
-
         this.setState({...this.state, tool: {
         	code: tool.code,
 	        name: tool.name,
