@@ -130,7 +130,7 @@ $config = [
 				'allow' => true,
 				'actions' => [
 					'login', 'periods',
-					'news-week', 'news-associated', 'news-category', 'news-list', 'categories',
+					'news-week', 'news-associated', 'news-category', 'news-list', 'categories', 'tools', 'data',
 					'fin-tool-groups', 'news-data-json', 'actual-json', 'fin-tools', 'category-news', 'statistics'
 				],
 				'roles' => ['?']

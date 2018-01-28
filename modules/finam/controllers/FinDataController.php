@@ -163,7 +163,8 @@ class FinDataController extends Controller
 		    ])
 		    ->from(SourceCode::tableName())
 		    ->leftJoin('findata', '`findata`.`sourcecode_code` = `sourcecode`.`code`')
-		    ->andWhere('`findata`.`datetime` between CONCAT(IF(`sourcecode`.`open` >= `sourcecode`.`close`, "'.$yesterday_str_date.'", "'.$current_str_date.'"), " ", `sourcecode`.`open`) AND CONCAT("'.$current_str_date.'", " ", `sourcecode`.`close`)')
+		    //->andWhere('`findata`.`datetime` between CONCAT(IF(`sourcecode`.`open` >= `sourcecode`.`close`, "'.$yesterday_str_date.'", "'.$current_str_date.'"), " ", `sourcecode`.`open`) AND CONCAT("'.$current_str_date.'", " ", `sourcecode`.`close`)')
+		    ->andWhere('`findata`.`datetime` between CONCAT("'.$yesterday_str_date.'", " ", `sourcecode`.`close`) AND CONCAT("'.$current_str_date.'", " ", `sourcecode`.`close`)')
 		    ->groupBy('`sourcecode`.code');
 
 	    $query = (new Query())
@@ -171,8 +172,9 @@ class FinDataController extends Controller
 			    'sourcetype.type',
 			    'sourcecode.code',
 			    'sourcecode.name',
-			    'CONCAT(DATE_FORMAT(IF(`sourcecode`.`open` >= `sourcecode`.`close`, "'.$yesterday_str_date.'", "'.$current_str_date.'"), "%Y-%m-%d"), "T", sourcecode.open, "+00:00") AS code_open',
-			    'CONCAT(DATE_FORMAT("'.$current_str_date.'", "%Y-%m-%d"), "T", sourcecode.close, "+00:00") AS code_close',
+			    'CONCAT(DATE_FORMAT(IF(`sourcecode`.`open` >= `sourcecode`.`close`, "'.$yesterday_str_date.'", "'.$current_str_date.'"), "%Y-%m-%d"), "T", `sourcecode`.`open`, "+00:00") AS code_open',
+			    //'CONCAT(DATE_FORMAT("'.$yesterday_str_date.'", "%Y-%m-%d"), "T", `sourcecode`.`close`, "+00:00") AS code_open',
+			    'CONCAT(DATE_FORMAT("'.$current_str_date.'", "%Y-%m-%d"), "T", `sourcecode`.`close`, "+00:00") AS code_close',
 			    'findata.id',
 			    'DATE_FORMAT(findata.datetime, "%Y-%m-%dT%T+00:00") AS datetime',
 			    'findata.open',
@@ -183,7 +185,8 @@ class FinDataController extends Controller
 			    'UNIX_TIMESTAMP(findata.datetime) AS stamp'])
 		    ->from(SourceCode::tableName())
 		    ->innerJoin('sourcetype', '`sourcetype`.`id` = `sourcecode`.`sourcetype_id`')
-		    ->leftJoin('findata', '`findata`.`sourcecode_code` = `sourcecode`.`code` AND `findata`.`datetime` between CONCAT(IF(`sourcecode`.`open` >= `sourcecode`.`close`, "'.$yesterday_str_date.'", "'.$current_str_date.'"), " ", `sourcecode`.`open`) AND CONCAT("'.$current_str_date.'", " ", `sourcecode`.`close`)')
+		    //->leftJoin('findata', '`findata`.`sourcecode_code` = `sourcecode`.`code` AND `findata`.`datetime` between CONCAT(IF(`sourcecode`.`open` >= `sourcecode`.`close`, "'.$yesterday_str_date.'", "'.$current_str_date.'"), " ", `sourcecode`.`open`) AND CONCAT("'.$current_str_date.'", " ", `sourcecode`.`close`)')
+		    ->leftJoin('findata', '`findata`.`sourcecode_code` = `sourcecode`.`code` AND `findata`.`datetime` between CONCAT("'.$yesterday_str_date.'", " ", `sourcecode`.`close`) AND CONCAT("'.$current_str_date.'", " ", `sourcecode`.`close`)')
 		    ->leftJoin(['gFin' => $subGroup], '`gFin`.`code` = `sourcecode`.`code`')
 		    ->andWhere('`gFin`.`minFin` = `findata`.`datetime`')
 		    ->orWhere('`gFin`.`maxFin` = `findata`.`datetime`')
@@ -201,14 +204,14 @@ class FinDataController extends Controller
 	    $finDataDb = $query->all();
 
 	    $codes = [];
-
+		$cc = [];
 	    foreach ($finDataDb as $finData){
 		    if(array_key_exists($finData['code'], $codes)){
 			    $code = $codes[$finData['code']];
-
+				$c = $cc[$finData['code']];
 			    $codes[$finData['code']]['datetime'] = $finData['datetime'];
-			    $codes[$finData['code']]['change'] = $finData['close'] - $code['change'];
-			    $codes[$finData['code']]['percent'] = ($code['percent'] == 0.0 ? $finData['close'] : ($finData['close'] - $code['percent']) / $code['percent']) * 100.0;
+			    $codes[$finData['code']]['change'] = $finData['close'] - $c['change'];
+			    $codes[$finData['code']]['percent'] = ($c['percent'] == 0.0 ? $finData['close'] : ($finData['close'] - $c['percent']) / $c['percent']) * 100.0;
 			    $codes[$finData['code']]['stamp'] = $finData['stamp'];
 			    $codes[$finData['code']]['max'] = floatval($finData['close']);
 			    $codes[$finData['code']]['close'] = $finData['code_close'];
@@ -216,13 +219,17 @@ class FinDataController extends Controller
 			    $codes[$finData['code']] = [
 				    'code' => $finData['code'],
 				    'name' => $finData['name'],
-				    'datetime' => $finData['datetime'],
-				    'max' => floatval($finData['close']),
-				    'change' => $finData['close'],
-				    'percent' => $finData['close'],
+				    'datetime' => null,//$finData['datetime'],
+				    'max' => 0,//floatval($finData['close']),
+				    'change' => null,
+				    'percent' => null,
 				    'stamp' => $finData['stamp'],
 				    'open' => $finData['code_open'],
 				    'close' => $finData['code_close']
+			    ];
+			    $cc[$finData['code']] = [
+				    'change' => $finData['close'],
+				    'percent' => $finData['close'],
 			    ];
 		    }
 	    }
