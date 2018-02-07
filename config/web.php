@@ -99,6 +99,7 @@ $config = [
 	            '/news/widget/newsweek/<t:\d+>/<s:\d+>' => '/news/default/news-week',
 	            '/news/widget/list' => '/news/default/news-list',
 	            '/news/widget/associated/<id:\d+>/<t:\d+>/<s:\d+>' => '/news/default/news-associated',
+	            '/news/widget/associated/<id:\d+>' => '/news/default/news-associated',
 	            '/news/widget/category/<id:\d+>/<t:\d+>/<s:\d+>' => '/news/default/news-category',
 	            '/news/widget/news/<id:\d+>' => '/news/news/view',
 

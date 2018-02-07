@@ -167,6 +167,17 @@ class FinDataController extends Controller
 		    ->andWhere('`findata`.`datetime` between CONCAT("'.$yesterday_str_date.'", " ", `sourcecode`.`close`) AND CONCAT("'.$current_str_date.'", " ", `sourcecode`.`close`)')
 		    ->groupBy('`sourcecode`.code');
 
+	    $superSubGroup = (new Query())
+		    ->select([
+		    	'subGfin.code',
+			    'subGfin.minFin',
+			    'IF(
+					UNIX_TIMESTAMP(subGfin.maxFin) > UNIX_TIMESTAMP("'.$current_str_date.' 00:00:00"),
+					subGfin.maxFin,
+					NULL
+					) AS maxFin'
+		    ])->from(['subGfin' => $subGroup]);
+
 	    $query = (new Query())
 		    ->select([
 			    'sourcetype.type',
@@ -187,7 +198,7 @@ class FinDataController extends Controller
 		    ->innerJoin('sourcetype', '`sourcetype`.`id` = `sourcecode`.`sourcetype_id`')
 		    //->leftJoin('findata', '`findata`.`sourcecode_code` = `sourcecode`.`code` AND `findata`.`datetime` between CONCAT(IF(`sourcecode`.`open` >= `sourcecode`.`close`, "'.$yesterday_str_date.'", "'.$current_str_date.'"), " ", `sourcecode`.`open`) AND CONCAT("'.$current_str_date.'", " ", `sourcecode`.`close`)')
 		    ->leftJoin('findata', '`findata`.`sourcecode_code` = `sourcecode`.`code` AND `findata`.`datetime` between CONCAT("'.$yesterday_str_date.'", " ", `sourcecode`.`close`) AND CONCAT("'.$current_str_date.'", " ", `sourcecode`.`close`)')
-		    ->leftJoin(['gFin' => $subGroup], '`gFin`.`code` = `sourcecode`.`code`')
+		    ->leftJoin(['gFin' => $superSubGroup], '`gFin`.`code` = `sourcecode`.`code`')
 		    ->andWhere('`gFin`.`minFin` = `findata`.`datetime`')
 		    ->orWhere('`gFin`.`maxFin` = `findata`.`datetime`')
 		    ->orWhere(['and', 'ISNULL(`gFin`.`maxFin`)', 'ISNULL(`gFin`.`minFin`)'])

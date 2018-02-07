@@ -131,9 +131,11 @@ class DefaultController extends Controller
 
 	/**
 	 * @param $id
+	 * @param null $t
+	 * @param null $s
 	 * @return \yii\web\Response
 	 */
-	public function actionNewsAssociated($id, $t, $s){
+	public function actionNewsAssociated($id, $t = null, $s = null){
 
 		if(!isset($id) || !is_numeric($id)) return $this->asJson([]);
 

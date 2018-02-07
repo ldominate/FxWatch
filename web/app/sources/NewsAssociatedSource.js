@@ -13,14 +13,18 @@ export default function (getParams){
 	return new CustomStore({
 		load: loadOption => {
 			"use strict";
-			//console.log(loadOption);
+			console.log(loadOption);
 			const d = new $.Deferred();
 
 			const params = getParams();
 			if(params.nid <= 0) return;
-			const t = loadOption.take || 6;
-			const s = loadOption.skip || 0;
-			const url = wrapHost(`/news/widget/associated/${params.nid}/${t}/${s}`);
+			// const t = loadOption.take || 6;
+			// const s = loadOption.skip || 0;
+			const t = loadOption.take;
+			const s = loadOption.skip;
+			const url = t === undefined || s === undefined
+				? wrapHost(`/news/widget/associated/${params.nid}`)
+				: wrapHost(`/news/widget/associated/${params.nid}/${t}/${s}`);
 			let totalCount = 0;
 
 			fetch(url)

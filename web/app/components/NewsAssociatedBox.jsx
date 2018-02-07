@@ -105,10 +105,7 @@ class NewsAssociatedBox extends Component{
 				}
 			}],
 			remoteOperations: {
-				paging: true
-			},
-			paging: {
-				pageSize: 4
+				paging: false
 			},
 			//rowAlternationEnabled: true,
 			showRowLines: true,
@@ -117,11 +114,17 @@ class NewsAssociatedBox extends Component{
 			selection: {
 				mode: "single"
 			},
-			// pager: {
+			paging: {
+				enabled: true,
+				pageSize: 4
+			},
+			 pager: {
 			// 	showPageSizeSelector: true,
 			// 	allowedPageSizes: [7, 14, 30]
-			// },
-			//height: 169,
+				showNavigationButtons: false,
+				showInfo: false
+			},
+			//height: 163,
 			//height: 156,
 			width: 791,
 			loadPanel: {
@@ -133,6 +136,7 @@ class NewsAssociatedBox extends Component{
 			scrolling: {
 			 	//mode: "virtual"
 				mode: "standard"
+				//mode: "infinite"
 			},
 			sorting: {
 				mode: "none"
