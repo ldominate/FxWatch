@@ -73,9 +73,18 @@ class FinamTask extends Task
 							echo $error."\n";
 						}
 					}
-
 				}else{
 					echo 'Ошибки:'.$message['errors']."\n";
+				}
+			}
+			if(key_exists('update', $message)){
+				echo 'Обновлено:'.$message['update']."\n";
+			}
+			if(key_exists('updateDetails', $message)){
+				echo 'Детально:'."\n";
+				foreach ($message['updateDetails'] as $index => $data){
+					echo 'old - '.$data['old']."\n";
+					echo 'new - '.$data['new']."\n";
 				}
 			}
 			if(key_exists('add', $message)){

@@ -119,6 +119,14 @@ class FinamProvider extends Object
 		$maxFinData = $this->getMaxDateTimeFinData();
 
 		$finDataDb = FinData::find()
+			->select(['id',
+				'sourcecode_code',
+				'DATE_FORMAT(findata.datetime, "%Y-%m-%d %T+00:00") AS datetime',
+				'open',
+				'max',
+				'min',
+				'close',
+				'vol'])
 			->andWhere(['sourcecode_code' => $this->_settings->sourcecode_code])
 			->andWhere([
 				'between',
@@ -135,15 +143,72 @@ class FinamProvider extends Object
 		$finDateTimeDb = array_map(function($e){
 			return strtotime($e->datetime);
 		}, $finDataDb);
+
+		/* @var $finDataDbi FinData[] */
+		$finDataDbi = [];
+		foreach ($finDataDb as $finData){
+			$finDataDbi[strtotime($finData->datetime)] = $finData;
+		}
 //			ArrayHelper::map($finDataDb, 'id', 'datetime');
 //			);
 
 		$addFinDatas = [];
+		/* @var $updateFinDatas FinData[] */
+		$updateFinDatas = [];
+		$delIds = [];
 		foreach ($this->_finDatas as $t => $finData){
-			if(in_array($t, $finDateTimeDb) || array_key_exists($t, $addFinDatas)) continue;
+			if(in_array($t, $finDateTimeDb) || array_key_exists($t, $addFinDatas)){
+				if(array_key_exists($t, $finDataDbi)){
+					$db = $finDataDbi[$t];
+					$is_change = false;
+					$old = "dt: $db->datetime, open: $db->open, max: $db->max, min: $db->min, close: $db->close, vol: $db->vol";
+					if($db->open != $finData->open) { $db->open = $finData->open; $is_change = true; }
+					if($db->max != $finData->max) { $db->max = $finData->max; $is_change = true; }
+					if($db->min != $finData->min) { $db->min = $finData->min; $is_change = true; }
+					if($db->close != $finData->close) { $db->close = $finData->close; $is_change = true; }
+					if($db->vol != $finData->vol) { $db->vol = $finData->vol; $is_change = true; }
+					if($is_change) {
+						$updateFinDatas[$db->id] = $db;
+						$this->_logs['updateDetails'][] = [
+							'old' => $old,
+							'new' => "dt: $db->datetime, open: $db->open, max: $db->max, min: $db->min, close: $db->close, vol: $db->vol"
+						];
+					}
+				}
+				continue;
+			}
 			$addFinDatas[$t] = $finData;
 		}
 
+		if(count($updateFinDatas) > 0){
+			$transaction = FinData::getDb()->beginTransaction();
+			try {
+				$rowUpdate = 0;
+				foreach ($updateFinDatas as $upFinData) {
+					//$upFinData->datetime = Yii::$app->formatter->asDatetime(strtotime($upFinData->datetime), FinData::DATETIME_FORMAT_DB);
+					//if ($upFinData->save(false, ['open', 'max', 'min', 'close', 'vol'])) $rowUpdate++;
+					//if ($upFinData->save(false)) $rowUpdate++;
+					if(FinData::updateAll([
+						'datetime' => Yii::$app->formatter->asDatetime($upFinData->datetime, FinData::DATETIME_FORMAT_DB),
+						'open' => $upFinData->open,
+						'max' => $upFinData->max,
+						'min' => $upFinData->min,
+						'close' => $upFinData->close,
+						'vol' => $upFinData->vol],
+						'id = :id', [':id' => $upFinData->id])) $rowUpdate++;
+				}
+				$transaction->commit();
+				$this->_logs['update'] = 'Обновлено ' . $rowUpdate . ' значений из '. count($updateFinDatas);
+			} catch (\Exception $e){
+				$transaction->rollBack();
+				throw $e;
+			} catch (\Throwable $e){
+				$transaction->rollBack();
+				throw $e;
+			}
+		} else {
+			$this->_logs['update'] = 'Обновлено не потребовалось';
+		}
 		if(count($addFinDatas) > 0){
 
 			$rows = ArrayHelper::getColumn($addFinDatas, 'attributes');
