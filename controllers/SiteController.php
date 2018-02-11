@@ -72,7 +72,8 @@ class SiteController extends Controller
     {
 	    //$sources = SourceCode::find()->select('code')->column();
 	    //$sources = ['N225JAP'];
-        $sources = ['CAC40'];
+        //$sources = ['CAC40'];
+	    $sources = ['USDRUB'];
 
 	    $finamSettings = FinamSettings::find()->where(['in', 'sourcecode_code', $sources])->indexBy('sourcecode_code')->all();
 
@@ -80,6 +81,7 @@ class SiteController extends Controller
 
 	    $result = [];
 
+	    //$dateGet = date('d.m.Y', strtotime('9.02.2018'));
 	    $dateGet = date('d.m.Y');
 
 	    foreach ($finamSettings as $finamSetting){

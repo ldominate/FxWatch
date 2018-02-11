@@ -168,7 +168,9 @@ class FinamProvider extends Object
 					if($db->close != $finData->close) { $db->close = $finData->close; $is_change = true; }
 					if($db->vol != $finData->vol) { $db->vol = $finData->vol; $is_change = true; }
 					if($is_change) {
-						$updateFinDatas[$db->id] = $db;
+						//$updateFinDatas[$db->id] = $db;
+						$delIds[] = $db->id;
+						$addFinDatas[$t] = $finData;
 						$this->_logs['updateDetails'][] = [
 							'old' => $old,
 							'new' => "dt: $db->datetime, open: $db->open, max: $db->max, min: $db->min, close: $db->close, vol: $db->vol"
@@ -180,25 +182,41 @@ class FinamProvider extends Object
 			$addFinDatas[$t] = $finData;
 		}
 
-		if(count($updateFinDatas) > 0){
+//		if(count($updateFinDatas) > 0){
+//			$transaction = FinData::getDb()->beginTransaction();
+//			try {
+//				$rowUpdate = 0;
+//				foreach ($updateFinDatas as $upFinData) {
+//					//$upFinData->datetime = Yii::$app->formatter->asDatetime(strtotime($upFinData->datetime), FinData::DATETIME_FORMAT_DB);
+//					//if ($upFinData->save(false, ['open', 'max', 'min', 'close', 'vol'])) $rowUpdate++;
+//					//if ($upFinData->save(false)) $rowUpdate++;
+//					if(FinData::updateAll([
+//						'datetime' => Yii::$app->formatter->asDatetime($upFinData->datetime, FinData::DATETIME_FORMAT_DB),
+//						'open' => $upFinData->open,
+//						'max' => $upFinData->max,
+//						'min' => $upFinData->min,
+//						'close' => $upFinData->close,
+//						'vol' => $upFinData->vol],
+//						'id = :id', [':id' => $upFinData->id])) $rowUpdate++;
+//				}
+//				$transaction->commit();
+//				$this->_logs['update'] = 'Обновлено ' . $rowUpdate . ' значений из '. count($updateFinDatas);
+//			} catch (\Exception $e){
+//				$transaction->rollBack();
+//				throw $e;
+//			} catch (\Throwable $e){
+//				$transaction->rollBack();
+//				throw $e;
+//			}
+//		} else {
+//			$this->_logs['update'] = 'Обновлено не потребовалось';
+//		}
+		if(count($delIds) > 0){
 			$transaction = FinData::getDb()->beginTransaction();
 			try {
-				$rowUpdate = 0;
-				foreach ($updateFinDatas as $upFinData) {
-					//$upFinData->datetime = Yii::$app->formatter->asDatetime(strtotime($upFinData->datetime), FinData::DATETIME_FORMAT_DB);
-					//if ($upFinData->save(false, ['open', 'max', 'min', 'close', 'vol'])) $rowUpdate++;
-					//if ($upFinData->save(false)) $rowUpdate++;
-					if(FinData::updateAll([
-						'datetime' => Yii::$app->formatter->asDatetime($upFinData->datetime, FinData::DATETIME_FORMAT_DB),
-						'open' => $upFinData->open,
-						'max' => $upFinData->max,
-						'min' => $upFinData->min,
-						'close' => $upFinData->close,
-						'vol' => $upFinData->vol],
-						'id = :id', [':id' => $upFinData->id])) $rowUpdate++;
-				}
+				$rowUpdate = FinData::deleteAll(['in', 'id', $delIds]);
 				$transaction->commit();
-				$this->_logs['update'] = 'Обновлено ' . $rowUpdate . ' значений из '. count($updateFinDatas);
+				$this->_logs['update'] = 'Обновлено ' . $rowUpdate . ' значений из '. count($delIds);
 			} catch (\Exception $e){
 				$transaction->rollBack();
 				throw $e;
