@@ -37,13 +37,16 @@ class FinamTask extends Task
 
 		$result = [];
 
-		$dateGet = date('d.m.Y');
+		$dateFrom = new \DateTime();
+		$dateStrTo = $dateFrom->format('d.m.Y');
+		$dateFrom->add(\DateInterval::createFromDateString('yesterday'));
+		$dateStrFrom = $dateFrom->format('d.m.Y');
 
 		foreach ($finamSettings as $finamSetting){
 
 			$provider = new FinamProvider($finamSetting);
 
-			if($provider->requestSource($dateGet)) {
+			if($provider->requestSource($dateStrFrom, $dateStrTo)) {
 
 				$provider->saveNewFinData();
 
@@ -76,6 +79,15 @@ class FinamTask extends Task
 				}else{
 					echo 'Ошибки:'.$message['errors']."\n";
 				}
+			}
+			if(key_exists('fullUrl', $message)){
+				echo 'Адрес:'.$message['fullUrl']."\n";
+			}
+			if(key_exists('sqlExist', $message)){
+				echo 'Запрос:'.$message['sqlExist']."\n";
+			}
+			if(key_exists('del', $message)){
+				echo 'Удаление:'.$message['del']."\n";
 			}
 			if(key_exists('update', $message)){
 				echo 'Обновлено:'.$message['update']."\n";

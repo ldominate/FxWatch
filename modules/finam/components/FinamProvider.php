@@ -10,13 +10,13 @@ namespace app\modules\finam\components;
 use app\modules\finam\models\FinamSettings;
 use app\modules\finam\models\FinData;
 use Yii;
-use yii\base\Object;
+use yii\base\BaseObject;
 use yii\helpers\ArrayHelper;
 use yii\httpclient\Client;
 use yii\httpclient\Response;
 
 
-class FinamProvider extends Object
+class FinamProvider extends BaseObject
 {
 	/**
 	 * @var FinamSettings
@@ -38,9 +38,16 @@ class FinamProvider extends Object
 	 */
 	private $_finDatas = [];
 
+	/**
+	 * @var \DateTimeZone
+	 */
+	private $_timezone = null;
+
 	public function __construct(FinamSettings $settings, array $config = [])
 	{
 		$this->_settings = $settings;
+
+		$this->_timezone = new \DateTimeZone(date_default_timezone_get());
 
 		parent::__construct($config);
 	}
@@ -66,12 +73,14 @@ class FinamProvider extends Object
 		//$attributes = $this->_settings->initAttributes(date('d.m.Y'));
 
 		$client = new Client();
-
-		$this->_response = $client->createRequest()
+		$request = $client->createRequest();
+		$this->_response = $request
 			->setMethod('get')
 			->setUrl($this->_settings->url)
 			->setData($attributes)
 			->send();
+
+		$this->_logs['fullUrl'] = $request->getFullUrl();
 
 		if($this->_response->getIsOk()){
 			$result = str_getcsv($this->_response->getContent(), "\n");
@@ -93,7 +102,8 @@ class FinamProvider extends Object
 					$this->_logs['errors'] = $finData->getErrors();
 				} else {
 
-					$timeFinData = strtotime($finData->datetime);
+					//$timeFinData = strtotime($finData->datetime);
+					$timeFinData = (new \DateTime($finData->datetime.'+00:00', $this->_timezone))->getTimestamp();
 					if(array_key_exists($timeFinData, $this->_finDatas)){
 						$this->_logs['errors'] = 'С данной меткой времени данные уже были добавлены. Ветка: '.$finData->datetime;
 					}else{
@@ -118,7 +128,29 @@ class FinamProvider extends Object
 		$minFinData = $this->getMinDateTimeFinData();
 		$maxFinData = $this->getMaxDateTimeFinData();
 
-		$finDataDb = FinData::find()
+//		$finDataDb = FinData::find()
+//			->select(['id',
+//				'sourcecode_code',
+//				'DATE_FORMAT(findata.datetime, "%Y-%m-%d %T+00:00") AS datetime',
+//				'open',
+//				'max',
+//				'min',
+//				'close',
+//				'vol'])
+//			->andWhere(['sourcecode_code' => $this->_settings->sourcecode_code])
+//			->andWhere([
+//				'between',
+//				'datetime',
+//				$minFinData->datetime,
+//				$maxFinData->datetime
+//				//Yii::$app->formatter->asDatetime($minFinData->datetime, FinData::DATETIME_FORMAT_DB),
+//				//Yii::$app->formatter->asDatetime($maxFinData->datetime, FinData::DATETIME_FORMAT_DB)
+//				])
+//			->with('sourceCode')
+//			->orderBy(['datetime' => SORT_ASC, 'id' => SORT_DESC])
+//			->all();
+
+		$query = FinData::find()
 			->select(['id',
 				'sourcecode_code',
 				'DATE_FORMAT(findata.datetime, "%Y-%m-%d %T+00:00") AS datetime',
@@ -135,19 +167,31 @@ class FinamProvider extends Object
 				$maxFinData->datetime
 				//Yii::$app->formatter->asDatetime($minFinData->datetime, FinData::DATETIME_FORMAT_DB),
 				//Yii::$app->formatter->asDatetime($maxFinData->datetime, FinData::DATETIME_FORMAT_DB)
-				])
+			])
 			->with('sourceCode')
-			->orderBy(['datetime' => SORT_ASC])
-			->all();
+			->orderBy(['datetime' => SORT_ASC, 'id' => SORT_DESC]);
+
+		$finDataDb = $query->all();
+
+		//$this->_logs['sqlExist'] = $query->createCommand()->getRawSql();
+
+		$delDoubleIds = [];
 
 		$finDateTimeDb = array_map(function($e){
-			return strtotime($e->datetime);
+			//return strtotime($e->datetime);
+			return (new \DateTime($e->datetime, $this->_timezone))->getTimestamp();
 		}, $finDataDb);
 
 		/* @var $finDataDbi FinData[] */
 		$finDataDbi = [];
 		foreach ($finDataDb as $finData){
-			$finDataDbi[strtotime($finData->datetime)] = $finData;
+			//$tk = strtotime($finData->datetime);
+			$tk = (new \DateTime($finData->datetime, $this->_timezone))->getTimestamp();
+			if(array_key_exists($tk, $finDataDbi)) {
+				$delDoubleIds[] = $finData->id;
+			} else {
+				$finDataDbi[$tk] = $finData;
+			}
 		}
 //			ArrayHelper::map($finDataDb, 'id', 'datetime');
 //			);
@@ -155,9 +199,10 @@ class FinamProvider extends Object
 		$addFinDatas = [];
 		/* @var $updateFinDatas FinData[] */
 		$updateFinDatas = [];
-		$delIds = [];
+		$delDateTimes = [];
 		foreach ($this->_finDatas as $t => $finData){
-			if(in_array($t, $finDateTimeDb) || array_key_exists($t, $addFinDatas)){
+			if(array_key_exists($t, $addFinDatas)) continue;
+			if(in_array($t, $finDateTimeDb)){
 				if(array_key_exists($t, $finDataDbi)){
 					$db = $finDataDbi[$t];
 					$is_change = false;
@@ -169,8 +214,12 @@ class FinamProvider extends Object
 					if($db->vol != $finData->vol) { $db->vol = $finData->vol; $is_change = true; }
 					if($is_change) {
 						//$updateFinDatas[$db->id] = $db;
-						$delIds[] = $db->id;
-						$addFinDatas[$t] = $finData;
+						//$delDtStr = Yii::$app->formatter->asDatetime($db->datetime, FinData::DATETIME_FORMAT_DB);
+						$delDtStr = substr($db->datetime, 0, 19);
+						if(!in_array($delDtStr, $delDateTimes)){
+							$delDateTimes[] = $delDtStr;
+						}
+						if(!array_key_exists($t, $addFinDatas)) $addFinDatas[$t] = $finData;
 						$this->_logs['updateDetails'][] = [
 							'old' => $old,
 							'new' => "dt: $db->datetime, open: $db->open, max: $db->max, min: $db->min, close: $db->close, vol: $db->vol"
@@ -178,6 +227,9 @@ class FinamProvider extends Object
 					}
 				}
 				continue;
+			}
+			if(!in_array($finData->datetime, $delDateTimes)){
+				$delDateTimes[] = $finData->datetime;
 			}
 			$addFinDatas[$t] = $finData;
 		}
@@ -211,12 +263,26 @@ class FinamProvider extends Object
 //		} else {
 //			$this->_logs['update'] = 'Обновлено не потребовалось';
 //		}
-		if(count($delIds) > 0){
+		if(count($delDoubleIds) > 0){
 			$transaction = FinData::getDb()->beginTransaction();
 			try {
-				$rowUpdate = FinData::deleteAll(['in', 'id', $delIds]);
+				$rowDel = FinData::deleteAll(['in', 'id', $delDoubleIds]);
 				$transaction->commit();
-				$this->_logs['update'] = 'Обновлено ' . $rowUpdate . ' значений из '. count($delIds);
+				$this->_logs['del'] = 'Удалено дубликатов ' . $rowDel . ' значений из '. count($delDoubleIds);
+			} catch (\Exception $e){
+				$transaction->rollBack();
+				throw $e;
+			} catch (\Throwable $e){
+				$transaction->rollBack();
+				throw $e;
+			}
+		}
+		if(count($delDateTimes) > 0){
+			$transaction = FinData::getDb()->beginTransaction();
+			try {
+				$rowUpdate = FinData::deleteAll(['and', ['in', 'datetime', $delDateTimes], ['sourcecode_code' => $this->_settings->sourcecode_code]]);
+				$transaction->commit();
+				$this->_logs['update'] = 'Обновлено ' . $rowUpdate . ' значений из '. count($delDateTimes)."\n".'Удаляемые даты:'.implode(', ', $delDateTimes);
 			} catch (\Exception $e){
 				$transaction->rollBack();
 				throw $e;

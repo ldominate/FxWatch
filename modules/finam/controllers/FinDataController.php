@@ -226,6 +226,7 @@ class FinDataController extends Controller
 			    $codes[$finData['code']]['stamp'] = $finData['stamp'];
 			    $codes[$finData['code']]['max'] = floatval($finData['close']);
 			    $codes[$finData['code']]['close'] = $finData['code_close'];
+			    $codes[$finData['code']]['ids'] .= $finData['id'];
 		    }else{
 			    $codes[$finData['code']] = [
 				    'code' => $finData['code'],
@@ -236,7 +237,8 @@ class FinDataController extends Controller
 				    'percent' => null,
 				    'stamp' => $finData['stamp'],
 				    'open' => $finData['code_open'],
-				    'close' => $finData['code_close']
+				    'close' => $finData['code_close'],
+				    'ids' => $finData['id'].','
 			    ];
 			    $cc[$finData['code']] = [
 				    'change' => $finData['close'],

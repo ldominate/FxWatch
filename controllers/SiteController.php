@@ -73,7 +73,9 @@ class SiteController extends Controller
 	    //$sources = SourceCode::find()->select('code')->column();
 	    //$sources = ['N225JAP'];
         //$sources = ['CAC40'];
-	    $sources = ['USDRUB'];
+	    //$sources = ['ZHC5'];
+	    $sources = ['D&J-IND'];
+	    //$sources = ['USDRUB'];
 
 	    $finamSettings = FinamSettings::find()->where(['in', 'sourcecode_code', $sources])->indexBy('sourcecode_code')->all();
 
@@ -81,14 +83,19 @@ class SiteController extends Controller
 
 	    $result = [];
 
-	    //$dateGet = date('d.m.Y', strtotime('9.02.2018'));
-	    $dateGet = date('d.m.Y');
+	    //$dateStrTo = date('d.m.Y', strtotime('12.02.2018'));
+	    //$dateStrTo = date('d.m.Y');
+
+	    $dateFrom = new \DateTime();
+	    $dateStrTo = $dateFrom->format('d.m.Y');
+	    $dateFrom->add(\DateInterval::createFromDateString('yesterday'));
+	    $dateStrFrom = $dateFrom->format('d.m.Y');
 
 	    foreach ($finamSettings as $finamSetting){
 
 		    $provider = new FinamProvider($finamSetting);
 
-		    if($provider->requestSource($dateGet)) {
+		    if($provider->requestSource($dateStrFrom, $dateStrTo)) {
 
 			    $provider->saveNewFinData();
 
