@@ -87,9 +87,12 @@ class SiteController extends Controller
 	    //$dateStrTo = date('d.m.Y');
 
 	    $dateFrom = new \DateTime();
+	    //$dateFrom = new \DateTime('21.02.2018');
 	    $dateStrTo = $dateFrom->format('d.m.Y');
 	    $dateFrom->add(\DateInterval::createFromDateString('yesterday'));
+	    //$dateTo = new \DateTime();
 	    $dateStrFrom = $dateFrom->format('d.m.Y');
+	    //$dateStrTo = $dateTo->format('d.m.Y');
 
 	    foreach ($finamSettings as $finamSetting){
 
