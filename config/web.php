@@ -114,6 +114,8 @@ $config = [
 	            '/finam/widget' => '/finam/default/widget',
 	            '/finam/tools/<t:\d+>/<s:\d+>' => '/finam/fin-data/tools',
 	            '/finam/tools/<t:\d+>/<s:\d+>/<c:\w*>' => '/finam/fin-data/tools',
+	            '/finam/toolsv2/<t:\d+>' => '/finam/fin-data/tools-v2',
+	            '/finam/toolsv2/<t:\d+>/<d:\d{2}.\d{2}.\d{4}>' => '/finam/fin-data/tools-v2',
 	            '/finam/data/<c:.+>/<s:\d+>' => '/finam/fin-data/data',
 	            '/finam/<action:(view|update)>/<id:\d+>' => '/news/default/<action>',
 
