@@ -149,6 +149,117 @@ class FinDataController extends Controller
 		    $s = time();
 	    }
 
+	    $current_date_time = new \DateTime('12.03.2018');
+	    //$current_date_time = new \DateTime('midnight');
+	    $current_u_time = $current_date_time->getTimestamp() - 36000;
+	    $current_str_date = $current_date_time->format('Y-m-d');
+	    $yesterday_date_time = new \DateTime('11.03.2018');
+	    //$yesterday_date_time = new \DateTime('yesterday');
+	    $yesterday_u_time = $yesterday_date_time->getTimestamp() - 36000;
+	    $yesterday_str_date = $yesterday_date_time->format('Y-m-d');
+
+	    $sourceSql = (new Query())
+		    ->select(['code', '`sourcecode`.`name`', 'open', 'close',
+			    'CONCAT(IF(open >= close, "'.$yesterday_str_date.'", "'.$current_str_date.'"), "T", open, "+00:00") AS code_open',
+			    'CONCAT("'.$current_str_date.'", "T", close, "+00:00") AS code_close',
+			    'TIME_TO_SEC(open) AS uOpen',
+			    'TIME_TO_SEC(close) AS uClose'
+		    ])
+		    ->innerJoin('sourcetype', '`sourcetype`.`id` = `sourcecode`.`sourcetype_id`')
+		    ->from(SourceCode::tableName())
+	        ->indexBy('code')
+		    ->orderBy(['code' => SORT_ASC]);
+
+	    if(isset($t) && in_array($t, [SourceType::CURRENCY_PAIRS, SourceType::FINANCIAL_INSTRUMENTS])){
+		    $sourceSql->andWhere(['=', 'sourcetype.type', $t]);
+	    }
+
+    	$sources = $sourceSql->all();
+
+    	$sourcesCode = array_keys($sources);
+
+    	$findataSql = (new Query())
+		    ->select(['id', 'sourcecode_code',
+			    'DATE_FORMAT(findata.datetime, "%Y-%m-%dT%T+00:00") AS datetime',
+			    'open', 'max', 'min', 'close', 'vol',
+				'EXTRACT(HOUR_SECOND FROM datetime) AS sTime',
+			    'UNIX_TIMESTAMP(datetime) AS uTime'
+		    ])
+		    ->from(FinData::tableName())
+		    ->where(['in', 'sourcecode_code', $sourcesCode])
+		    //->andWhere('datetime between DATE_SUB(NOW(), INTERVAL 7 DAY) AND NOW()')
+		    ->andWhere('datetime between DATE_SUB("'.$current_str_date.' 23:59:59", INTERVAL 7 DAY) AND "'.$current_str_date.' 23:59:59"')
+		    ->orderBy(['sourcecode_code' => SORT_ASC, 'datetime' => SORT_DESC]);
+
+    	$findatas = $findataSql->all();
+
+	    //return $this->asJson($findatas);
+
+	    $codes = [];
+
+	    foreach ($sources as $code => $source){
+		    $codes[$code] = [
+			    'code' => $source['code'],
+			    'name' => $source['name'],
+			    'datetime' => null,
+			    'max' => 0,
+			    'change' => null,
+			    'percent' => null,
+			    'stamp' => null,
+			    'open' => $source['code_open'],
+			    'open_stamp' => $source['uOpen'] >= $source['uClose']
+				    ? $yesterday_u_time + $source['uOpen']
+				    : $current_u_time + $source['uOpen'],
+			    'close' => $source['code_close'],
+			    'close_stamp' => $yesterday_u_time + $source['uClose'],
+			    'ids' => ''
+		    ];
+	    }
+	    $cur_code = null;
+	    $search_close = false;
+	    $next_code = false;
+	    foreach ($findatas as $findata){
+	    	if($cur_code != $findata['sourcecode_code']){
+	    		if($findata['uTime'] < $codes[$findata['sourcecode_code']]['open_stamp']){
+	    			$next_code = true;
+	    			continue;
+			    }
+			    if($search_close){
+	    			$codes[$cur_code]['datetime'] = null;
+				    $codes[$cur_code]['percent'] = null;
+				    $codes[$cur_code]['max'] = 0;
+				    $codes[$cur_code]['stamp'] = null;
+			    }
+			    $cur_code = $findata['sourcecode_code'];
+			    $codes[$cur_code]['datetime'] = $findata['datetime'];
+			    $codes[$cur_code]['max'] = floatval($findata['close']);
+			    $codes[$cur_code]['change'] = $findata['close'];
+			    $codes[$cur_code]['percent'] = $findata['close'];
+			    $codes[$cur_code]['stamp'] = $findata['uTime'];
+			    $codes[$cur_code]['open'] = $sources[$findata['sourcecode_code']]['code_open'];
+			    $codes[$cur_code]['close'] = $sources[$findata['sourcecode_code']]['code_close'];
+			    $codes[$cur_code]['ids'] = $findata['id'].',';
+
+	    		$next_code = false;
+			    $search_close = true;
+		    }else{
+				if($next_code) continue;
+				if($findata['uTime'] <= $codes[$cur_code]['close_stamp']){
+
+					$codes[$cur_code]['change'] = $codes[$cur_code]['change'] - $findata['close'];
+					$codes[$cur_code]['percent'] = ($findata['close'] == 0.0 ? $codes[$cur_code]['percent'] : ($codes[$cur_code]['percent'] - $findata['close']) / $findata['close']) * 100.0;
+					$codes[$cur_code]['ids'] .= $findata['id'];
+					$codes[$cur_code]['uTime'] = $findata['uTime'];
+
+					$search_close = false;
+					$next_code = true;
+				}
+		    }
+	    }
+
+	    return $this->asJson($codes);
+
+
 	    //$current_str_date = Yii::$app->formatter->asDate($s, FinData::DATE_FORMAT_DB);
 	    $current_str_date = Yii::$app->formatter->asDate(time(), FinData::DATE_FORMAT_DB);
     	$yesterday_str_date = Yii::$app->formatter->asDate(strtotime('yesterday'), FinData::DATE_FORMAT_DB);
